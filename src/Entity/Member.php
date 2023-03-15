@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
+#[ORM\Table(name: '`member`')]
 class Member
 {
     #[ORM\Id]
@@ -62,9 +63,11 @@ class Member
     private Collection $votePhotos;
 
     #[ORM\ManyToMany(targetEntity: Contest::class, inversedBy: 'members')]
+    #[ORM\JoinTable(name: 'member_contest')]
     private Collection $contests;
 
     #[ORM\ManyToMany(targetEntity: Contest::class, inversedBy: 'wonMembers')]
+    #[ORM\JoinTable(name: 'member_won_contest')]
     private Collection $wonContests;
 
     public function __construct()

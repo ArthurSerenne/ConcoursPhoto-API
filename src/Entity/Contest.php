@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContestRepository::class)]
+#[ORM\Table(name: '`contest`')]
 class Contest
 {
     #[ORM\Id]
@@ -96,9 +97,11 @@ class Contest
     private ?Organization $organization = null;
 
     #[ORM\ManyToMany(targetEntity: Member::class, mappedBy: 'contests')]
+    #[ORM\JoinTable(name: 'member_contest')]
     private Collection $members;
 
     #[ORM\ManyToMany(targetEntity: Member::class, mappedBy: 'wonContests')]
+    #[ORM\JoinTable(name: 'member_won_contest')]
     private Collection $wonMembers;
 
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Photo::class)]
