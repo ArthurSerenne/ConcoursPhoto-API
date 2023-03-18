@@ -38,20 +38,12 @@ class Photo
     #[ORM\Column]
     private ?int $prizeRank = null;
 
-    #[ORM\ManyToOne(inversedBy: 'photos')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Member $member = null;
-
-    #[ORM\ManyToMany(targetEntity: Member::class, mappedBy: 'votePhotos')]
-    private Collection $members;
-
-    #[ORM\ManyToOne(inversedBy: 'photos')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Contest $contest = null;
+    #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Vote::class)]
+    private Collection $votes;
 
     public function __construct()
     {
-        $this->members = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,53 +135,32 @@ class Photo
         return $this;
     }
 
-    public function getMember(): ?Member
-    {
-        return $this->member;
-    }
-
-    public function setMember(?Member $member): self
-    {
-        $this->member = $member;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Member>
+     * @return Collection<int, Vote>
      */
-    public function getMembers(): Collection
+    public function getVotes(): Collection
     {
-        return $this->members;
+        return $this->votes;
     }
 
-    public function addMember(Member $member): self
+    public function addVote(Vote $vote): self
     {
-        if (!$this->members->contains($member)) {
-            $this->members->add($member);
-            $member->addVotePhoto($this);
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setPhoto($this);
         }
 
         return $this;
     }
 
-    public function removeMember(Member $member): self
+    public function removeVote(Vote $vote): self
     {
-        if ($this->members->removeElement($member)) {
-            $member->removeVotePhoto($this);
+        if ($this->votes->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getPhoto() === $this) {
+                $vote->setPhoto(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function getContest(): ?Contest
-    {
-        return $this->contest;
-    }
-
-    public function setContest(?Contest $contest): self
-    {
-        $this->contest = $contest;
 
         return $this;
     }

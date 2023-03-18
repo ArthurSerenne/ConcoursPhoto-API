@@ -89,30 +89,20 @@ class Contest
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    #[ORM\ManyToMany(targetEntity: Organization::class, mappedBy: 'contests')]
-    private Collection $organizations;
+    #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Sponsor::class)]
+    private Collection $sponsors;
 
-    #[ORM\ManyToOne(inversedBy: 'publicationContests')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Organization $organization = null;
+    #[ORM\OneToMany(mappedBy: 'contest', targetEntity: JuryMember::class)]
+    private Collection $juryMembers;
 
-    #[ORM\ManyToMany(targetEntity: Member::class, mappedBy: 'contests')]
-    #[ORM\JoinTable(name: 'member_contest')]
-    private Collection $members;
-
-    #[ORM\ManyToMany(targetEntity: Member::class, mappedBy: 'wonContests')]
-    #[ORM\JoinTable(name: 'member_won_contest')]
-    private Collection $wonMembers;
-
-    #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Photo::class)]
-    private Collection $photos;
+    #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
+    private Collection $wins;
 
     public function __construct()
     {
-        $this->organizations = new ArrayCollection();
-        $this->members = new ArrayCollection();
-        $this->wonMembers = new ArrayCollection();
-        $this->photos = new ArrayCollection();
+        $this->sponsors = new ArrayCollection();
+        $this->juryMembers = new ArrayCollection();
+        $this->wins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -409,122 +399,89 @@ class Contest
     }
 
     /**
-     * @return Collection<int, Organization>
+     * @return Collection<int, Sponsor>
      */
-    public function getOrganizations(): Collection
+    public function getSponsors(): Collection
     {
-        return $this->organizations;
+        return $this->sponsors;
     }
 
-    public function addOrganization(Organization $organization): self
+    public function addSponsor(Sponsor $sponsor): self
     {
-        if (!$this->organizations->contains($organization)) {
-            $this->organizations->add($organization);
-            $organization->addContest($this);
+        if (!$this->sponsors->contains($sponsor)) {
+            $this->sponsors->add($sponsor);
+            $sponsor->setContest($this);
         }
 
         return $this;
     }
 
-    public function removeOrganization(Organization $organization): self
+    public function removeSponsor(Sponsor $sponsor): self
     {
-        if ($this->organizations->removeElement($organization)) {
-            $organization->removeContest($this);
-        }
-
-        return $this;
-    }
-
-    public function getOrganization(): ?Organization
-    {
-        return $this->organization;
-    }
-
-    public function setOrganization(?Organization $organization): self
-    {
-        $this->organization = $organization;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Member>
-     */
-    public function getMembers(): Collection
-    {
-        return $this->members;
-    }
-
-    public function addMember(Member $member): self
-    {
-        if (!$this->members->contains($member)) {
-            $this->members->add($member);
-            $member->addContest($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMember(Member $member): self
-    {
-        if ($this->members->removeElement($member)) {
-            $member->removeContest($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Member>
-     */
-    public function getWonMembers(): Collection
-    {
-        return $this->wonMembers;
-    }
-
-    public function addWonMember(Member $wonMember): self
-    {
-        if (!$this->wonMembers->contains($wonMember)) {
-            $this->wonMembers->add($wonMember);
-            $wonMember->addWonContest($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWonMember(Member $wonMember): self
-    {
-        if ($this->wonMembers->removeElement($wonMember)) {
-            $wonMember->removeWonContest($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Photo>
-     */
-    public function getPhotos(): Collection
-    {
-        return $this->photos;
-    }
-
-    public function addPhoto(Photo $photo): self
-    {
-        if (!$this->photos->contains($photo)) {
-            $this->photos->add($photo);
-            $photo->setContest($this);
-        }
-
-        return $this;
-    }
-
-    public function removePhoto(Photo $photo): self
-    {
-        if ($this->photos->removeElement($photo)) {
+        if ($this->sponsors->removeElement($sponsor)) {
             // set the owning side to null (unless already changed)
-            if ($photo->getContest() === $this) {
-                $photo->setContest(null);
+            if ($sponsor->getContest() === $this) {
+                $sponsor->setContest(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JuryMember>
+     */
+    public function getJuryMembers(): Collection
+    {
+        return $this->juryMembers;
+    }
+
+    public function addJuryMember(JuryMember $juryMember): self
+    {
+        if (!$this->juryMembers->contains($juryMember)) {
+            $this->juryMembers->add($juryMember);
+            $juryMember->setContest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJuryMember(JuryMember $juryMember): self
+    {
+        if ($this->juryMembers->removeElement($juryMember)) {
+            // set the owning side to null (unless already changed)
+            if ($juryMember->getContest() === $this) {
+                $juryMember->setContest(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Win>
+     */
+    public function getWins(): Collection
+    {
+        return $this->wins;
+    }
+
+    public function addWin(Win $win): self
+    {
+        if (!$this->wins->contains($win)) {
+            $this->wins->add($win);
+            $win->setContest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWin(Win $win): self
+    {
+        if ($this->wins->removeElement($win)) {
+            // set the owning side to null (unless already changed)
+            if ($win->getContest() === $this) {
+                $win->setContest(null);
             }
         }
 

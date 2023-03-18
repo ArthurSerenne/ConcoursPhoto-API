@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -55,17 +53,6 @@ class User
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
-
-    #[ORM\OneToOne(inversedBy: 'person', cascade: ['persist', 'remove'])]
-    private ?Member $member = null;
-
-    #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
-    private Collection $organizations;
-
-    public function __construct()
-    {
-        $this->organizations = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -224,42 +211,6 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getMember(): ?Member
-    {
-        return $this->member;
-    }
-
-    public function setMember(?Member $member): self
-    {
-        $this->member = $member;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Organization>
-     */
-    public function getOrganizations(): Collection
-    {
-        return $this->organizations;
-    }
-
-    public function addOrganization(Organization $organization): self
-    {
-        if (!$this->organizations->contains($organization)) {
-            $this->organizations->add($organization);
-        }
-
-        return $this;
-    }
-
-    public function removeOrganization(Organization $organization): self
-    {
-        $this->organizations->removeElement($organization);
 
         return $this;
     }

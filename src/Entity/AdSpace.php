@@ -31,12 +31,12 @@ class AdSpace
     #[ORM\Column]
     private ?int $referencePrize = null;
 
-    #[ORM\ManyToMany(targetEntity: Organization::class, mappedBy: 'adSpaces')]
-    private Collection $organizations;
+    #[ORM\OneToMany(mappedBy: 'adSpace', targetEntity: Rent::class)]
+    private Collection $rents;
 
     public function __construct()
     {
-        $this->organizations = new ArrayCollection();
+        $this->rents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,27 +105,30 @@ class AdSpace
     }
 
     /**
-     * @return Collection<int, Organization>
+     * @return Collection<int, Rent>
      */
-    public function getOrganizations(): Collection
+    public function getRents(): Collection
     {
-        return $this->organizations;
+        return $this->rents;
     }
 
-    public function addOrganization(Organization $organization): self
+    public function addRent(Rent $rent): self
     {
-        if (!$this->organizations->contains($organization)) {
-            $this->organizations->add($organization);
-            $organization->addAdSpace($this);
+        if (!$this->rents->contains($rent)) {
+            $this->rents->add($rent);
+            $rent->setAdSpace($this);
         }
 
         return $this;
     }
 
-    public function removeOrganization(Organization $organization): self
+    public function removeRent(Rent $rent): self
     {
-        if ($this->organizations->removeElement($organization)) {
-            $organization->removeAdSpace($this);
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getAdSpace() === $this) {
+                $rent->setAdSpace(null);
+            }
         }
 
         return $this;

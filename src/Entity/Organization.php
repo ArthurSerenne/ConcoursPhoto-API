@@ -52,24 +52,16 @@ class Organization
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'organizations')]
-    private Collection $users;
+    #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Rent::class)]
+    private Collection $rents;
 
-    #[ORM\ManyToMany(targetEntity: AdSpace::class, inversedBy: 'organizations')]
-    private Collection $adSpaces;
-
-    #[ORM\ManyToMany(targetEntity: Contest::class, inversedBy: 'organizations')]
-    private Collection $contests;
-
-    #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Contest::class)]
-    private Collection $publicationContests;
+    #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Sponsor::class)]
+    private Collection $sponsors;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
-        $this->adSpaces = new ArrayCollection();
-        $this->contests = new ArrayCollection();
-        $this->publicationContests = new ArrayCollection();
+        $this->rents = new ArrayCollection();
+        $this->sponsors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,104 +214,59 @@ class Organization
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Rent>
      */
-    public function getUsers(): Collection
+    public function getRents(): Collection
     {
-        return $this->users;
+        return $this->rents;
     }
 
-    public function addUser(User $user): self
+    public function addRent(Rent $rent): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addOrganization($this);
+        if (!$this->rents->contains($rent)) {
+            $this->rents->add($rent);
+            $rent->setOrganization($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeRent(Rent $rent): self
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeOrganization($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AdSpace>
-     */
-    public function getAdSpaces(): Collection
-    {
-        return $this->adSpaces;
-    }
-
-    public function addAdSpace(AdSpace $adSpace): self
-    {
-        if (!$this->adSpaces->contains($adSpace)) {
-            $this->adSpaces->add($adSpace);
-        }
-
-        return $this;
-    }
-
-    public function removeAdSpace(AdSpace $adSpace): self
-    {
-        $this->adSpaces->removeElement($adSpace);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Contest>
-     */
-    public function getContests(): Collection
-    {
-        return $this->contests;
-    }
-
-    public function addContest(Contest $contest): self
-    {
-        if (!$this->contests->contains($contest)) {
-            $this->contests->add($contest);
-        }
-
-        return $this;
-    }
-
-    public function removeContest(Contest $contest): self
-    {
-        $this->contests->removeElement($contest);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Contest>
-     */
-    public function getPublicationContests(): Collection
-    {
-        return $this->publicationContests;
-    }
-
-    public function addPublicationContest(Contest $publicationContest): self
-    {
-        if (!$this->publicationContests->contains($publicationContest)) {
-            $this->publicationContests->add($publicationContest);
-            $publicationContest->setOrganization($this);
-        }
-
-        return $this;
-    }
-
-    public function removePublicationContest(Contest $publicationContest): self
-    {
-        if ($this->publicationContests->removeElement($publicationContest)) {
+        if ($this->rents->removeElement($rent)) {
             // set the owning side to null (unless already changed)
-            if ($publicationContest->getOrganization() === $this) {
-                $publicationContest->setOrganization(null);
+            if ($rent->getOrganization() === $this) {
+                $rent->setOrganization(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sponsor>
+     */
+    public function getSponsors(): Collection
+    {
+        return $this->sponsors;
+    }
+
+    public function addSponsor(Sponsor $sponsor): self
+    {
+        if (!$this->sponsors->contains($sponsor)) {
+            $this->sponsors->add($sponsor);
+            $sponsor->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSponsor(Sponsor $sponsor): self
+    {
+        if ($this->sponsors->removeElement($sponsor)) {
+            // set the owning side to null (unless already changed)
+            if ($sponsor->getOrganization() === $this) {
+                $sponsor->setOrganization(null);
             }
         }
 

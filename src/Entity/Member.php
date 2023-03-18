@@ -53,29 +53,20 @@ class Member
     #[ORM\Column(length: 255)]
     private ?string $socialMedia = null;
 
-    #[ORM\OneToOne(mappedBy: 'member', cascade: ['persist', 'remove'])]
-    private ?User $person = null;
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
+    private Collection $votes;
 
-    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
-    private Collection $photos;
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: JuryMember::class)]
+    private Collection $juryMembers;
 
-    #[ORM\ManyToMany(targetEntity: Photo::class, inversedBy: 'members')]
-    private Collection $votePhotos;
-
-    #[ORM\ManyToMany(targetEntity: Contest::class, inversedBy: 'members')]
-    #[ORM\JoinTable(name: 'member_contest')]
-    private Collection $contests;
-
-    #[ORM\ManyToMany(targetEntity: Contest::class, inversedBy: 'wonMembers')]
-    #[ORM\JoinTable(name: 'member_won_contest')]
-    private Collection $wonContests;
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Win::class)]
+    private Collection $wins;
 
     public function __construct()
     {
-        $this->photos = new ArrayCollection();
-        $this->votePhotos = new ArrayCollection();
-        $this->contests = new ArrayCollection();
-        $this->wonContests = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->juryMembers = new ArrayCollection();
+        $this->wins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,52 +218,30 @@ class Member
         return $this;
     }
 
-    public function getPerson(): ?User
-    {
-        return $this->person;
-    }
-
-    public function setPerson(?User $person): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($person === null && $this->person !== null) {
-            $this->person->setMember(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($person !== null && $person->getMember() !== $this) {
-            $person->setMember($this);
-        }
-
-        $this->person = $person;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Photo>
+     * @return Collection<int, Vote>
      */
-    public function getPhotos(): Collection
+    public function getVotes(): Collection
     {
-        return $this->photos;
+        return $this->votes;
     }
 
-    public function addPhoto(Photo $photo): self
+    public function addVote(Vote $vote): self
     {
-        if (!$this->photos->contains($photo)) {
-            $this->photos->add($photo);
-            $photo->setMember($this);
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setMember($this);
         }
 
         return $this;
     }
 
-    public function removePhoto(Photo $photo): self
+    public function removeVote(Vote $vote): self
     {
-        if ($this->photos->removeElement($photo)) {
+        if ($this->votes->removeElement($vote)) {
             // set the owning side to null (unless already changed)
-            if ($photo->getMember() === $this) {
-                $photo->setMember(null);
+            if ($vote->getMember() === $this) {
+                $vote->setMember(null);
             }
         }
 
@@ -280,73 +249,61 @@ class Member
     }
 
     /**
-     * @return Collection<int, Photo>
+     * @return Collection<int, JuryMember>
      */
-    public function getVotePhotos(): Collection
+    public function getJuryMembers(): Collection
     {
-        return $this->votePhotos;
+        return $this->juryMembers;
     }
 
-    public function addVotePhoto(Photo $votePhoto): self
+    public function addJuryMember(JuryMember $juryMember): self
     {
-        if (!$this->votePhotos->contains($votePhoto)) {
-            $this->votePhotos->add($votePhoto);
+        if (!$this->juryMembers->contains($juryMember)) {
+            $this->juryMembers->add($juryMember);
+            $juryMember->setMember($this);
         }
 
         return $this;
     }
 
-    public function removeVotePhoto(Photo $votePhoto): self
+    public function removeJuryMember(JuryMember $juryMember): self
     {
-        $this->votePhotos->removeElement($votePhoto);
+        if ($this->juryMembers->removeElement($juryMember)) {
+            // set the owning side to null (unless already changed)
+            if ($juryMember->getMember() === $this) {
+                $juryMember->setMember(null);
+            }
+        }
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Contest>
+     * @return Collection<int, Win>
      */
-    public function getContests(): Collection
+    public function getWins(): Collection
     {
-        return $this->contests;
+        return $this->wins;
     }
 
-    public function addContest(Contest $contest): self
+    public function addWin(Win $win): self
     {
-        if (!$this->contests->contains($contest)) {
-            $this->contests->add($contest);
+        if (!$this->wins->contains($win)) {
+            $this->wins->add($win);
+            $win->setMember($this);
         }
 
         return $this;
     }
 
-    public function removeContest(Contest $contest): self
+    public function removeWin(Win $win): self
     {
-        $this->contests->removeElement($contest);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Contest>
-     */
-    public function getWonContests(): Collection
-    {
-        return $this->wonContests;
-    }
-
-    public function addWonContest(Contest $wonContest): self
-    {
-        if (!$this->wonContests->contains($wonContest)) {
-            $this->wonContests->add($wonContest);
+        if ($this->wins->removeElement($win)) {
+            // set the owning side to null (unless already changed)
+            if ($win->getMember() === $this) {
+                $win->setMember(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function removeWonContest(Contest $wonContest): self
-    {
-        $this->wonContests->removeElement($wonContest);
 
         return $this;
     }
