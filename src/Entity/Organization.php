@@ -59,10 +59,10 @@ class Organization
     private Collection $contests;
 
     #[ORM\ManyToOne(inversedBy: 'organizations')]
-    private ?Departments $zipCode = null;
+    private ?Department $zipCode = null;
 
     #[ORM\ManyToOne(inversedBy: 'organizations')]
-    private ?Cities $city = null;
+    private ?City $city = null;
 
     public function __construct()
     {
@@ -314,24 +314,24 @@ class Organization
         return $this;
     }
 
-    public function getZipCode(): ?Departments
+    public function getZipCode(): ?Department
     {
         return $this->zipCode;
     }
 
-    public function setZipCode(?Departments $zipCode): self
+    public function setZipCode(?Department $zipCode): self
     {
         $this->zipCode = $zipCode;
 
         return $this;
     }
 
-    public function getCity(): ?Cities
+    public function getCity(): ?City
     {
         return $this->city;
     }
 
-    public function setCity(?Cities $city): self
+    public function setCity(?City $city): self
     {
         $this->city = $city;
 

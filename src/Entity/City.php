@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\DepartmentsRepository;
+use App\Repository\CitiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DepartmentsRepository::class)]
-class Departments
+#[ORM\Entity(repositoryClass: CitiesRepository::class)]
+class City
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,10 +16,13 @@ class Departments
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $regionCode = null;
+    private ?int $departmentCode = null;
 
-    #[ORM\Column]
-    private ?int $code = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $insee_code = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $zip_code = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -27,13 +30,19 @@ class Departments
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: User::class)]
+    #[ORM\Column]
+    private ?float $gps_lat = null;
+
+    #[ORM\Column]
+    private ?float $gps_lng = null;
+
+    #[ORM\OneToMany(mappedBy: 'city', targetEntity: User::class)]
     private Collection $users;
 
-    #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: Organization::class)]
+    #[ORM\OneToMany(mappedBy: 'city', targetEntity: Organization::class)]
     private Collection $organizations;
 
-    #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'departments')]
+    #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'cities')]
     private Collection $contests;
 
     public function __construct()
@@ -48,26 +57,38 @@ class Departments
         return $this->id;
     }
 
-    public function getRegionCode(): ?int
+    public function getDepartmentCode(): ?int
     {
-        return $this->regionCode;
+        return $this->departmentCode;
     }
 
-    public function setRegionCode(int $regionCode): self
+    public function setDepartmentCode(int $departmentCode): self
     {
-        $this->regionCode = $regionCode;
+        $this->departmentCode = $departmentCode;
 
         return $this;
     }
 
-    public function getCode(): ?int
+    public function getInseeCode(): ?string
     {
-        return $this->code;
+        return $this->insee_code;
     }
 
-    public function setCode(int $code): self
+    public function setInseeCode(?string $insee_code): self
     {
-        $this->code = $code;
+        $this->insee_code = $insee_code;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zip_code;
+    }
+
+    public function setZipCode(?string $zip_code): self
+    {
+        $this->zip_code = $zip_code;
 
         return $this;
     }
@@ -96,6 +117,30 @@ class Departments
         return $this;
     }
 
+    public function getGpsLat(): ?float
+    {
+        return $this->gps_lat;
+    }
+
+    public function setGpsLat(float $gps_lat): self
+    {
+        $this->gps_lat = $gps_lat;
+
+        return $this;
+    }
+
+    public function getGpsLng(): ?float
+    {
+        return $this->gps_lng;
+    }
+
+    public function setGpsLng(float $gps_lng): self
+    {
+        $this->gps_lng = $gps_lng;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, User>
      */
@@ -108,7 +153,7 @@ class Departments
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->setZipCode($this);
+            $user->setCity($this);
         }
 
         return $this;
@@ -118,8 +163,8 @@ class Departments
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getZipCode() === $this) {
-                $user->setZipCode(null);
+            if ($user->getCity() === $this) {
+                $user->setCity(null);
             }
         }
 
@@ -138,7 +183,7 @@ class Departments
     {
         if (!$this->organizations->contains($organization)) {
             $this->organizations->add($organization);
-            $organization->setZipCode($this);
+            $organization->setCity($this);
         }
 
         return $this;
@@ -148,8 +193,8 @@ class Departments
     {
         if ($this->organizations->removeElement($organization)) {
             // set the owning side to null (unless already changed)
-            if ($organization->getZipCode() === $this) {
-                $organization->setZipCode(null);
+            if ($organization->getCity() === $this) {
+                $organization->setCity(null);
             }
         }
 
@@ -168,7 +213,7 @@ class Departments
     {
         if (!$this->contests->contains($contest)) {
             $this->contests->add($contest);
-            $contest->addDepartment($this);
+            $contest->addCity($this);
         }
 
         return $this;
@@ -177,7 +222,7 @@ class Departments
     public function removeContest(Contest $contest): self
     {
         if ($this->contests->removeElement($contest)) {
-            $contest->removeDepartment($this);
+            $contest->removeCity($this);
         }
 
         return $this;

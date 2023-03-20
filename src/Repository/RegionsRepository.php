@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Regions;
+use App\Entity\Region;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Regions>
+ * @extends ServiceEntityRepository<Region>
  *
- * @method Regions|null find($id, $lockMode = null, $lockVersion = null)
- * @method Regions|null findOneBy(array $criteria, array $orderBy = null)
- * @method Regions[]    findAll()
- * @method Regions[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Region|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Region|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Region[]    findAll()
+ * @method Region[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RegionsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Regions::class);
+        parent::__construct($registry, Region::class);
     }
 
-    public function save(Regions $entity, bool $flush = false): void
+    public function save(Region $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class RegionsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Regions $entity, bool $flush = false): void
+    public function remove(Region $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class RegionsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Regions[] Returns an array of Regions objects
+//     * @return Region[] Returns an array of Region objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class RegionsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Regions
+//    public function findOneBySomeField($value): ?Region
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')

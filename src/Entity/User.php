@@ -63,10 +63,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Member $member = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Departments $zipCode = null;
+    private ?Department $zipCode = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Cities $city = null;
+    private ?City $city = null;
 
     public function __construct()
     {
@@ -264,24 +264,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getZipCode(): ?Departments
+    public function getZipCode(): ?Department
     {
         return $this->zipCode;
     }
 
-    public function setZipCode(?Departments $zipCode): self
+    public function setZipCode(?Department $zipCode): self
     {
         $this->zipCode = $zipCode;
 
         return $this;
     }
 
-    public function getCity(): ?Cities
+    public function getCity(): ?City
     {
         return $this->city;
     }
 
-    public function setCity(?Cities $city): self
+    public function setCity(?City $city): self
     {
         $this->city = $city;
 
@@ -296,10 +296,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getRoles(): array
-    {
-        // TODO: Implement getRoles() method.
     }
 }
