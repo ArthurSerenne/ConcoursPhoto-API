@@ -80,15 +80,6 @@ class Contest
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $region = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $department = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
-
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Sponsor::class)]
     private Collection $sponsors;
 
@@ -105,12 +96,24 @@ class Contest
     #[ORM\JoinColumn(nullable: false)]
     private ?Organization $organization = null;
 
+    #[ORM\ManyToMany(targetEntity: Regions::class, inversedBy: 'contests')]
+    private Collection $regions;
+
+    #[ORM\ManyToMany(targetEntity: Departments::class, inversedBy: 'contests')]
+    private Collection $departments;
+
+    #[ORM\ManyToMany(targetEntity: Cities::class, inversedBy: 'contests')]
+    private Collection $cities;
+
     public function __construct()
     {
         $this->sponsors = new ArrayCollection();
         $this->juryMembers = new ArrayCollection();
         $this->wins = new ArrayCollection();
         $this->photos = new ArrayCollection();
+        $this->regions = new ArrayCollection();
+        $this->departments = new ArrayCollection();
+        $this->cities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -370,42 +373,6 @@ class Contest
         return $this;
     }
 
-    public function getRegion(): ?string
-    {
-        return $this->region;
-    }
-
-    public function setRegion(string $region): self
-    {
-        $this->region = $region;
-
-        return $this;
-    }
-
-    public function getDepartment(): ?string
-    {
-        return $this->department;
-    }
-
-    public function setDepartment(string $department): self
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Sponsor>
      */
@@ -534,6 +501,78 @@ class Contest
     public function setOrganization(?Organization $organization): self
     {
         $this->organization = $organization;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Regions>
+     */
+    public function getRegions(): Collection
+    {
+        return $this->regions;
+    }
+
+    public function addRegion(Regions $region): self
+    {
+        if (!$this->regions->contains($region)) {
+            $this->regions->add($region);
+        }
+
+        return $this;
+    }
+
+    public function removeRegion(Regions $region): self
+    {
+        $this->regions->removeElement($region);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Departments>
+     */
+    public function getDepartments(): Collection
+    {
+        return $this->departments;
+    }
+
+    public function addDepartment(Departments $department): self
+    {
+        if (!$this->departments->contains($department)) {
+            $this->departments->add($department);
+        }
+
+        return $this;
+    }
+
+    public function removeDepartment(Departments $department): self
+    {
+        $this->departments->removeElement($department);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cities>
+     */
+    public function getCities(): Collection
+    {
+        return $this->cities;
+    }
+
+    public function addCity(Cities $city): self
+    {
+        if (!$this->cities->contains($city)) {
+            $this->cities->add($city);
+        }
+
+        return $this;
+    }
+
+    public function removeCity(Cities $city): self
+    {
+        $this->cities->removeElement($city);
 
         return $this;
     }
