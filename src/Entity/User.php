@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,11 +38,8 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column]
-    private ?int $zipCode = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    private ?string $cityZipCode = null;
 
     #[ORM\Column(length: 255)]
     private ?string $country = null;
@@ -53,6 +52,18 @@ class User
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Member $member = null;
+
+    #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
+    private Collection $organizations;
+
+    public function __construct()
+    {
+        $this->organizations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -143,26 +154,14 @@ class User
         return $this;
     }
 
-    public function getZipCode(): ?int
+    public function getCityZipCode(): ?string
     {
-        return $this->zipCode;
+        return $this->cityZipCode;
     }
 
-    public function setZipCode(int $zipCode): self
+    public function setCityZipCode(string $cityZipCode): self
     {
-        $this->zipCode = $zipCode;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
+        $this->cityZipCode = $cityZipCode;
 
         return $this;
     }
@@ -211,6 +210,42 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getMember(): ?Member
+    {
+        return $this->member;
+    }
+
+    public function setMember(Member $member): self
+    {
+        $this->member = $member;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Organization>
+     */
+    public function getOrganizations(): Collection
+    {
+        return $this->organizations;
+    }
+
+    public function addOrganization(Organization $organization): self
+    {
+        if (!$this->organizations->contains($organization)) {
+            $this->organizations->add($organization);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganization(Organization $organization): self
+    {
+        $this->organizations->removeElement($organization);
 
         return $this;
     }
