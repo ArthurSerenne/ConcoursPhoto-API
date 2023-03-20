@@ -93,13 +93,13 @@ class Contest
     #[ORM\JoinColumn(nullable: false)]
     private ?Organization $organization = null;
 
-    #[ORM\ManyToMany(targetEntity: Regions::class, inversedBy: 'contests')]
+    #[ORM\ManyToMany(targetEntity: Region::class, inversedBy: 'contests')]
     private Collection $regions;
 
-    #[ORM\ManyToMany(targetEntity: Departments::class, inversedBy: 'contests')]
+    #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'contests')]
     private Collection $departments;
 
-    #[ORM\ManyToMany(targetEntity: Cities::class, inversedBy: 'contests')]
+    #[ORM\ManyToMany(targetEntity: City::class, inversedBy: 'contests')]
     private Collection $cities;
 
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
@@ -476,14 +476,14 @@ class Contest
     }
 
     /**
-     * @return Collection<int, Regions>
+     * @return Collection<int, Region>
      */
     public function getRegions(): Collection
     {
         return $this->regions;
     }
 
-    public function addRegion(Regions $region): self
+    public function addRegion(Region $region): self
     {
         if (!$this->regions->contains($region)) {
             $this->regions->add($region);
@@ -492,7 +492,7 @@ class Contest
         return $this;
     }
 
-    public function removeRegion(Regions $region): self
+    public function removeRegion(Region $region): self
     {
         $this->regions->removeElement($region);
 
@@ -500,14 +500,14 @@ class Contest
     }
 
     /**
-     * @return Collection<int, Departments>
+     * @return Collection<int, Department>
      */
     public function getDepartments(): Collection
     {
         return $this->departments;
     }
 
-    public function addDepartment(Departments $department): self
+    public function addDepartment(Department $department): self
     {
         if (!$this->departments->contains($department)) {
             $this->departments->add($department);
@@ -516,7 +516,7 @@ class Contest
         return $this;
     }
 
-    public function removeDepartment(Departments $department): self
+    public function removeDepartment(Department $department): self
     {
         $this->departments->removeElement($department);
 
@@ -524,14 +524,14 @@ class Contest
     }
 
     /**
-     * @return Collection<int, Cities>
+     * @return Collection<int, City>
      */
     public function getCities(): Collection
     {
         return $this->cities;
     }
 
-    public function addCity(Cities $city): self
+    public function addCity(City $city): self
     {
         if (!$this->cities->contains($city)) {
             $this->cities->add($city);
@@ -540,7 +540,7 @@ class Contest
         return $this;
     }
 
-    public function removeCity(Cities $city): self
+    public function removeCity(City $city): self
     {
         $this->cities->removeElement($city);
 
