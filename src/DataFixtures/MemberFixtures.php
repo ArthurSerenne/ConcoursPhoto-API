@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Member;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class MemberFixtures extends Fixture
+class MemberFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -15,7 +16,7 @@ class MemberFixtures extends Fixture
 
         $faker = \Faker\Factory::create('fr_FR');
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 1; $i < 10; $i++) {
             $member = new Member();
             $member->setStatus($faker->boolean);
             $member->setUsername($faker->userName);
@@ -28,10 +29,17 @@ class MemberFixtures extends Fixture
             $member->setSituation($faker->text(200));
             $member->setCategory($faker->text(200));
             $member->setWebsite($faker->url);
-            $member->setSocialMedia($faker->url);
+            $member->setUser($this->getReference('user_' . $i));
             $manager->persist($member);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }
