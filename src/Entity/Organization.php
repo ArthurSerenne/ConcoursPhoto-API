@@ -35,9 +35,6 @@ class Organization
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $cityZipCode = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
@@ -60,6 +57,12 @@ class Organization
 
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Contest::class)]
     private Collection $contests;
+
+    #[ORM\ManyToOne(inversedBy: 'organizations')]
+    private ?Departments $zipCode = null;
+
+    #[ORM\ManyToOne(inversedBy: 'organizations')]
+    private ?Cities $city = null;
 
     public function __construct()
     {
@@ -142,18 +145,6 @@ class Organization
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getCityZipCode(): ?string
-    {
-        return $this->cityZipCode;
-    }
-
-    public function setCityZipCode(string $cityZipCode): self
-    {
-        $this->cityZipCode = $cityZipCode;
 
         return $this;
     }
@@ -319,6 +310,30 @@ class Organization
                 $contest->setOrganization(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getZipCode(): ?Departments
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(?Departments $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?Cities
+    {
+        return $this->city;
+    }
+
+    public function setCity(?Cities $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -50,9 +50,6 @@ class Member
     #[ORM\Column(length: 255)]
     private ?string $website = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $socialMedia = null;
-
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
     private Collection $votes;
 
@@ -62,11 +59,12 @@ class Member
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Win::class)]
     private Collection $wins;
 
-    #[ORM\OneToOne(mappedBy: 'member', cascade: ['persist', 'remove'])]
-    private ?User $user = null;
-
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
     private Collection $photos;
+
+    #[ORM\OneToOne(inversedBy: 'member', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -213,18 +211,6 @@ class Member
         return $this;
     }
 
-    public function getSocialMedia(): ?string
-    {
-        return $this->socialMedia;
-    }
-
-    public function setSocialMedia(string $socialMedia): self
-    {
-        $this->socialMedia = $socialMedia;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Vote>
      */
@@ -315,23 +301,6 @@ class Member
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        // set the owning side of the relation if necessary
-        if ($user->getMember() !== $this) {
-            $user->setMember($this);
-        }
-
-        $this->user = $user;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Photo>
      */
@@ -358,6 +327,18 @@ class Member
                 $photo->setMember(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

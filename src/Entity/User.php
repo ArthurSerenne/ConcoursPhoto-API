@@ -39,9 +39,6 @@ class User
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $cityZipCode = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
@@ -53,12 +50,17 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Member $member = null;
-
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
     private Collection $organizations;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Member $member = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Departments $zipCode = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Cities $city = null;
 
     public function __construct()
     {
@@ -154,18 +156,6 @@ class User
         return $this;
     }
 
-    public function getCityZipCode(): ?string
-    {
-        return $this->cityZipCode;
-    }
-
-    public function setCityZipCode(string $cityZipCode): self
-    {
-        $this->cityZipCode = $cityZipCode;
-
-        return $this;
-    }
-
     public function getCountry(): ?string
     {
         return $this->country;
@@ -214,18 +204,6 @@ class User
         return $this;
     }
 
-    public function getMember(): ?Member
-    {
-        return $this->member;
-    }
-
-    public function setMember(Member $member): self
-    {
-        $this->member = $member;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Organization>
      */
@@ -246,6 +224,47 @@ class User
     public function removeOrganization(Organization $organization): self
     {
         $this->organizations->removeElement($organization);
+
+        return $this;
+    }
+
+    public function getMember(): ?Member
+    {
+        return $this->member;
+    }
+
+    public function setMember(Member $member): self
+    {
+        // set the owning side of the relation if necessary
+        if ($member->getUser() !== $this) {
+            $member->setUser($this);
+        }
+
+        $this->member = $member;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?Departments
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(?Departments $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?Cities
+    {
+        return $this->city;
+    }
+
+    public function setCity(?Cities $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
