@@ -13,6 +13,7 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         return parent::index();
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
