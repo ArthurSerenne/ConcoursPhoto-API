@@ -41,6 +41,14 @@ class Photo
     #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Vote::class)]
     private Collection $votes;
 
+    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Member $member = null;
+
+    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Contest $contest = null;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -161,6 +169,30 @@ class Photo
                 $vote->setPhoto(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMember(): ?Member
+    {
+        return $this->member;
+    }
+
+    public function setMember(?Member $member): self
+    {
+        $this->member = $member;
+
+        return $this;
+    }
+
+    public function getContest(): ?Contest
+    {
+        return $this->contest;
+    }
+
+    public function setContest(?Contest $contest): self
+    {
+        $this->contest = $contest;
 
         return $this;
     }
