@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -24,15 +25,24 @@ class UserFixtures extends Fixture
             $user->setLastname($faker->lastName);
             $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));
             $user->setAddress($faker->address);
-            $user->setZipCode($faker->randomNumber(5));
-            $user->setCity($faker->city);
+            $user->setZipCode($this->getReference('department_' . $i));
+            $user->setCity($this->getReference('city_' . $i));
             $user->setCountry($faker->country);
             $user->setEmail($faker->email);
             $user->setPhone($faker->phoneNumber);
             $user->setPassword($faker->password);
             $manager->persist($user);
+            $this->addReference('user_' . $i, $user);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            CitiesFixtures::class,
+            DepartmentsFixtures::class,
+        ];
     }
 }
