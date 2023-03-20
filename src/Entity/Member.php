@@ -56,9 +56,6 @@ class Member
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
-    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Win::class)]
-    private Collection $wins;
-
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
     private Collection $photos;
 
@@ -70,7 +67,6 @@ class Member
     {
         $this->votes = new ArrayCollection();
         $this->juryMembers = new ArrayCollection();
-        $this->wins = new ArrayCollection();
         $this->photos = new ArrayCollection();
     }
 
@@ -265,36 +261,6 @@ class Member
             // set the owning side to null (unless already changed)
             if ($juryMember->getMember() === $this) {
                 $juryMember->setMember(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Win>
-     */
-    public function getWins(): Collection
-    {
-        return $this->wins;
-    }
-
-    public function addWin(Win $win): self
-    {
-        if (!$this->wins->contains($win)) {
-            $this->wins->add($win);
-            $win->setMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWin(Win $win): self
-    {
-        if ($this->wins->removeElement($win)) {
-            // set the owning side to null (unless already changed)
-            if ($win->getMember() === $this) {
-                $win->setMember(null);
             }
         }
 

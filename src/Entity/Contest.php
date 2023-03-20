@@ -86,9 +86,6 @@ class Contest
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
-    #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
-    private Collection $wins;
-
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Photo::class)]
     private Collection $photos;
 
@@ -105,15 +102,18 @@ class Contest
     #[ORM\ManyToMany(targetEntity: Cities::class, inversedBy: 'contests')]
     private Collection $cities;
 
+    #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
+    private Collection $wins;
+
     public function __construct()
     {
         $this->sponsors = new ArrayCollection();
         $this->juryMembers = new ArrayCollection();
-        $this->wins = new ArrayCollection();
         $this->photos = new ArrayCollection();
         $this->regions = new ArrayCollection();
         $this->departments = new ArrayCollection();
         $this->cities = new ArrayCollection();
+        $this->wins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -434,36 +434,6 @@ class Contest
     }
 
     /**
-     * @return Collection<int, Win>
-     */
-    public function getWins(): Collection
-    {
-        return $this->wins;
-    }
-
-    public function addWin(Win $win): self
-    {
-        if (!$this->wins->contains($win)) {
-            $this->wins->add($win);
-            $win->setContest($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWin(Win $win): self
-    {
-        if ($this->wins->removeElement($win)) {
-            // set the owning side to null (unless already changed)
-            if ($win->getContest() === $this) {
-                $win->setContest(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Photo>
      */
     public function getPhotos(): Collection
@@ -573,6 +543,36 @@ class Contest
     public function removeCity(Cities $city): self
     {
         $this->cities->removeElement($city);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Win>
+     */
+    public function getWins(): Collection
+    {
+        return $this->wins;
+    }
+
+    public function addWin(Win $win): self
+    {
+        if (!$this->wins->contains($win)) {
+            $this->wins->add($win);
+            $win->setContest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWin(Win $win): self
+    {
+        if ($this->wins->removeElement($win)) {
+            // set the owning side to null (unless already changed)
+            if ($win->getContest() === $this) {
+                $win->setContest(null);
+            }
+        }
 
         return $this;
     }

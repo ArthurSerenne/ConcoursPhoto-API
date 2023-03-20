@@ -28,6 +28,9 @@ class JuryMember
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $fonction = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +80,18 @@ class JuryMember
     public function setContest(?Contest $contest): self
     {
         $this->contest = $contest;
+
+        return $this;
+    }
+
+    public function getFonction(): ?string
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(string $fonction): self
+    {
+        $this->fonction = $fonction;
 
         return $this;
     }
