@@ -34,11 +34,8 @@ class Organization
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column]
-    private ?int $zipCode = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    private ?string $cityZipCode = null;
 
     #[ORM\Column(length: 255)]
     private ?string $country = null;
@@ -58,10 +55,18 @@ class Organization
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Sponsor::class)]
     private Collection $sponsors;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'organizations')]
+    private Collection $users;
+
+    #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Contest::class)]
+    private Collection $contests;
+
     public function __construct()
     {
         $this->rents = new ArrayCollection();
         $this->sponsors = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->contests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,26 +146,14 @@ class Organization
         return $this;
     }
 
-    public function getZipCode(): ?int
+    public function getCityZipCode(): ?string
     {
-        return $this->zipCode;
+        return $this->cityZipCode;
     }
 
-    public function setZipCode(int $zipCode): self
+    public function setCityZipCode(string $cityZipCode): self
     {
-        $this->zipCode = $zipCode;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
+        $this->cityZipCode = $cityZipCode;
 
         return $this;
     }
@@ -267,6 +260,63 @@ class Organization
             // set the owning side to null (unless already changed)
             if ($sponsor->getOrganization() === $this) {
                 $sponsor->setOrganization(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeOrganization($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contest>
+     */
+    public function getContests(): Collection
+    {
+        return $this->contests;
+    }
+
+    public function addContest(Contest $contest): self
+    {
+        if (!$this->contests->contains($contest)) {
+            $this->contests->add($contest);
+            $contest->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContest(Contest $contest): self
+    {
+        if ($this->contests->removeElement($contest)) {
+            // set the owning side to null (unless already changed)
+            if ($contest->getOrganization() === $this) {
+                $contest->setOrganization(null);
             }
         }
 

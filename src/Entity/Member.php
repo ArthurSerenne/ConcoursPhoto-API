@@ -62,11 +62,18 @@ class Member
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Win::class)]
     private Collection $wins;
 
+    #[ORM\OneToOne(mappedBy: 'member', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
+    private Collection $photos;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
         $this->juryMembers = new ArrayCollection();
         $this->wins = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -302,6 +309,53 @@ class Member
             // set the owning side to null (unless already changed)
             if ($win->getMember() === $this) {
                 $win->setMember(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        // set the owning side of the relation if necessary
+        if ($user->getMember() !== $this) {
+            $user->setMember($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Photo>
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getMember() === $this) {
+                $photo->setMember(null);
             }
         }
 

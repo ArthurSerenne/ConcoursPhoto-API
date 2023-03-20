@@ -98,11 +98,19 @@ class Contest
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
     private Collection $wins;
 
+    #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Photo::class)]
+    private Collection $photos;
+
+    #[ORM\ManyToOne(inversedBy: 'contests')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Organization $organization = null;
+
     public function __construct()
     {
         $this->sponsors = new ArrayCollection();
         $this->juryMembers = new ArrayCollection();
         $this->wins = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -484,6 +492,48 @@ class Contest
                 $win->setContest(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Photo>
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setContest($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getContest() === $this) {
+                $photo->setContest(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getOrganization(): ?Organization
+    {
+        return $this->organization;
+    }
+
+    public function setOrganization(?Organization $organization): self
+    {
+        $this->organization = $organization;
 
         return $this;
     }
