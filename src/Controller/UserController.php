@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +28,7 @@ class UserController extends AbstractController
         $userEntity = $entityManager->getRepository(User::class)->find($user->getId());
 
         // Créez le formulaire à partir de la classe de formulaire et passez-lui l'entité utilisateur comme données initiales
-        $form = $this->createForm(UserType::class, $userEntity);
+        $form = $this->createForm(LoginType::class, $userEntity);
 
         // Traitez le formulaire soumis en validant les données, en mettant à jour l'entité utilisateur et en l'enregistrant dans la base de données
         $form->handleRequest($request);
