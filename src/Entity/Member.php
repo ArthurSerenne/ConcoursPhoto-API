@@ -50,29 +50,23 @@ class Member
     #[ORM\Column(length: 255)]
     private ?string $website = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $socialMedia = null;
-
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
     private Collection $votes;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
-    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Win::class)]
-    private Collection $wins;
-
-    #[ORM\OneToOne(mappedBy: 'member', cascade: ['persist', 'remove'])]
-    private ?User $user = null;
-
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
     private Collection $photos;
+
+    #[ORM\OneToOne(inversedBy: 'member', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
         $this->votes = new ArrayCollection();
         $this->juryMembers = new ArrayCollection();
-        $this->wins = new ArrayCollection();
         $this->photos = new ArrayCollection();
     }
 
@@ -213,18 +207,6 @@ class Member
         return $this;
     }
 
-    public function getSocialMedia(): ?string
-    {
-        return $this->socialMedia;
-    }
-
-    public function setSocialMedia(string $socialMedia): self
-    {
-        $this->socialMedia = $socialMedia;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Vote>
      */
@@ -286,53 +268,6 @@ class Member
     }
 
     /**
-     * @return Collection<int, Win>
-     */
-    public function getWins(): Collection
-    {
-        return $this->wins;
-    }
-
-    public function addWin(Win $win): self
-    {
-        if (!$this->wins->contains($win)) {
-            $this->wins->add($win);
-            $win->setMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWin(Win $win): self
-    {
-        if ($this->wins->removeElement($win)) {
-            // set the owning side to null (unless already changed)
-            if ($win->getMember() === $this) {
-                $win->setMember(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        // set the owning side of the relation if necessary
-        if ($user->getMember() !== $this) {
-            $user->setMember($this);
-        }
-
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Photo>
      */
     public function getPhotos(): Collection
@@ -358,6 +293,18 @@ class Member
                 $photo->setMember(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

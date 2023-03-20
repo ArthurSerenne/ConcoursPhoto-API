@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -39,26 +41,32 @@ class User
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $cityZipCode = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
 
-    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Member $member = null;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
     private Collection $organizations;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Member $member = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Departments $zipCode = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Cities $city = null;
 
     public function __construct()
     {
@@ -154,18 +162,6 @@ class User
         return $this;
     }
 
-    public function getCityZipCode(): ?string
-    {
-        return $this->cityZipCode;
-    }
-
-    public function setCityZipCode(string $cityZipCode): self
-    {
-        $this->cityZipCode = $cityZipCode;
-
-        return $this;
-    }
-
     public function getCountry(): ?string
     {
         return $this->country;
@@ -190,6 +186,16 @@ class User
         return $this;
     }
 
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
     public function getPhone(): ?string
     {
         return $this->phone;
@@ -202,7 +208,10 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -210,18 +219,6 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getMember(): ?Member
-    {
-        return $this->member;
-    }
-
-    public function setMember(Member $member): self
-    {
-        $this->member = $member;
 
         return $this;
     }
@@ -248,5 +245,61 @@ class User
         $this->organizations->removeElement($organization);
 
         return $this;
+    }
+
+    public function getMember(): ?Member
+    {
+        return $this->member;
+    }
+
+    public function setMember(Member $member): self
+    {
+        // set the owning side of the relation if necessary
+        if ($member->getUser() !== $this) {
+            $member->setUser($this);
+        }
+
+        $this->member = $member;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?Departments
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(?Departments $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?Cities
+    {
+        return $this->city;
+    }
+
+    public function setCity(?Cities $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getRoles(): array
+    {
+        // TODO: Implement getRoles() method.
     }
 }

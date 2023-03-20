@@ -18,11 +18,10 @@ class Win
 
     #[ORM\ManyToOne(inversedBy: 'wins')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Member $member = null;
-
-    #[ORM\ManyToOne(inversedBy: 'wins')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Photo $photo = null;
 
     public function getId(): ?int
     {
@@ -41,18 +40,6 @@ class Win
         return $this;
     }
 
-    public function getMember(): ?Member
-    {
-        return $this->member;
-    }
-
-    public function setMember(?Member $member): self
-    {
-        $this->member = $member;
-
-        return $this;
-    }
-
     public function getContest(): ?Contest
     {
         return $this->contest;
@@ -61,6 +48,18 @@ class Win
     public function setContest(?Contest $contest): self
     {
         $this->contest = $contest;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?Photo
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?Photo $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }
