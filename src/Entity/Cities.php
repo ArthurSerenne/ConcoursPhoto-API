@@ -31,10 +31,10 @@ class Cities
     private ?string $slug = null;
 
     #[ORM\Column]
-    private ?int $gps_lat = null;
+    private ?float $gps_lat = null;
 
     #[ORM\Column]
-    private ?int $gps_lng = null;
+    private ?float $gps_lng = null;
 
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: User::class)]
     private Collection $users;
@@ -117,24 +117,24 @@ class Cities
         return $this;
     }
 
-    public function getGpsLat(): ?int
+    public function getGpsLat(): ?float
     {
         return $this->gps_lat;
     }
 
-    public function setGpsLat(int $gps_lat): self
+    public function setGpsLat(float $gps_lat): self
     {
         $this->gps_lat = $gps_lat;
 
         return $this;
     }
 
-    public function getGpsLng(): ?int
+    public function getGpsLng(): ?float
     {
         return $this->gps_lng;
     }
 
-    public function setGpsLng(int $gps_lng): self
+    public function setGpsLng(float $gps_lng): self
     {
         $this->gps_lng = $gps_lng;
 
