@@ -2,10 +2,10 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Cities;
+use App\Entity\City;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class CitiesCrudController extends AbstractCrudController
+class CityCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
