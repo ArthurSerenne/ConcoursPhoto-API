@@ -6,17 +6,11 @@ use App\Entity\User;
 use App\Entity\Member;
 use App\Entity\JuryMember;
 use App\Entity\AdSpace;
-use App\Entity\City;
 use App\Entity\Contest;
-use App\Entity\Departments;
 use App\Entity\Organization;
 use App\Entity\Photo;
-use App\Entity\Regions;
 use App\Entity\Rent;
-use App\Entity\SocialNetwork;
 use App\Entity\Sponsor;
-use App\Entity\Vote;
-use App\Entity\Win;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -39,6 +33,13 @@ class DashboardController extends AbstractDashboardController
         $url = $this->adminUrlGenerator
             ->setController(UserCrudController::class)
             ->setController(MemberCrudController::class)
+            ->setController(JuryMemberCrudController::class)
+            ->setController(AdSpaceCrudController::class)
+            ->setController(ContestCrudController::class)
+            ->setController(OrganizationCrudController::class)
+            ->setController(PhotoCrudController::class)
+            ->setController(RentCrudController::class)
+            ->setController(SponsorCrudController::class)
             ->generateUrl();
 
         return $this->redirect($url);
