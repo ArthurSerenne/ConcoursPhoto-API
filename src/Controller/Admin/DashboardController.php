@@ -15,19 +15,18 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(private AdminUrlGenerator $adminUrlGenerator)
     {
-        
+
     }
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-        return parent::index();
-        
+
         $url = $this->adminUrlGenerator
             ->setController(UserCrudController::class)
             ->setController(MemberCrudController::class)
             ->generateUrl();
-        
+
         return $this->redirect($url);
 
     }
