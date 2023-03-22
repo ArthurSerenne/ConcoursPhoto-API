@@ -7,6 +7,9 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -30,10 +33,38 @@ class UserCrudController extends AbstractCrudController
                 ->setLabel('Nom'),
             EmailField::new('email')
                 ->setLabel('Email'),
+            TextField::new('phone')
+                ->setLabel('Téléphone')
+                ->hideOnIndex(),
+            TextField::new('password')
+                ->setLabel('Mot de passe')
+                ->hideOnIndex(),
             AssociationField::new('city')
                 ->setLabel('Ville/CP'),
             AssociationField::new('zipCode')
                 ->setLabel('Département'),
+            TextField::new('address')
+                ->setLabel('Adresse')
+                ->hideOnIndex(),
+            ChoiceField::new('country')
+                ->setChoices([
+                    'France' => 'france',
+                ])
+                ->hideOnIndex(),
+            BooleanField::new('status')
+                ->setLabel('Etat')
+                ->hideOnIndex(),
+            DateField::new('creationDate')
+                ->hideOnIndex(),
+            DateField::new('birthdate')
+                ->hideOnIndex(),
+            ChoiceField::new('gender')
+                ->setChoices([
+                    'Homme' => 'male',
+                    'Femme' => 'female',
+                    'Autre' => 'other',
+                ])
+                ->hideOnIndex(),
         ];
     }
 
