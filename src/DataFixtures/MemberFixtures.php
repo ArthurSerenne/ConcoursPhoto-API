@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Member;
+use App\Entity\SocialNetwork;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -31,6 +32,17 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
             $member->setWebsite($faker->url);
             $member->setUser($this->getReference('user_' . $i));
             $manager->persist($member);
+            $socialNetwork = new SocialNetwork();
+            $socialNetwork->setMember($member);
+            $socialNetwork->setFacebook($faker->url());
+            $socialNetwork->setInstagram($faker->url());
+            $socialNetwork->setTiktok($faker->url());
+            $socialNetwork->setTwitter($faker->url());
+            $socialNetwork->setLinkedin($faker->url());
+            $socialNetwork->setSnapchat($faker->url());
+            $socialNetwork->setYoutube($faker->url());
+            $socialNetwork->setWhatsapp($faker->url());
+            $manager->persist($socialNetwork);
         }
 
         $manager->flush();
