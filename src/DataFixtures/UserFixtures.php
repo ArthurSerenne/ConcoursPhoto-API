@@ -6,9 +6,10 @@ use App\Entity\City;
 use App\Entity\Department;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -41,5 +42,14 @@ class UserFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            CityFixtures::class,
+            DepartmentFixtures::class,
+            RegionFixtures::class,
+        ];
     }
 }
