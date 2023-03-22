@@ -32,14 +32,6 @@ class DashboardController extends AbstractDashboardController
 
         $url = $this->adminUrlGenerator
             ->setController(UserCrudController::class)
-            ->setController(MemberCrudController::class)
-            ->setController(JuryMemberCrudController::class)
-            ->setController(AdSpaceCrudController::class)
-            ->setController(ContestCrudController::class)
-            ->setController(OrganizationCrudController::class)
-            ->setController(PhotoCrudController::class)
-            ->setController(RentCrudController::class)
-            ->setController(SponsorCrudController::class)
             ->generateUrl();
 
         return $this->redirect($url);
@@ -49,7 +41,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('ConcoursPhoto API');
+            ->setTitle('ConcoursPhoto BO');
     }
 
     public function configureMenuItems(): iterable
@@ -62,16 +54,15 @@ class DashboardController extends AbstractDashboardController
         //     MenuItem::linkToCrud('Show members', 'fas fa-plus', Member::class)
         // ]);
 
-        yield MenuItem::linkToCrud('Users', 'fas fa-plus', User::class);
-        yield MenuItem::linkToCrud('Members', 'fas fa-plus', Member::class);
-        yield MenuItem::linkToCrud('JuryMember', 'fas fa-plus', JuryMember::class);
-        yield MenuItem::linkToCrud('AdSpace', 'fas fa-plus', AdSpace::class);
-        yield MenuItem::linkToCrud('Contest', 'fas fa-plus', Contest::class);
-        yield MenuItem::linkToCrud('Organization', 'fas fa-plus', Organization::class);
-        yield MenuItem::linkToCrud('Photo', 'fas fa-plus', Photo::class);
-        yield MenuItem::linkToCrud('Rent', 'fas fa-plus', Rent::class);
-        yield MenuItem::linkToCrud('Sponsor', 'fas fa-plus', Sponsor::class);
-    
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('Membres', 'fas fa-user-tie', Member::class);
+        yield MenuItem::linkToCrud('Membres du jury', 'fas fa-users', JuryMember::class);
+        yield MenuItem::linkToCrud('Publicités', 'fas fa-ad', AdSpace::class);
+        yield MenuItem::linkToCrud('Concours', 'fas fa-trophy', Contest::class);
+        yield MenuItem::linkToCrud('Organisations', 'fas fa-sitemap', Organization::class);
+        yield MenuItem::linkToCrud('Photos', 'fas fa-image', Photo::class);
+        yield MenuItem::linkToCrud('Sponsors', 'fas fa-handshake', Sponsor::class);
+
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }

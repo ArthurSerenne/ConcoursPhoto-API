@@ -24,12 +24,6 @@ class Contest
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $theme = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $category = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $visual = null;
 
     #[ORM\Column(length: 255)]
@@ -105,6 +99,12 @@ class Contest
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
     private Collection $wins;
 
+    #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'contests')]
+    private Collection $theme;
+
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'contests')]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->sponsors = new ArrayCollection();
@@ -114,6 +114,8 @@ class Contest
         $this->departments = new ArrayCollection();
         $this->cities = new ArrayCollection();
         $this->wins = new ArrayCollection();
+        $this->theme = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,30 +143,6 @@ class Contest
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getTheme(): ?string
-    {
-        return $this->theme;
-    }
-
-    public function setTheme(string $theme): self
-    {
-        $this->theme = $theme;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }
@@ -573,6 +551,54 @@ class Contest
                 $win->setContest(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Theme>
+     */
+    public function getTheme(): Collection
+    {
+        return $this->theme;
+    }
+
+    public function addTheme(Theme $theme): self
+    {
+        if (!$this->theme->contains($theme)) {
+            $this->theme->add($theme);
+        }
+
+        return $this;
+    }
+
+    public function removeTheme(Theme $theme): self
+    {
+        $this->theme->removeElement($theme);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }

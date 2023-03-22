@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AdSpace;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class AdSpaceCrudController extends AbstractCrudController
@@ -12,14 +13,11 @@ class AdSpaceCrudController extends AbstractCrudController
         return AdSpace::class;
     }
 
-    /*
-    public function configureFields(string $pageName): iterable
+    public function configureCrud(Crud $crud): Crud
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        return $crud
+            ->setPaginatorPageSize(10)
+            ->setPaginatorRangeSize(4)
+            ;
     }
-    */
 }
