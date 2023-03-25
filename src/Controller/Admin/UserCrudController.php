@@ -40,7 +40,8 @@ class UserCrudController extends AbstractCrudController
                 ->setLabel('Mot de passe')
                 ->hideOnIndex(),
             AssociationField::new('city')
-                ->setLabel('Ville/CP'),
+                ->setLabel('Ville/CP')
+                ->autocomplete(),
             AssociationField::new('zipCode')
                 ->setLabel('Département'),
             TextField::new('address')
@@ -71,6 +72,7 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setPageTitle('index', 'Utilisateurs')
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
             ;
