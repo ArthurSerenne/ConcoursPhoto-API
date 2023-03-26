@@ -63,6 +63,9 @@ class Member
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\OneToOne(mappedBy: 'member', targetEntity: 'SocialNetwork', cascade: ['persist', 'remove'])]
+    private $socialNetwork;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -305,6 +308,18 @@ class Member
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSocialNetwork(): ?SocialNetwork
+    {
+        return $this->socialNetwork;
+    }
+
+    public function setSocialNetwork(SocialNetwork $socialNetwork): self
+    {
+        $this->socialNetwork = $socialNetwork;
 
         return $this;
     }
