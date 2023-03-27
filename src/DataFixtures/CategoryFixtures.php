@@ -15,7 +15,7 @@ class CategoryFixtures extends Fixture
 
         for ($i = 0; $i < 10; $i++) {
             $category = new Category();
-            $category->setName($faker->name);
+            $category->setName($faker->word);
             $manager->persist($category);
         }
 

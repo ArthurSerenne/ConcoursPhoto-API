@@ -24,8 +24,8 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
         $cities = $manager->getRepository(City::class)->findAll();
         $departments = $manager->getRepository(Department::class)->findAll();
         $regions = $manager->getRepository(Region::class)->findAll();
-        $themes = $manager->getRepository(Theme::class)->findAll();
         $categories = $manager->getRepository(Category::class)->findAll();
+        $themes = $manager->getRepository(Theme::class)->findAll();
 
         for ($i = 0; $i < 10; $i++) {
             $contest = new Contest();
@@ -52,8 +52,8 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
             $contest->addCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
             $contest->addDepartment($manager->getReference(Department::class, rand(1, count($departments) - 1)));
             $contest->addRegion($manager->getReference(Region::class, rand(1, count($regions) - 1)));
-            $contest->addTheme($manager->getReference(Theme::class, rand(1, count($themes) - 1)));
             $contest->addCategory($manager->getReference(Category::class, rand(1, count($categories) - 1)));
+            $contest->addTheme($manager->getReference(Theme::class, rand(1, count($themes) - 1)));
             $manager->persist($contest);
         }
 

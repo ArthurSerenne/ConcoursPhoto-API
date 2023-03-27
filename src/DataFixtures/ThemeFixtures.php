@@ -15,7 +15,7 @@ class ThemeFixtures extends Fixture
 
         for ($i = 0; $i < 10; $i++) {
             $theme = new Theme();
-            $theme->setName($faker->name);
+            $theme->setName($faker->word);
             $manager->persist($theme);
         }
 

@@ -81,9 +81,4 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToRoute('Modifier mon compte', 'fas fa-user-edit', 'admin_edit_account'),
             ]);
     }
-    public function configureActions(): Actions
-    {
-        return parent::configureActions()
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
-    }
 }
