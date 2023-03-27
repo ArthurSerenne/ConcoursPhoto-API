@@ -5,10 +5,12 @@ namespace App\DataFixtures;
 use App\Entity\City;
 use App\Entity\Department;
 use App\Entity\Organization;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class OrganizationFixtures extends Fixture
+class OrganizationFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -18,8 +20,8 @@ class OrganizationFixtures extends Fixture
         $faker = \Faker\Factory::create('fr_FR');
 
         $cities = $manager->getRepository(City::class)->findAll();
-
         $departments = $manager->getRepository(Department::class)->findAll();
+        $users = $manager->getRepository(User::class)->findAll();
 
         for ($i = 0; $i < 10; $i++) {
             $organization = new Organization();
@@ -35,10 +37,18 @@ class OrganizationFixtures extends Fixture
             $organization->setWebsite($faker->url);
             $organization->setEmail($faker->email);
             $organization->setPhone($faker->phoneNumber);
+            $organization->addUser($this->getReference('user_' . $i));
             $manager->persist($organization);
             $this->addReference('organization_' . $i, $organization);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }
