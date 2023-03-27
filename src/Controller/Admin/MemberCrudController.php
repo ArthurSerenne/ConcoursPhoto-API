@@ -26,7 +26,7 @@ class MemberCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        $fields = [
             NumberField::new('id')
                 ->setLabel('Identifiant')
                 ->hideOnForm(),
@@ -67,11 +67,26 @@ class MemberCrudController extends AbstractCrudController
                 ->hideOnIndex(),
             TextField::new('website')
                 ->setLabel('Website'),
-            AssociationField::new('socialNetwork')->setCrudController(SocialNetworkCrudController::class)
+            AssociationField::new('socialNetwork')
+                ->setCrudController(SocialNetworkCrudController::class)
                 ->setLabel('Réseaux Sociaux')
-                ->hideOnIndex()
-                ->renderAsEmbeddedForm(),
+                ->renderAsEmbeddedForm()
+                ->hideOnDetail()
+                ->hideOnIndex(),
         ];
+
+        if ($pageName === Crud::PAGE_DETAIL) {
+            $fields[] = TextField::new('socialNetwork.facebook')->setLabel('Facebook');
+            $fields[] = TextField::new('socialNetwork.twitter')->setLabel('Twitter');
+            $fields[] = TextField::new('socialNetwork.linkedin')->setLabel('LinkedIn');
+            $fields[] = TextField::new('socialNetwork.whatsapp')->setLabel('WhatsApp');
+            $fields[] = TextField::new('socialNetwork.youtube')->setLabel('YouTube');
+            $fields[] = TextField::new('socialNetwork.instagram')->setLabel('Instagram');
+            $fields[] = TextField::new('socialNetwork.tiktok')->setLabel('TikTok');
+            $fields[] = TextField::new('socialNetwork.snapchat')->setLabel('Snapchat');
+        }
+
+        return $fields;
     }
 
     public function configureCrud(Crud $crud): Crud
