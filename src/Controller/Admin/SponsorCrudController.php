@@ -16,16 +16,4 @@ class SponsorCrudController extends AbstractCrudController
     {
         return Sponsor::class;
     }
-
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            TextField::new('facebook'),
-            TextField::new('tiktok'),
-            TextField::new('youtube'),
-            TextField::new('whatsapp'),
-            TextField::new('twitter'),
-            TextField::new('snapchat'),
-        ];
-    }
 }
