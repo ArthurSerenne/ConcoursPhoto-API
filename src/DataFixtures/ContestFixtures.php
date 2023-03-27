@@ -36,7 +36,7 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
             $contest->setPrizesCount($faker->numberBetween(0, 100));
             $contest->setAgeMin($faker->numberBetween(0, 100));
             $contest->setAgeMax($faker->numberBetween(0, 100));
-            $contest->setCountry($faker->country);
+            $contest->setCountry('France');
             $contest->setOrganization($this->getReference('organization_' . $i));
             $manager->persist($contest);
         }
