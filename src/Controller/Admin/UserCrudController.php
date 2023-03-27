@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -76,5 +77,15 @@ class UserCrudController extends AbstractCrudController
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
             ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('firstname')
+            ->add('lastname')
+            ->add('address')
+            ->add('country')
+            ->add('roles');
     }
 }
