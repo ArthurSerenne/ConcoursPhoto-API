@@ -61,12 +61,12 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Membres', 'fas fa-user-tie', Member::class);
-        yield MenuItem::linkToCrud('Membres du jury', 'fas fa-users', JuryMember::class);
-        yield MenuItem::linkToCrud('Publicités', 'fas fa-ad', AdSpace::class);
-        yield MenuItem::linkToCrud('Concours', 'fas fa-trophy', Contest::class);
+//        yield MenuItem::linkToCrud('Membres du jury', 'fas fa-users', JuryMember::class);
+//        yield MenuItem::linkToCrud('Publicités', 'fas fa-ad', AdSpace::class);
         yield MenuItem::linkToCrud('Organisations', 'fas fa-sitemap', Organization::class);
-        yield MenuItem::linkToCrud('Photos', 'fas fa-image', Photo::class);
-        yield MenuItem::linkToCrud('Sponsors', 'fas fa-handshake', Sponsor::class);
+        yield MenuItem::linkToCrud('Concours', 'fas fa-trophy', Contest::class);
+//        yield MenuItem::linkToCrud('Photos', 'fas fa-image', Photo::class);
+//        yield MenuItem::linkToCrud('Sponsors', 'fas fa-handshake', Sponsor::class);
 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
