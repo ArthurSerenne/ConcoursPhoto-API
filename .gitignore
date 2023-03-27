@@ -5,7 +5,6 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/public/uploads/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -210,4 +209,3 @@ fabric.properties
 /web/js/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,symfony,php-cs-fixer
-/public/uploads/
