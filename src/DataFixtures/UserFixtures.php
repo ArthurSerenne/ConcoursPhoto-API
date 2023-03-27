@@ -28,6 +28,7 @@ class UserFixtures extends Fixture
 
         $departments = $manager->getRepository(Department::class)->findAll();
 
+        // ROLE_USER
         for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setStatus($faker->boolean);
@@ -48,6 +49,25 @@ class UserFixtures extends Fixture
             $manager->persist($user);
             $this->addReference('user_' . $i, $user);
         }
+
+        // ROLE_SUPER_ADMIN
+        $user = new User();
+        $user->setStatus($faker->boolean);
+        $user->setCreationDate($faker->dateTimeBetween('-6 months'));
+        $user->setGender($faker->title);
+        $user->setFirstname($faker->firstName);
+        $user->setLastname($faker->lastName);
+        $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));
+        $user->setAddress($faker->address);
+        $user->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
+        $user->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
+        $user->setCountry($faker->country);
+        $user->setEmail('test@mailinator.com');
+        $user->setPhone($faker->phoneNumber);
+        $password = $this->hasher->hashPassword($user, 'xxx');
+        $user->setPassword($password);
+        $user->setRoles(["ROLE_SUPER_ADMIN"]);
+        $manager->persist($user);
 
         $manager->flush();
     }
