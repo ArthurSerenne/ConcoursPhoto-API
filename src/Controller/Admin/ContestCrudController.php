@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Contest;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class ContestCrudController extends AbstractCrudController
 {
@@ -19,5 +20,15 @@ class ContestCrudController extends AbstractCrudController
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
             ;
+    }
+    
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('status')
+            ->add('name')
+            ->add('description')
+            ->add('rules')
+            ->add('prizes');
     }
 }
