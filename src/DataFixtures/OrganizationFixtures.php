@@ -5,8 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\City;
 use App\Entity\Department;
 use App\Entity\Organization;
-use App\Entity\User;
-use App\Enum\CountryEnum;
 use App\Enum\OrganizationTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -32,7 +30,7 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
             $organization->setDescription($faker->text(200));
             $organization->setLogo($faker->imageUrl(640, 480, 'people', true, 'Faker', true));
             $organization->setAddress($faker->address);
-            $organization->setCountry(CountryEnum::cases()[array_rand(CountryEnum::cases())]->value);
+            $organization->setCountry($faker->country);
             $organization->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
             $organization->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
             $organization->setWebsite($faker->url);
