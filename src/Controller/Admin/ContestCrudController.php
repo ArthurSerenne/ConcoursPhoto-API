@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contest;
 use App\Entity\User;
+use App\Enum\CountryEnum;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -70,15 +71,18 @@ class ContestCrudController extends AbstractCrudController
                 ->hideOnIndex(),
             AssociationField::new('regions')
                 ->hideOnIndex(),
-            TextField::new('country')
+            ChoiceField::new('country')
+                ->setChoices(CountryEnum::cases())
                 ->setLabel('Pays'),
-            AssociationField::new('theme')
+            AssociationField::new('themes')
                 ->hideOnIndex(),
             AssociationField::new('categories')
                 ->hideOnIndex(),
             AssociationField::new('organization')
+                ->hideWhenCreating()
                 ->hideOnIndex(),
             AssociationField::new('photos')
+                ->hideWhenCreating()
                 ->hideOnIndex(),
         ];
     }

@@ -99,10 +99,10 @@ class Contest
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
     private Collection $wins;
 
-    #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'contests')]
-    private Collection $theme;
+    #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
+    private Collection $themes;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'contests')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $categories;
 
     public function __construct()
@@ -114,7 +114,7 @@ class Contest
         $this->departments = new ArrayCollection();
         $this->cities = new ArrayCollection();
         $this->wins = new ArrayCollection();
-        $this->theme = new ArrayCollection();
+        $this->themes = new ArrayCollection();
         $this->categories = new ArrayCollection();
     }
 
@@ -558,15 +558,15 @@ class Contest
     /**
      * @return Collection<int, Theme>
      */
-    public function getTheme(): Collection
+    public function getThemes(): Collection
     {
-        return $this->theme;
+        return $this->themes;
     }
 
     public function addTheme(Theme $theme): self
     {
-        if (!$this->theme->contains($theme)) {
-            $this->theme->add($theme);
+        if (!$this->themes->contains($theme)) {
+            $this->themes->add($theme);
         }
 
         return $this;
@@ -574,7 +574,7 @@ class Contest
 
     public function removeTheme(Theme $theme): self
     {
-        $this->theme->removeElement($theme);
+        $this->themes->removeElement($theme);
 
         return $this;
     }
