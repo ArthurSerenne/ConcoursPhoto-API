@@ -46,7 +46,8 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new ()
-            ->setTitle('ConcoursPhoto BO');
+            ->setTitle('ConcoursPhoto BO')
+            ->setLocales(['fr', 'en']);
     }
 
     public function configureMenuItems(): iterable

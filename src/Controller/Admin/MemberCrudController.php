@@ -2,9 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Filter\MemberFilter;
 use App\Entity\Member;
-use App\Entity\User;
-use Doctrine\ORM\EntityRepository;
+use App\Enum\CategoryEnum;
+use App\Enum\SituationEnum;
+use App\Repository\MemberRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -16,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 
 class MemberCrudController extends AbstractCrudController
 {
@@ -31,7 +34,15 @@ class MemberCrudController extends AbstractCrudController
                 ->setLabel('Identifiant')
                 ->hideOnForm(),
             AssociationField::new('user')
-                ->setQueryBuilder(fn (QueryBuilder $queryBuilder) => $queryBuilder->getEntityManager()->getRepository(User::class)),
+                ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
+                    $queryBuilder->select('u')
+                        ->from('App\Entity\User', 'u')
+                        ->leftJoin('u.member', 'm')
+                        ->where('m.id IS NULL');
+
+                    return $queryBuilder;
+                })
+                ->hideWhenUpdating(),
             TextField::new('username')
                 ->setLabel('Pseudo'),
             BooleanField::new('status')
@@ -46,24 +57,16 @@ class MemberCrudController extends AbstractCrudController
             DateField::new('lastLoginDate')
                 ->hideOnIndex(),
             ImageField::new('photo')
-                ->setLabel('Photo')
+                ->setLabel('Avatar')
                 ->setBasePath('/uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
             TextField::new('description')
                 ->setLabel('Description'),
             ChoiceField::new('situation')
-                ->setChoices([
-                    'Employé' => 'employed',
-                    'patron' => 'boss',
-                    'Autre' => 'other',
-                ])
+                ->setChoices(SituationEnum::cases())
                 ->hideOnIndex(),
             ChoiceField::new('category')
-                ->setChoices([
-                    'Categ1' => 'categ1',
-                    'Categ2' => 'categ2',
-                    'Categ3' => 'categ3',
-                ])
+                ->setChoices(CategoryEnum::cases())
                 ->hideOnIndex(),
             TextField::new('website')
                 ->setLabel('Website'),
@@ -101,6 +104,7 @@ class MemberCrudController extends AbstractCrudController
     {
         return $filters
             ->add('status')
-            ->add('username');
+            ->add('username')
+            ->add(MemberFilter::new('statut'));
     }
 }

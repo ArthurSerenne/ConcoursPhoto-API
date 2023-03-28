@@ -55,7 +55,7 @@ class SocialNetwork
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $snapchat = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
