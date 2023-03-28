@@ -12,14 +12,13 @@ class WinFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-
         $faker = \Faker\Factory::create('fr_FR');
 
         $photos = $manager->getRepository(Photo::class)->findAll();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $win = new Win();
-            $win->setPriceRank($faker->numberBetween(1,10));
+            $win->setPriceRank($faker->numberBetween(1, 10));
             $win->setPhoto($photos[$i]);
             $win->setContest($win->getPhoto()->getContest());
             $manager->persist($win);

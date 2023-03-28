@@ -8,7 +8,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Validator\Constraints\Date;
 
 class PhotoCrudController extends AbstractCrudController
 {
@@ -31,6 +30,6 @@ class PhotoCrudController extends AbstractCrudController
         return $crud
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 }

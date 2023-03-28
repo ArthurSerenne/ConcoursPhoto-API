@@ -22,21 +22,21 @@ class MemberFilter implements FilterInterface
             ->setProperty($propertyName)
             ->setFormType(ChoiceType::class)
             ->setFormTypeOptions([
-                "choices" => ["Membres" => 1, "Photographes" => 2, "Jurys" => 3],
-                "expanded" => true,
+                'choices' => ['Membres' => 1, 'Photographes' => 2, 'Jurys' => 3],
+                'expanded' => true,
             ])
-            ;
+        ;
     }
 
     public function apply(QueryBuilder $queryBuilder, FilterDataDto $filterDataDto, ?FieldDto $fieldDto, EntityDto $entityDto): void
     {
-        if ($filterDataDto->getValue() === 2) {
+        if (2 === $filterDataDto->getValue()) {
             $alias = $queryBuilder->getRootAliases()[0];
             $queryBuilder->join($alias.'.photos', 'p')
                 ->andWhere('p.id IS NOT NULL')
                 ->groupBy($alias.'.id');
         }
-        if ($filterDataDto->getValue() === 3) {
+        if (3 === $filterDataDto->getValue()) {
             $alias = $queryBuilder->getRootAliases()[0];
             $queryBuilder->join($alias.'.juryMembers', 'j')
                 ->andWhere('j.id IS NOT NULL')

@@ -22,7 +22,7 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
         $cities = $manager->getRepository(City::class)->findAll();
         $departments = $manager->getRepository(Department::class)->findAll();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $organization = new Organization();
             $organization->setStatus($faker->boolean);
             $organization->setName($faker->company);
@@ -36,9 +36,9 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
             $organization->setWebsite($faker->url);
             $organization->setEmail($faker->email);
             $organization->setPhone($faker->phoneNumber);
-            $organization->addUser($this->getReference('user_' . $i));
+            $organization->addUser($this->getReference('user_'.$i));
             $manager->persist($organization);
-            $this->addReference('organization_' . $i, $organization);
+            $this->addReference('organization_'.$i, $organization);
         }
 
         $manager->flush();
