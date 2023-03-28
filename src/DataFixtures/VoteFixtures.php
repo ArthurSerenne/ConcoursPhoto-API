@@ -13,13 +13,12 @@ class VoteFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-
         $faker = \Faker\Factory::create('fr_FR');
 
         $members = $manager->getRepository(Member::class)->findAll();
         $photos = $manager->getRepository(Photo::class)->findAll();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $vote = new Vote();
             $vote->setDateVote($faker->dateTime);
             $vote->setMember($manager->getReference(Member::class, rand(1, count($members) - 1)));

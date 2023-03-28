@@ -6,8 +6,8 @@ use App\Entity\Organization;
 use App\Enum\OrganizationTypeEnum;
 use App\Repository\OrganizationRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -53,6 +53,7 @@ class OrganizationCrudController extends AbstractCrudController
                 ->setQueryBuilder(function (OrganizationRepository $repository) {
                     $qb = $repository->createQueryBuilder('o');
                     $qb->select('COUNT(o.contests)');
+
                     return $qb;
                 })
                 ->setLabel('Nombre de concours')
@@ -61,13 +62,12 @@ class OrganizationCrudController extends AbstractCrudController
         ];
     }
 
-
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters

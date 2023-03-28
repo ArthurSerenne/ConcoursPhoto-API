@@ -8,6 +8,7 @@ use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -16,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class MemberCrudController extends AbstractCrudController
 {
@@ -82,7 +82,7 @@ class MemberCrudController extends AbstractCrudController
                 ->hideOnIndex(),
         ];
 
-        if ($pageName === Crud::PAGE_DETAIL) {
+        if (Crud::PAGE_DETAIL === $pageName) {
             $fields[] = TextField::new('socialNetwork.facebook')->setLabel('Facebook');
             $fields[] = TextField::new('socialNetwork.twitter')->setLabel('Twitter');
             $fields[] = TextField::new('socialNetwork.linkedin')->setLabel('LinkedIn');
@@ -101,7 +101,7 @@ class MemberCrudController extends AbstractCrudController
         return $crud
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters

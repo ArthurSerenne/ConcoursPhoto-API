@@ -18,6 +18,7 @@ class UserFixtures extends Fixture
     {
         $this->hasher = $hasher;
     }
+
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
@@ -30,7 +31,7 @@ class UserFixtures extends Fixture
         $departments = $manager->getRepository(Department::class)->findAll();
 
         // ROLE_USER
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $user = new User();
             $user->setStatus($faker->boolean);
             $user->setCreationDate($faker->dateTimeBetween('-6 months'));
@@ -46,9 +47,9 @@ class UserFixtures extends Fixture
             $user->setPhone($faker->phoneNumber);
             $password = $this->hasher->hashPassword($user, 'xxx');
             $user->setPassword($password);
-            $user->setRoles(["ROLE_USER"]);
+            $user->setRoles(['ROLE_USER']);
             $manager->persist($user);
-            $this->addReference('user_' . $i, $user);
+            $this->addReference('user_'.$i, $user);
         }
 
         // ROLE_SUPER_ADMIN
@@ -67,7 +68,7 @@ class UserFixtures extends Fixture
         $user->setPhone($faker->phoneNumber);
         $password = $this->hasher->hashPassword($user, 'xxx');
         $user->setPassword($password);
-        $user->setRoles(["ROLE_SUPER_ADMIN"]);
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
 
         $manager->flush();

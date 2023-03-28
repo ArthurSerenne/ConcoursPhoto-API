@@ -70,7 +70,7 @@ class Category
         return $this;
     }
 
-    public function __tostring()
+    public function __toString()
     {
         return $this->name;
     }

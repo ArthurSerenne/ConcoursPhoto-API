@@ -3,13 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contest;
-use App\Entity\Photo;
 use App\Form\PhotoType;
-use App\Form\VoteType;
-use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -19,7 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use function Sodium\add;
 
 class ContestCrudController extends AbstractCrudController
 {
@@ -125,7 +121,7 @@ class ContestCrudController extends AbstractCrudController
         return $crud
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters

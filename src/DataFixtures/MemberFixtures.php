@@ -19,7 +19,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
 
         $faker = \Faker\Factory::create('fr_FR');
 
-        for ($i = 1; $i < 10; $i++) {
+        for ($i = 1; $i < 10; ++$i) {
             $member = new Member();
             $member->setStatus($faker->boolean);
             $member->setUsername($faker->userName);
@@ -32,7 +32,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
             $member->setSituation(SituationEnum::cases()[array_rand(SituationEnum::cases())]->value);
             $member->setCategory(CategoryEnum::cases()[array_rand(CategoryEnum::cases())]->value);
             $member->setWebsite($faker->url);
-            $member->setUser($this->getReference('user_' . $i));
+            $member->setUser($this->getReference('user_'.$i));
             $manager->persist($member);
             $socialNetwork = new SocialNetwork();
             $socialNetwork->setMember($member);

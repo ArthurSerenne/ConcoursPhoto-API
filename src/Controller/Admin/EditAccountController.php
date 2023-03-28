@@ -2,19 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Form\EditAccountType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use App\Form\EditAccountType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
 class EditAccountController extends AbstractController
 {
-
     #[Route('/admin/edit-account', name: 'admin_edit_account')]
     #[IsGranted('ROLE_SUPER_ADMIN')]
     public function editAccount(Request $request, EntityManagerInterface $em): Response

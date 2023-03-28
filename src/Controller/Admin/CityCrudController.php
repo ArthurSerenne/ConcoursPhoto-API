@@ -35,6 +35,6 @@ class CityCrudController extends AbstractCrudController
             ->disable(Action::EDIT)
             ->disable(Action::DELETE)
             ->disable(Action::INDEX)
-            ;
+        ;
     }
 }
