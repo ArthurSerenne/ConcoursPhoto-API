@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
 use App\Entity\Contest;
 use App\Entity\JuryMember;
 use App\Entity\Member;

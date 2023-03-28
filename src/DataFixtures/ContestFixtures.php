@@ -8,7 +8,6 @@ use App\Entity\Contest;
 use App\Entity\Department;
 use App\Entity\Region;
 use App\Entity\Theme;
-use App\Enum\CountryEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -48,7 +47,7 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
             $contest->setPrizesCount($faker->numberBetween(0, 100));
             $contest->setAgeMin($faker->numberBetween(0, 100));
             $contest->setAgeMax($faker->numberBetween(0, 100));
-            $contest->setCountry(CountryEnum::cases()[array_rand(CountryEnum::cases())]->value);
+            $contest->setCountry($faker->country);
             $contest->setOrganization($this->getReference('organization_' . $i));
             $contest->addCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
             $contest->addDepartment($manager->getReference(Department::class, rand(1, count($departments) - 1)));

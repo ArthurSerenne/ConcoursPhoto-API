@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\City;
 use App\Entity\Department;
 use App\Entity\User;
-use App\Enum\CountryEnum;
 use App\Enum\GenderEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -42,7 +41,7 @@ class UserFixtures extends Fixture
             $user->setAddress($faker->address);
             $user->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
             $user->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
-            $user->setCountry(CountryEnum::cases()[array_rand(CountryEnum::cases())]->value);
+            $user->setCountry($faker->country);
             $user->setEmail($faker->email);
             $user->setPhone($faker->phoneNumber);
             $password = $this->hasher->hashPassword($user, 'xxx');
@@ -63,7 +62,7 @@ class UserFixtures extends Fixture
         $user->setAddress($faker->address);
         $user->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
         $user->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
-        $user->setCountry(CountryEnum::cases()[array_rand(CountryEnum::cases())]->value);
+        $user->setCountry($faker->country);
         $user->setEmail('test@mailinator.com');
         $user->setPhone($faker->phoneNumber);
         $password = $this->hasher->hashPassword($user, 'xxx');

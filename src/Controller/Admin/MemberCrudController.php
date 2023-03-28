@@ -6,7 +6,6 @@ use App\Controller\Admin\Filter\MemberFilter;
 use App\Entity\Member;
 use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
-use App\Repository\MemberRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -14,11 +13,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 
 class MemberCrudController extends AbstractCrudController
 {
@@ -30,7 +28,7 @@ class MemberCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $fields = [
-            NumberField::new('id')
+            IdField::new('id')
                 ->setLabel('Identifiant')
                 ->hideOnForm(),
             AssociationField::new('user')
@@ -49,27 +47,33 @@ class MemberCrudController extends AbstractCrudController
                 ->setLabel('Etat')
                 ->hideOnIndex(),
             DateField::new('registrationDate')
-                ->hideOnIndex(),
+                ->setLabel('Date de création'),
             DateField::new('deletionDate')
+                ->setLabel('Date de suppression')
                 ->hideOnIndex(),
             DateField::new('updateDate')
+                ->setLabel('Date de dernière modification')
                 ->hideOnIndex(),
             DateField::new('lastLoginDate')
+                ->setLabel('Date de dernière connexion')
                 ->hideOnIndex(),
             ImageField::new('photo')
                 ->setLabel('Avatar')
                 ->setBasePath('/uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
             TextField::new('description')
+                ->hideOnIndex()
                 ->setLabel('Description'),
             ChoiceField::new('situation')
+                ->setLabel('Situation')
                 ->setChoices(SituationEnum::cases())
                 ->hideOnIndex(),
             ChoiceField::new('category')
+                ->setLabel('Catégorie')
                 ->setChoices(CategoryEnum::cases())
                 ->hideOnIndex(),
             TextField::new('website')
-                ->setLabel('Website'),
+                ->setLabel('Site web'),
             AssociationField::new('socialNetwork')
                 ->setCrudController(SocialNetworkCrudController::class)
                 ->setLabel('Réseaux Sociaux')

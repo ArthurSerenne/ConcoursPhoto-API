@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Member;
 use App\Entity\SocialNetwork;
 use App\Enum\CategoryEnum;
-use App\Enum\CountryEnum;
 use App\Enum\SituationEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
