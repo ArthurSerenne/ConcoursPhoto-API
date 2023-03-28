@@ -4,6 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Member;
 use App\Entity\SocialNetwork;
+use App\Enum\CategoryEnum;
+use App\Enum\CountryEnum;
+use App\Enum\SituationEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,8 +30,8 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
             $member->setLastLoginDate($faker->dateTimeBetween('-3 months'));
             $member->setPhoto($faker->imageUrl(640, 480, 'people', true, 'Faker', true));
             $member->setDescription($faker->text(200));
-            $member->setSituation($faker->text(200));
-            $member->setCategory($faker->text(200));
+            $member->setSituation(SituationEnum::cases()[array_rand(SituationEnum::cases())]->value);
+            $member->setCategory(CategoryEnum::cases()[array_rand(CategoryEnum::cases())]->value);
             $member->setWebsite($faker->url);
             $member->setUser($this->getReference('user_' . $i));
             $manager->persist($member);

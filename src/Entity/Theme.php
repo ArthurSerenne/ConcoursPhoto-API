@@ -18,7 +18,7 @@ class Theme
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'theme')]
+    #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'themes')]
     private Collection $contests;
 
     public function __construct()

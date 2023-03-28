@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\City;
 use App\Entity\User;
+use App\Enum\CountryEnum;
+use App\Enum\GenderEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -49,9 +51,7 @@ class UserCrudController extends AbstractCrudController
                 ->setLabel('Adresse')
                 ->hideOnIndex(),
             ChoiceField::new('country')
-                ->setChoices([
-                    'France' => 'france',
-                ])
+                ->setChoices(CountryEnum::cases())
                 ->hideOnIndex(),
             BooleanField::new('status')
                 ->setLabel('Etat')
@@ -61,11 +61,7 @@ class UserCrudController extends AbstractCrudController
             DateField::new('birthdate')
                 ->hideOnIndex(),
             ChoiceField::new('gender')
-                ->setChoices([
-                    'Homme' => 'male',
-                    'Femme' => 'female',
-                    'Autre' => 'other',
-                ])
+                ->setChoices(GenderEnum::cases())
                 ->hideOnIndex(),
         ];
     }
