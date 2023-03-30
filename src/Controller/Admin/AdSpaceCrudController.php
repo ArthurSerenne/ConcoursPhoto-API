@@ -18,6 +18,6 @@ class AdSpaceCrudController extends AbstractCrudController
         return $crud
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 }

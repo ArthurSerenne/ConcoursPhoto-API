@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\City;
 use App\Entity\Department;
 use App\Entity\User;
-use App\Enum\CountryEnum;
 use App\Enum\GenderEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -19,6 +18,7 @@ class UserFixtures extends Fixture
     {
         $this->hasher = $hasher;
     }
+
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
@@ -31,7 +31,7 @@ class UserFixtures extends Fixture
         $departments = $manager->getRepository(Department::class)->findAll();
 
         // ROLE_USER
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $user = new User();
             $user->setStatus($faker->boolean);
             $user->setCreationDate($faker->dateTimeBetween('-6 months'));
@@ -42,14 +42,14 @@ class UserFixtures extends Fixture
             $user->setAddress($faker->address);
             $user->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
             $user->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
-            $user->setCountry(CountryEnum::cases()[array_rand(CountryEnum::cases())]->value);
+            $user->setCountry($faker->country);
             $user->setEmail($faker->email);
             $user->setPhone($faker->phoneNumber);
             $password = $this->hasher->hashPassword($user, 'xxx');
             $user->setPassword($password);
-            $user->setRoles(["ROLE_USER"]);
+            $user->setRoles(['ROLE_USER']);
             $manager->persist($user);
-            $this->addReference('user_' . $i, $user);
+            $this->addReference('user_'.$i, $user);
         }
 
         // ROLE_SUPER_ADMIN
@@ -63,12 +63,12 @@ class UserFixtures extends Fixture
         $user->setAddress($faker->address);
         $user->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
         $user->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
-        $user->setCountry(CountryEnum::cases()[array_rand(CountryEnum::cases())]->value);
+        $user->setCountry($faker->country);
         $user->setEmail('test@mailinator.com');
         $user->setPhone($faker->phoneNumber);
         $password = $this->hasher->hashPassword($user, 'xxx');
         $user->setPassword($password);
-        $user->setRoles(["ROLE_SUPER_ADMIN"]);
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
 
         $manager->flush();

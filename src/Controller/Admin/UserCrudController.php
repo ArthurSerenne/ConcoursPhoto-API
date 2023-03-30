@@ -2,20 +2,19 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\City;
 use App\Entity\User;
-use App\Enum\CountryEnum;
 use App\Enum\GenderEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -27,7 +26,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            NumberField::new('id')
+            IdField::new('id')
                 ->setLabel('Identifiant')
                 ->hideOnForm(),
             TextField::new('firstname')
@@ -50,17 +49,20 @@ class UserCrudController extends AbstractCrudController
             TextField::new('address')
                 ->setLabel('Adresse')
                 ->hideOnIndex(),
-            ChoiceField::new('country')
-                ->setChoices(CountryEnum::cases())
+            CountryField::new('country')
+                ->setLabel('Pays')
                 ->hideOnIndex(),
             BooleanField::new('status')
                 ->setLabel('Etat')
                 ->hideOnIndex(),
             DateField::new('creationDate')
+                ->setLabel('Date de création')
                 ->hideOnIndex(),
             DateField::new('birthdate')
+                ->setLabel('Date de naissance')
                 ->hideOnIndex(),
             ChoiceField::new('gender')
+                ->setLabel('Genre')
                 ->setChoices(GenderEnum::cases())
                 ->hideOnIndex(),
         ];
@@ -72,7 +74,7 @@ class UserCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Utilisateurs')
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters

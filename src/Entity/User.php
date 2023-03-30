@@ -67,7 +67,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-
     /**
      * @var string The hashed password
      */
@@ -323,7 +322,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     /**
      * @see UserInterface
      */
@@ -333,7 +331,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function __toString() {
-        return $this->firstname .' '. $this->lastname;
+    public function __toString()
+    {
+        return $this->firstname.' '.$this->lastname;
     }
 }

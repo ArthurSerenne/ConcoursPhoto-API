@@ -3,18 +3,18 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Organization;
-use App\Enum\CountryEnum;
 use App\Enum\OrganizationTypeEnum;
+use App\Repository\OrganizationRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 class OrganizationCrudController extends AbstractCrudController
 {
@@ -26,35 +26,48 @@ class OrganizationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            BooleanField::new('status'),
+            IdField::new('id')
+                ->setLabel('Identifiant')
+                ->hideOnForm(),
+            BooleanField::new('status')
+                ->hideOnIndex(),
             TextField::new('name'),
             ChoiceField::new('type')
                 ->setChoices(OrganizationTypeEnum::cases())
                 ->setLabel('Type d\'organisation'),
-            TextField::new('description'),
+            TextField::new('description')
+                ->hideOnIndex(),
             ImageField::new('logo')
                 ->setBasePath('/uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
-            TextField::new('address'),
-            ChoiceField::new('country')
-                ->setChoices(CountryEnum::cases()),
-            TextField::new('website'),
-            TextField::new('email'),
-            TextField::new('phone'),
-            AssociationField::new('contests')
-                ->hideWhenCreating()
-                ->setColumns(8)
+            TextField::new('address')
                 ->hideOnIndex(),
+            CountryField::new('country')
+                ->hideOnIndex(),
+            TextField::new('website')
+                ->hideOnIndex(),
+            TextField::new('email'),
+            TextField::new('phone')
+                ->hideOnIndex(),
+            AssociationField::new('contests')
+                ->setQueryBuilder(function (OrganizationRepository $repository) {
+                    $qb = $repository->createQueryBuilder('o');
+                    $qb->select('COUNT(o.contests)');
+
+                    return $qb;
+                })
+                ->setLabel('Nombre de concours')
+                ->hideWhenUpdating()
+                ->hideWhenCreating(),
         ];
     }
-
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters

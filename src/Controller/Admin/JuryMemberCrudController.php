@@ -18,6 +18,6 @@ class JuryMemberCrudController extends AbstractCrudController
         return $crud
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
-            ;
+        ;
     }
 }

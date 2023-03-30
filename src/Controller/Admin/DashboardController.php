@@ -2,17 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
-use App\Entity\Member;
-use App\Entity\JuryMember;
 use App\Entity\AdSpace;
 use App\Entity\Contest;
+use App\Entity\JuryMember;
+use App\Entity\Member;
 use App\Entity\Organization;
 use App\Entity\Photo;
 use App\Entity\Sponsor;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -28,8 +25,8 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(private AdminUrlGenerator $adminUrlGenerator)
     {
-
     }
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -40,12 +37,11 @@ class DashboardController extends AbstractDashboardController
             ->generateUrl();
 
         return $this->redirect($url);
-
     }
 
     public function configureDashboard(): Dashboard
     {
-        return Dashboard::new ()
+        return Dashboard::new()
             ->setTitle('ConcoursPhoto BO')
             ->setLocales(['fr', 'en']);
     }
