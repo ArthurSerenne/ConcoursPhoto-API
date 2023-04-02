@@ -16,9 +16,6 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
         $faker = \Faker\Factory::create('fr_FR');
 
         $cities = $manager->getRepository(City::class)->findAll();
@@ -47,7 +44,7 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
             $contest->setPrizesCount($faker->numberBetween(0, 100));
             $contest->setAgeMin($faker->numberBetween(0, 100));
             $contest->setAgeMax($faker->numberBetween(0, 100));
-            $contest->setCountry($faker->country);
+            $contest->setCountry($faker->countryCode);
             $contest->setOrganization($this->getReference('organization_'.$i));
             $contest->addCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
             $contest->addDepartment($manager->getReference(Department::class, rand(1, count($departments) - 1)));

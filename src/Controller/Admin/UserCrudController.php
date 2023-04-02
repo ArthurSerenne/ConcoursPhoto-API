@@ -10,10 +10,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserCrudController extends AbstractCrudController
@@ -61,9 +63,7 @@ class UserCrudController extends AbstractCrudController
             DateField::new('birthdate')
                 ->setLabel('Date de naissance')
                 ->hideOnIndex(),
-            ChoiceField::new('gender')
-                ->setLabel('Genre')
-                ->setChoices(GenderEnum::cases())
+            ChoiceField::new('gender', 'Genre')
                 ->hideOnIndex(),
         ];
     }

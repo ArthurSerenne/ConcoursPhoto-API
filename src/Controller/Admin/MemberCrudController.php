@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\Filter\MemberFilter;
 use App\Entity\Member;
+use App\Entity\Photo;
 use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
 use Doctrine\ORM\QueryBuilder;
@@ -13,9 +14,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class MemberCrudController extends AbstractCrudController
@@ -61,7 +64,7 @@ class MemberCrudController extends AbstractCrudController
                 ->setLabel('Avatar')
                 ->setBasePath('/uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
-            TextField::new('description')
+            TextareaField::new('description')
                 ->hideOnIndex()
                 ->setLabel('Description'),
             ChoiceField::new('situation')
@@ -79,6 +82,20 @@ class MemberCrudController extends AbstractCrudController
                 ->setLabel('Réseaux Sociaux')
                 ->renderAsEmbeddedForm()
                 ->hideOnDetail()
+                ->hideOnIndex(),
+            CollectionField::new('photos', 'Concours en tant que photographe')
+                ->allowAdd(false)
+                ->allowDelete(false)
+                ->setColumns(10)
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->hideOnIndex(),
+            CollectionField::new('juryMembers', 'Concours en tant que membre du jury')
+                ->allowAdd(false)
+                ->allowDelete(false)
+                ->setColumns(10)
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->hideOnIndex(),
         ];
 

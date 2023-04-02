@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use App\Enum\GenderEnum;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -43,8 +44,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $gender = null;
+    #[ORM\Column(type: 'string', length: 255, enumType: GenderEnum::class)]
+    private ?GenderEnum $gender = null;
 
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
@@ -122,12 +123,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getGender(): ?string
+    public function getGender(): ?GenderEnum
     {
         return $this->gender;
     }
 
-    public function setGender(string $gender): self
+    public function setGender(?GenderEnum $gender): self
     {
         $this->gender = $gender;
 

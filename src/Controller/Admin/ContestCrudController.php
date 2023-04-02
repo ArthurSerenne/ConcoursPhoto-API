@@ -107,12 +107,8 @@ class ContestCrudController extends AbstractCrudController
                 ->setLabel('Organisateur')
                 ->hideWhenCreating(),
             CollectionField::new('photos')
-                ->setEntryType(PhotoType::class)
+                ->useEntryCrudForm()
                 ->hideOnIndex()
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                    'disabled' => true,
-                ]),
         ];
     }
 

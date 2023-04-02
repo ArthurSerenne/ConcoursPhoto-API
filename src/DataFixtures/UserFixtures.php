@@ -21,9 +21,6 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
         $faker = \Faker\Factory::create('fr_FR');
 
         $cities = $manager->getRepository(City::class)->findAll();
@@ -35,14 +32,14 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setStatus($faker->boolean);
             $user->setCreationDate($faker->dateTimeBetween('-6 months'));
-            $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]->value);
+            $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]);
             $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastName);
             $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));
             $user->setAddress($faker->address);
             $user->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
             $user->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
-            $user->setCountry($faker->country);
+            $user->setCountry($faker->countryCode);
             $user->setEmail($faker->email);
             $user->setPhone($faker->phoneNumber);
             $password = $this->hasher->hashPassword($user, 'xxx');
@@ -56,14 +53,14 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setStatus($faker->boolean);
         $user->setCreationDate($faker->dateTimeBetween('-6 months'));
-        $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]->value);
+        $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]);
         $user->setFirstname($faker->firstName);
         $user->setLastname($faker->lastName);
         $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));
         $user->setAddress($faker->address);
         $user->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
         $user->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
-        $user->setCountry($faker->country);
+        $user->setCountry($faker->countryCode);
         $user->setEmail('test@mailinator.com');
         $user->setPhone($faker->phoneNumber);
         $password = $this->hasher->hashPassword($user, 'xxx');

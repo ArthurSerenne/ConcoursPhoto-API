@@ -14,9 +14,6 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
         $faker = \Faker\Factory::create('fr_FR');
 
         $cities = $manager->getRepository(City::class)->findAll();
@@ -30,7 +27,7 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
             $organization->setDescription($faker->text(200));
             $organization->setLogo($faker->imageUrl(640, 480, 'people', true, 'Faker', true));
             $organization->setAddress($faker->address);
-            $organization->setCountry($faker->country);
+            $organization->setCountry($faker->countryCode);
             $organization->setZipCode($manager->getReference(Department::class, rand(1, count($departments) - 1)));
             $organization->setCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
             $organization->setWebsite($faker->url);

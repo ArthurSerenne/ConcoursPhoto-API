@@ -14,9 +14,6 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
         $faker = \Faker\Factory::create('fr_FR');
 
         for ($i = 1; $i < 10; ++$i) {
