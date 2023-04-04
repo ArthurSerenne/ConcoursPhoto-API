@@ -217,6 +217,6 @@ class Photo
 
     public function __toString()
     {
-        return $this->file;
+        return $this->member->getUsername();
     }
 }

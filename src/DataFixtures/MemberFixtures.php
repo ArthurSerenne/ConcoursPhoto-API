@@ -14,12 +14,9 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
         $faker = \Faker\Factory::create('fr_FR');
 
-        for ($i = 1; $i < 10; ++$i) {
+        for ($i = 0; $i < 10; ++$i) {
             $member = new Member();
             $member->setStatus($faker->boolean);
             $member->setUsername($faker->userName);
@@ -44,6 +41,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
             $socialNetwork->setSnapchat($faker->url());
             $socialNetwork->setYoutube($faker->url());
             $socialNetwork->setWhatsapp($faker->url());
+            $this->addReference('member_'.$i, $member);
             $manager->persist($socialNetwork);
         }
 

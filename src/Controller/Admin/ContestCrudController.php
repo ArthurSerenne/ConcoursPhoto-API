@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contest;
-use App\Form\PhotoType;
+use DateTime;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -24,6 +24,14 @@ class ContestCrudController extends AbstractCrudController
         return Contest::class;
     }
 
+    public function createEntity(string $entityFqcn)
+    {
+        $contest = new Contest();
+        $contest->setCreationDate(new Datetime('now'));
+
+        return $contest;
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -31,6 +39,7 @@ class ContestCrudController extends AbstractCrudController
                 ->setLabel('Identifiant')
                 ->hideOnForm(),
             TextField::new('name')
+                ->hideOnDetail()
                 ->setLabel('Nom'),
             BooleanField::new('status')
                 ->setLabel('Etat')
@@ -47,9 +56,6 @@ class ContestCrudController extends AbstractCrudController
                 ->hideOnIndex(),
             TextField::new('prizes')
                 ->setLabel('Prix')
-                ->hideOnIndex(),
-            DateField::new('creationDate')
-                ->setLabel('Date de création')
                 ->hideOnIndex(),
             DateField::new('publicationDate')
                 ->setLabel('Date de publication')
@@ -84,35 +90,48 @@ class ContestCrudController extends AbstractCrudController
             NumberField::new('ageMax')
                 ->setLabel('Âge maximal')
                 ->hideOnIndex(),
-            AssociationField::new('cities')
-                ->setLabel('Ville(s)')
+            AssociationField::new('cities', 'Ville(s)')
                 ->autocomplete()
+                ->hideOnDetail()
                 ->hideOnIndex(),
-            AssociationField::new('departments')
-                ->setLabel('Départements(s)')
+            CollectionField::new('cities', 'Ville(s)')
+                ->onlyOnDetail(),
+            AssociationField::new('departments', 'Départements(s)')
+                ->hideOnDetail()
                 ->hideOnIndex(),
-            AssociationField::new('regions')
-                ->setLabel('Régions(s)')
+            CollectionField::new('departments', 'Départements(s)')
+                ->onlyOnDetail(),
+            AssociationField::new('regions', 'Régions(s)')
+                ->hideOnDetail()
                 ->hideOnIndex(),
+            CollectionField::new('regions', 'Région(s)')
+                ->onlyOnDetail(),
             CountryField::new('country')
                 ->setLabel('Pays')
                 ->hideOnIndex(),
             AssociationField::new('themes')
                 ->setLabel('Thème(s)')
+                ->hideOnDetail()
                 ->hideOnIndex(),
+            CollectionField::new('themes', 'Thème(s)')
+                ->onlyOnDetail(),
             AssociationField::new('categories')
                 ->setLabel('Catégorie(s)')
+                ->hideOnDetail()
                 ->hideOnIndex(),
+            CollectionField::new('categories', 'Catégorie(s)')
+                ->onlyOnDetail(),
             AssociationField::new('organization')
                 ->setLabel('Organisateur')
-                ->hideWhenCreating(),
-            CollectionField::new('photos')
-                ->setEntryType(PhotoType::class)
-                ->hideOnIndex()
-                ->setFormTypeOptions([
-                    'by_reference' => false,
-                    'disabled' => true,
-                ]),
+                ->hideOnIndex(),
+            CollectionField::new('photos', 'Photo(s)')
+                ->allowAdd(false)
+                ->hideWhenCreating()
+                ->useEntryCrudForm()
+                ->hideOnDetail()
+                ->hideOnIndex(),
+            CollectionField::new('photos', 'Photo(s)')
+                ->onlyOnDetail(),
         ];
     }
 

@@ -103,7 +103,7 @@ class Contest
 
     #[ORM\ManyToOne(inversedBy: 'contests')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Organization $organization = null;
+    private ?Organization $organization;
 
     #[ORM\ManyToMany(targetEntity: Region::class, inversedBy: 'contests')]
     private Collection $regions;

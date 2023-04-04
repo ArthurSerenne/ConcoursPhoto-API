@@ -4,7 +4,7 @@ namespace App\Enum;
 
 enum SituationEnum: string
 {
-    case salary = 'Salarié';
-    case boss = 'Patron';
-    case other = 'Autre';
+    case Salary = 'salary';
+    case Boss = 'boss';
+    case Other = 'other';
 }
