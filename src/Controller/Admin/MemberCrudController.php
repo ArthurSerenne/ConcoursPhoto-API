@@ -7,6 +7,8 @@ use App\Entity\Member;
 use App\Entity\Photo;
 use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
@@ -26,6 +28,21 @@ class MemberCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Member::class;
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $member = new Member();
+        $member->setRegistrationDate(new Datetime('now'));
+        $member->setUpdateDate(new Datetime('now'));
+
+        return $member;
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $entityInstance->setUpdateDate(new Datetime('now'));
+        parent::updateEntity($entityManager, $entityInstance);
     }
 
     public function configureFields(string $pageName): iterable
@@ -50,15 +67,23 @@ class MemberCrudController extends AbstractCrudController
                 ->setLabel('Etat')
                 ->hideOnIndex(),
             DateField::new('registrationDate')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
                 ->setLabel('Date de création'),
             DateField::new('deletionDate')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
                 ->setLabel('Date de suppression')
                 ->hideOnIndex(),
             DateField::new('updateDate')
                 ->setLabel('Date de dernière modification')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
                 ->hideOnIndex(),
             DateField::new('lastLoginDate')
                 ->setLabel('Date de dernière connexion')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
                 ->hideOnIndex(),
             ImageField::new('photo')
                 ->setLabel('Avatar')
@@ -70,10 +95,20 @@ class MemberCrudController extends AbstractCrudController
             ChoiceField::new('situation')
                 ->setLabel('Situation')
                 ->setChoices(SituationEnum::cases())
+                ->setTranslatableChoices([
+                    'salary' => 'Salarié',
+                    'boss' => 'Patron',
+                    'other' => 'Autre'
+                ])
                 ->hideOnIndex(),
             ChoiceField::new('category')
                 ->setLabel('Catégorie')
                 ->setChoices(CategoryEnum::cases())
+                ->setTranslatableChoices([
+                    'categ1' => 'Catégorie 1',
+                    'categ2' => 'Catégorie 2',
+                    'categ3' => 'Catégorie 3'
+                ])
                 ->hideOnIndex(),
             TextField::new('website')
                 ->setLabel('Site web'),
@@ -96,6 +131,7 @@ class MemberCrudController extends AbstractCrudController
                 ->setColumns(10)
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
+                ->setTextAlign(textAlign: 'right')
                 ->hideOnIndex(),
         ];
 

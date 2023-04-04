@@ -34,6 +34,17 @@ class OrganizationCrudController extends AbstractCrudController
             TextField::new('name'),
             ChoiceField::new('type')
                 ->setChoices(OrganizationTypeEnum::cases())
+                ->setTranslatableChoices([
+                    'city' => 'Ville/Commune',
+                    'community' => 'Communauté de communes',
+                    'department' => 'Département',
+                    'region' => 'Région',
+                    'office' => 'Office de tourisme',
+                    'country' => 'Pays',
+                    'private' => 'Entreprise privée',
+                    'ong' => 'Association/ONG',
+                    'other' => 'Autre organisme'
+                ])
                 ->setLabel('Type d\'organisation'),
             TextField::new('description')
                 ->hideOnIndex(),
@@ -49,6 +60,13 @@ class OrganizationCrudController extends AbstractCrudController
             TextField::new('email'),
             TextField::new('phone')
                 ->hideOnIndex(),
+            AssociationField::new('city')
+                ->setLabel('Ville/CP')
+                ->hideOnIndex()
+                ->autocomplete(),
+            AssociationField::new('zipCode')
+                ->hideOnIndex()
+                ->setLabel('Département'),
             AssociationField::new('contests')
                 ->setQueryBuilder(function (OrganizationRepository $repository) {
                     $qb = $repository->createQueryBuilder('o');

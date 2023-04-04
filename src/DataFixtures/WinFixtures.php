@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Photo;
 use App\Entity\Win;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -14,13 +13,11 @@ class WinFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        $photos = $manager->getRepository(Photo::class)->findAll();
-
         for ($i = 0; $i < 10; ++$i) {
             $win = new Win();
             $win->setPriceRank($faker->numberBetween(1, 10));
-            $win->setPhoto($photos[$i]);
-            $win->setContest($win->getPhoto()->getContest());
+            $win->setContest($this->getReference('contest_'. $i));
+            $win->setPhoto($this->getReference('photo_'. $i));
             $manager->persist($win);
         }
 

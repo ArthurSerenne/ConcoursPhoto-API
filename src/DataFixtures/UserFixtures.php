@@ -32,7 +32,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setStatus($faker->boolean);
             $user->setCreationDate($faker->dateTimeBetween('-6 months'));
-            $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]);
+            $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]->value);
             $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastName);
             $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));
@@ -53,7 +53,7 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setStatus($faker->boolean);
         $user->setCreationDate($faker->dateTimeBetween('-6 months'));
-        $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]);
+        $user->setGender(GenderEnum::cases()[array_rand(GenderEnum::cases())]->value);
         $user->setFirstname($faker->firstName);
         $user->setLastname($faker->lastName);
         $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));

@@ -2,8 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Contest;
-use App\Entity\Member;
 use App\Entity\Photo;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -15,9 +13,6 @@ class PhotoFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        $members = $manager->getRepository(Member::class)->findAll();
-        $contests = $manager->getRepository(Contest::class)->findAll();
-
         for ($i = 0; $i < 10; ++$i) {
             $photo = new Photo();
             $photo->setName($faker->name);
@@ -27,8 +22,9 @@ class PhotoFixtures extends Fixture implements DependentFixtureInterface
             $photo->setPrizeWon($faker->boolean);
             $photo->setVoteCount($faker->numberBetween(1, 200));
             $photo->setSubmissionDate($faker->dateTime);
-            $photo->setMember($manager->getReference(Member::class, rand(1, count($members) - 1)));
-            $photo->setContest($manager->getReference(Contest::class, rand(1, count($contests) - 1)));
+            $photo->setMember($this->getReference('member_'. $faker->numberBetween(0, 9)));
+            $photo->setContest($this->getReference('contest_'. $faker->numberBetween(0, 9)));
+            $this->addReference('photo_'.$i, $photo);
             $manager->persist($photo);
         }
 

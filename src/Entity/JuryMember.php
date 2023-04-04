@@ -116,6 +116,6 @@ class JuryMember
 
     public function __toString(): string
     {
-        return $this->contest;
+        return $this->contest->getName();
     }
 }
