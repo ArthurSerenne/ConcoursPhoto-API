@@ -21,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
@@ -71,9 +72,10 @@ class OrganizationCrudController extends AbstractCrudController
                     'ong' => 'Association/ONG',
                     'other' => 'Autre organisme'
                 ]),
-            TextField::new('description', 'Description')
+            TextareaField::new('description', 'Description')
                 ->hideOnIndex(),
             ImageField::new('logo', 'Logo')
+                ->setRequired($pageName === Crud::PAGE_NEW)
                 ->setBasePath('/uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
             TextField::new('address', 'Adresse')

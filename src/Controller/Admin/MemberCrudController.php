@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\Filter\MemberFilter;
 use App\Entity\Member;
+use App\Entity\SocialNetwork;
 use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
 use DateTime;
@@ -50,8 +51,11 @@ class MemberCrudController extends AbstractCrudController
     public function createEntity(string $entityFqcn)
     {
         $member = new Member();
+        $socialNetwork = new SocialNetwork();
         $member->setRegistrationDate(new Datetime('now'));
         $member->setUpdateDate(new Datetime('now'));
+        $member->setSocialNetwork($socialNetwork);
+        $socialNetwork->setMember($member);
 
         return $member;
     }
@@ -102,6 +106,10 @@ class MemberCrudController extends AbstractCrudController
                 ->hideWhenCreating()
                 ->hideOnIndex(),
             ImageField::new('photo', 'Avatar')
+                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->formatValue(static function ($value, Member $member) {
+                    return '/uploads/images/'.$member->getPhoto();
+                })
                 ->setBasePath('/uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
             TextareaField::new('description', 'Description')

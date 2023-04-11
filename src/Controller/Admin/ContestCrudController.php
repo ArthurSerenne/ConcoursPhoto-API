@@ -71,7 +71,7 @@ class ContestCrudController extends AbstractCrudController
             BooleanField::new('trend', 'A la une')
                 ->hideOnIndex(),
             ImageField::new('visual', 'Visuel')
-                ->setRequired(false)
+                ->setRequired($pageName === Crud::PAGE_NEW)
                 ->formatValue(static function ($value, Contest $contest) {
                     return '/uploads/images/'.$contest->getVisual();
                 })
