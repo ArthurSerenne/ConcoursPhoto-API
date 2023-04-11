@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
         new Delete(),
     ]
 )]
+#[ORM\Table(name: 'social_network')]
 class SocialNetwork
 {
     #[ORM\Id]

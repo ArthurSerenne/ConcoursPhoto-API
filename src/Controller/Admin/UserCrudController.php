@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Enum\GenderEnum;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
@@ -63,7 +64,8 @@ class UserCrudController extends AbstractCrudController
                     'mapped' => false,
                 ])
                 ->setRequired($pageName === Crud::PAGE_NEW)
-                ->onlyOnForms(),
+                ->hideOnIndex()
+                ->hideOnDetail(),
             AssociationField::new('city')
                 ->setLabel('Ville/CP')
                 ->autocomplete(),

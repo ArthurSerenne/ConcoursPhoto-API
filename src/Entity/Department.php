@@ -33,7 +33,7 @@ class Department
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'region_code')]
     private ?int $regionCode = null;
 
     #[ORM\Column]

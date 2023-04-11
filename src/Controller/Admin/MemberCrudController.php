@@ -4,15 +4,19 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\Filter\MemberFilter;
 use App\Entity\Member;
-use App\Entity\Photo;
 use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -25,9 +29,22 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class MemberCrudController extends AbstractCrudController
 {
+    public function __construct(EntityRepository $entityRepository)
+    {
+        $this->entityRepository = $entityRepository;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Member::class;
+    }
+
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $response = $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $response->andWhere('entity.deletionDate IS NULL');
+
+        return $response;
     }
 
     public function createEntity(string $entityFqcn)
@@ -39,6 +56,12 @@ class MemberCrudController extends AbstractCrudController
         return $member;
     }
 
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $entityInstance->setDeletionDate(new Datetime('now'));
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $entityInstance->setUpdateDate(new Datetime('now'));
@@ -48,10 +71,9 @@ class MemberCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $fields = [
-            IdField::new('id')
-                ->setLabel('Identifiant')
+            IdField::new('id', 'Identifiant')
                 ->hideOnForm(),
-            AssociationField::new('user')
+            AssociationField::new('user', 'Utilisateur')
                 ->setQueryBuilder(function (QueryBuilder $queryBuilder) {
                     $queryBuilder->select('u')
                         ->from('App\Entity\User', 'u')
@@ -61,48 +83,39 @@ class MemberCrudController extends AbstractCrudController
                     return $queryBuilder;
                 })
                 ->hideWhenUpdating(),
-            TextField::new('username')
-                ->setLabel('Pseudo'),
-            BooleanField::new('status')
-                ->setLabel('Etat')
+            TextField::new('username', 'Pseudo'),
+            BooleanField::new('status', 'Etat')
                 ->hideOnIndex(),
-            DateField::new('registrationDate')
+            DateField::new('registrationDate', 'Date de création')
                 ->hideWhenUpdating()
-                ->hideWhenCreating()
-                ->setLabel('Date de création'),
-            DateField::new('deletionDate')
-                ->hideWhenUpdating()
-                ->hideWhenCreating()
-                ->setLabel('Date de suppression')
-                ->hideOnIndex(),
-            DateField::new('updateDate')
-                ->setLabel('Date de dernière modification')
+                ->hideWhenCreating(),
+            DateField::new('deletionDate', 'Date de suppression')
                 ->hideWhenUpdating()
                 ->hideWhenCreating()
                 ->hideOnIndex(),
-            DateField::new('lastLoginDate')
-                ->setLabel('Date de dernière connexion')
+            DateField::new('updateDate', 'Date de dernière modification')
                 ->hideWhenUpdating()
                 ->hideWhenCreating()
                 ->hideOnIndex(),
-            ImageField::new('photo')
-                ->setLabel('Avatar')
+            DateField::new('lastLoginDate', 'Date de dernière connexion')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
+                ->hideOnIndex(),
+            ImageField::new('photo', 'Avatar')
                 ->setBasePath('/uploads/images/')
                 ->setUploadDir('public/uploads/images/'),
-            TextareaField::new('description')
-                ->hideOnIndex()
-                ->setLabel('Description'),
-            ChoiceField::new('situation')
-                ->setLabel('Situation')
+            TextareaField::new('description', 'Description')
+                ->hideOnIndex(),
+            ChoiceField::new('situation', 'Situation')
                 ->setChoices(SituationEnum::cases())
                 ->setTranslatableChoices([
                     'salary' => 'Salarié',
-                    'boss' => 'Patron',
+                    'student' => 'Etudiant',
+                    'unemployment' => 'Au chômage',
                     'other' => 'Autre'
                 ])
                 ->hideOnIndex(),
-            ChoiceField::new('category')
-                ->setLabel('Catégorie')
+            ChoiceField::new('category', 'Catégorie')
                 ->setChoices(CategoryEnum::cases())
                 ->setTranslatableChoices([
                     'categ1' => 'Catégorie 1',
@@ -110,41 +123,32 @@ class MemberCrudController extends AbstractCrudController
                     'categ3' => 'Catégorie 3'
                 ])
                 ->hideOnIndex(),
-            TextField::new('website')
-                ->setLabel('Site web'),
+            TextField::new('website', 'Site web'),
             AssociationField::new('socialNetwork')
                 ->setCrudController(SocialNetworkCrudController::class)
-                ->setLabel('Réseaux Sociaux')
                 ->renderAsEmbeddedForm()
                 ->hideOnDetail()
-                ->hideOnIndex(),
-            CollectionField::new('photos', 'Concours en tant que photographe')
-                ->allowAdd(false)
-                ->allowDelete(false)
-                ->setColumns(10)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->hideOnIndex(),
-            CollectionField::new('juryMembers', 'Concours en tant que membre du jury')
-                ->allowAdd(false)
-                ->allowDelete(false)
-                ->setColumns(10)
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->setTextAlign(textAlign: 'right')
                 ->hideOnIndex(),
         ];
 
         if (Crud::PAGE_DETAIL === $pageName) {
-            $fields[] = TextField::new('socialNetwork.facebook')->setLabel('Facebook');
-            $fields[] = TextField::new('socialNetwork.twitter')->setLabel('Twitter');
-            $fields[] = TextField::new('socialNetwork.linkedin')->setLabel('LinkedIn');
-            $fields[] = TextField::new('socialNetwork.whatsapp')->setLabel('WhatsApp');
-            $fields[] = TextField::new('socialNetwork.youtube')->setLabel('YouTube');
-            $fields[] = TextField::new('socialNetwork.instagram')->setLabel('Instagram');
-            $fields[] = TextField::new('socialNetwork.tiktok')->setLabel('TikTok');
-            $fields[] = TextField::new('socialNetwork.snapchat')->setLabel('Snapchat');
+            $fields[] = TextField::new('socialNetwork.facebook', 'Facebook');
+            $fields[] = TextField::new('socialNetwork.twitter', 'Twitter');
+            $fields[] = TextField::new('socialNetwork.linkedin', 'LinkedIn');
+            $fields[] = TextField::new('socialNetwork.whatsapp', 'WhatsApp');
+            $fields[] = TextField::new('socialNetwork.youtube', 'YouTube');
+            $fields[] = TextField::new('socialNetwork.instagram', 'Instagram');
+            $fields[] = TextField::new('socialNetwork.tiktok', 'TikTok');
+            $fields[] = TextField::new('socialNetwork.snapchat', 'Snapchat');
         }
+
+        $fields[] = CollectionField::new('photos', 'Concours en tant que photographe')
+            ->onlyOnDetail()
+            ->setTemplatePath('admin/member/photographer.html.twig');
+
+        $fields[] = CollectionField::new('juryMembers', 'Concours en tant que membre du jury')
+            ->onlyOnDetail()
+            ->setTemplatePath('admin/member/jury-member.html.twig');
 
         return $fields;
     }

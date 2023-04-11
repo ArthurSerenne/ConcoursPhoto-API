@@ -25,6 +25,8 @@ use Doctrine\ORM\Mapping as ORM;
         new Delete(),
     ]
 )]
+
+#[ORM\Table(name: 'jury_member')]
 class JuryMember
 {
     #[ORM\Id]

@@ -1,0 +1,18 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="grid grid-cols-3 gap-4">
+        {% for jury in field.value %}
+            <div>
+                <p>Nom du concours : {{ jury.contest.name }}</p>
+                <p>Fonction : {{ 'jury_fonction.'~jury.fonction|trans }}</p>
+                <p>Date d'invitation : {{ jury.invitationDate|date('d/m/Y') }}</p>
+                <p>Date d'acceptation : {{ jury.acceptanceDate|date('d/m/Y') }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

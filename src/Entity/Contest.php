@@ -53,40 +53,40 @@ class Contest
     #[ORM\Column(length: 255)]
     private ?string $prizes = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'creation_date')]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'publication_date')]
     private ?\DateTimeInterface $publicationDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_start_date')]
     private ?\DateTimeInterface $submissionStartDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_end_date')]
     private ?\DateTimeInterface $submissionEndDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'voting_start_date')]
     private ?\DateTimeInterface $votingStartDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'voting_end_date')]
     private ?\DateTimeInterface $votingEndDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'results_date')]
     private ?\DateTimeInterface $resultsDate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'jury_vote_pourcentage')]
     private ?int $juryVotePourcentage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'vote_max')]
     private ?int $voteMax = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'prizes_count')]
     private ?int $prizesCount = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'age_min')]
     private ?int $ageMin = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'age_max')]
     private ?int $ageMax = null;
 
     #[ORM\Column(length: 255)]
@@ -102,7 +102,7 @@ class Contest
     private Collection $photos;
 
     #[ORM\ManyToOne(inversedBy: 'contests')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Organization $organization;
 
     #[ORM\ManyToMany(targetEntity: Region::class, inversedBy: 'contests')]
@@ -122,6 +122,12 @@ class Contest
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $categories;
+
+    #[ORM\Column]
+    private ?bool $trend = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deletionDate = null;
 
     public function __construct()
     {
@@ -624,5 +630,29 @@ class Contest
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function isTrend(): ?bool
+    {
+        return $this->trend;
+    }
+
+    public function setTrend(bool $trend): self
+    {
+        $this->trend = $trend;
+
+        return $this;
+    }
+
+    public function getDeletionDate(): ?\DateTimeInterface
+    {
+        return $this->deletionDate;
+    }
+
+    public function setDeletionDate(?\DateTimeInterface $deletionDate): self
+    {
+        $this->deletionDate = $deletionDate;
+
+        return $this;
     }
 }

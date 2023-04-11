@@ -41,19 +41,19 @@ class Photo
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_date')]
     private ?\DateTimeInterface $submissionDate = null;
 
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'vote_count')]
     private ?int $voteCount = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'prize_won')]
     private ?bool $prizeWon = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'prize_rank')]
     private ?int $prizeRank = null;
 
     #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Vote::class)]

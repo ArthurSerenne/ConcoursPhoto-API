@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Delete;
 use App\Repository\OrganizationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrganizationRepository::class)]
@@ -77,10 +78,20 @@ class Organization
     private Collection $contests;
 
     #[ORM\ManyToOne(inversedBy: 'organizations')]
+    #[ORM\JoinColumn(name: 'zip_code_id')]
     private ?Department $zipCode = null;
 
     #[ORM\ManyToOne(inversedBy: 'organizations')]
     private ?City $city = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $siret = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $vat = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deletionDate = null;
 
     public function __construct()
     {
@@ -359,5 +370,41 @@ class Organization
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getSiret(): ?string
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(?string $siret): self
+    {
+        $this->siret = $siret;
+
+        return $this;
+    }
+
+    public function getVat(): ?string
+    {
+        return $this->vat;
+    }
+
+    public function setVat(?string $vat): self
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    public function getDeletionDate(): ?\DateTimeInterface
+    {
+        return $this->deletionDate;
+    }
+
+    public function setDeletionDate(?\DateTimeInterface $deletionDate): self
+    {
+        $this->deletionDate = $deletionDate;
+
+        return $this;
     }
 }

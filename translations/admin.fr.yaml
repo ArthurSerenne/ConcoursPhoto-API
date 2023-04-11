@@ -3,3 +3,7 @@ gender:
   male: Homme
   female: Femme
   other: Autre
+
+jury_fonction:
+  president: Président
+  member: Membre

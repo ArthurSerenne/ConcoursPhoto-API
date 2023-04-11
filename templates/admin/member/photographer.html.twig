@@ -1,0 +1,17 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="grid grid-cols-3 gap-4">
+        {% for photo in field.value %}
+            <div>
+                <p>Nom du concours : {{ photo.contest.name }}</p>
+                <p>Date de soumission : {{ photo.submissionDate|date('d/m/Y') }}</p>
+                <img src="{{ asset('uploads/images/'~photo.file) }}" alt="{{ photo.name }}" width="350">
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

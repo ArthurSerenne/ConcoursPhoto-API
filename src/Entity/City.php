@@ -33,7 +33,7 @@ class City
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'department_code')]
     private ?int $departmentCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]

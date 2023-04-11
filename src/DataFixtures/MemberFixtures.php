@@ -21,7 +21,6 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
             $member->setStatus($faker->boolean);
             $member->setUsername($faker->userName);
             $member->setRegistrationDate($faker->dateTimeBetween('-6 months'));
-            $member->setDeletionDate($faker->dateTimeBetween('-3 months'));
             $member->setUpdateDate($faker->dateTimeBetween('-3 months'));
             $member->setLastLoginDate($faker->dateTimeBetween('-3 months'));
             $member->setPhoto($faker->imageUrl(640, 480, 'people', true, 'Faker', true));
