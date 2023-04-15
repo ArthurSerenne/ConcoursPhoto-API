@@ -22,6 +22,4 @@ when@prod:
     intercept_redirects: false
 
   framework:
-    profiler:
-      only_exceptions: false
-      collect_serializer_data: true
+    profiler: { collect: false }
