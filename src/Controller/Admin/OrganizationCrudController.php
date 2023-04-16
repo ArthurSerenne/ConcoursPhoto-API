@@ -111,6 +111,10 @@ class OrganizationCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setPageTitle('index', 'Organisations')
+            ->setPageTitle('detail', 'Vue de l\'organisation')
+            ->setPageTitle('edit', 'Modification de l\'organisation')
+            ->setPageTitle('new', 'Ajouter une organisation')
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
         ;

@@ -15,6 +15,7 @@
         "easycorp/easyadmin-bundle": "^4.6",
         "fakerphp/faker": "^1.21",
         "gedmo/doctrine-extensions": "^3.11",
+        "knplabs/knp-paginator-bundle": "^6.2",
         "lexik/jwt-authentication-bundle": "^2.18",
         "nelmio/cors-bundle": "^2.3",
         "nesbot/carbon": "^2.66",

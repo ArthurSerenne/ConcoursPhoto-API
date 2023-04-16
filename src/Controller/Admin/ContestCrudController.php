@@ -150,6 +150,10 @@ class ContestCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setPageTitle('index', 'Concours')
+            ->setPageTitle('detail', 'Vue du concours')
+            ->setPageTitle('edit', 'Modification du concours')
+            ->setPageTitle('new', 'Ajouter un concours')
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
         ;

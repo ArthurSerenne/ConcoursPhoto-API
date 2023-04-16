@@ -103,6 +103,9 @@ class UserCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle('index', 'Utilisateurs')
+            ->setPageTitle('detail', 'Vue de l\'utilisateur')
+            ->setPageTitle('edit', 'Modification de l\'utilisateur')
+            ->setPageTitle('new', 'Ajouter un utilisateur')
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
         ;

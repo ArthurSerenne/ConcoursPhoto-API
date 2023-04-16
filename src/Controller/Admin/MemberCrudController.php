@@ -9,6 +9,7 @@ use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -150,13 +151,14 @@ class MemberCrudController extends AbstractCrudController
             $fields[] = TextField::new('socialNetwork.snapchat', 'Snapchat');
         }
 
-        $fields[] = CollectionField::new('photos', 'Concours en tant que photographe')
-            ->onlyOnDetail()
-            ->setTemplatePath('admin/member/photographer.html.twig');
-
-        $fields[] = CollectionField::new('juryMembers', 'Concours en tant que membre du jury')
+        $fields[] = CollectionField::new('juryMembers', 'Concours en tant que jury')
             ->onlyOnDetail()
             ->setTemplatePath('admin/member/jury-member.html.twig');
+
+        $fields[] = CollectionField::new('photos', 'Photos')
+            ->onlyOnDetail()
+            ->setCustomOption('max_items_per_page', 6)
+            ->setTemplatePath('admin/member/photographer.html.twig');
 
         return $fields;
     }
@@ -164,6 +166,10 @@ class MemberCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setPageTitle('index', 'Membres')
+            ->setPageTitle('detail', 'Vue du membre')
+            ->setPageTitle('edit', 'Modification du membre')
+            ->setPageTitle('new', 'Ajouter un membre')
             ->setPaginatorPageSize(10)
             ->setPaginatorRangeSize(4)
         ;

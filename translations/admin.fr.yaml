@@ -4,6 +4,7 @@ gender:
   female: Femme
   other: Autre
 
-jury_fonction:
-  president: Président
-  member: Membre
+jury_fonction.president: Président
+jury_fonction.member: Membre
+jury_fonction.other: Autre
+

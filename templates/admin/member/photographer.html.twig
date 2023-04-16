@@ -5,13 +5,32 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% set maxItemsPerPage = 6 %}
+    {% set currentPage = app.request.query.get('photo_page', 1) %}
+    {% set startIndex = (currentPage - 1) * maxItemsPerPage %}
+    {% set endIndex = startIndex + maxItemsPerPage %}
+
     <div class="grid grid-cols-3 gap-4">
-        {% for photo in field.value %}
-            <div>
-                <p>Nom du concours : {{ photo.contest.name }}</p>
-                <p>Date de soumission : {{ photo.submissionDate|date('d/m/Y') }}</p>
+        {% for photo in field.value|slice(startIndex, maxItemsPerPage) %}
+            <div class="flex items-center justify-end">
                 <img src="{{ asset('uploads/images/'~photo.file) }}" alt="{{ photo.name }}" width="350">
+                <span class="inline-flex items-center justify-center px-2.5 py-1.5 mr-2 rounded-full text-xs font-medium text-white bg-blue-500 bg-opacity-50">
+                    photo
+                </span>
             </div>
         {% endfor %}
+    </div>
+
+    {# Pagination controls #}
+    <div class="d-flex justify-content-center my-3">
+        <nav>
+            <ul class="pagination">
+                {% for i in 1..((field.value|length + maxItemsPerPage - 1) // maxItemsPerPage) %}
+                    <li class="page-item {{ i == currentPage ? 'active' : '' }}">
+                        <a class="page-link" href="{{ ea_url(app.request.query.all()|merge({'photo_page': i}), app.request.attributes.get('_route')) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
     </div>
 {% endblock %}
