@@ -13,6 +13,7 @@ use App\Repository\DepartmentsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DepartmentsRepository::class)]
 #[ApiResource(
@@ -24,33 +25,43 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['department']],
+    denormalizationContext: ['groups' => ['department']],
 )]
 class Department
 {
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\Column(name: 'region_code')]
     private ?int $regionCode = null;
 
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\Column]
     private ?int $code = null;
 
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: User::class)]
     private Collection $users;
 
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: Organization::class)]
     private Collection $organizations;
 
+    #[Groups(['department', 'user', 'contest'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'departments')]
     private Collection $contests;
 

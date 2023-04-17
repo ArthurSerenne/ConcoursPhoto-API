@@ -13,6 +13,7 @@ use App\Repository\CitiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CitiesRepository::class)]
 #[ApiResource(
@@ -24,42 +25,55 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['city']],
+    denormalizationContext: ['groups' => ['city']],
 )]
 class City
 {
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Column(name: 'department_code')]
     private ?int $departmentCode = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $insee_code = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $zip_code = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Column]
     private ?float $gps_lat = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\Column]
     private ?float $gps_lng = null;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: User::class)]
     private Collection $users;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: Organization::class)]
     private Collection $organizations;
 
+    #[Groups(['city', 'user','contest'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'cities')]
     private Collection $contests;
 

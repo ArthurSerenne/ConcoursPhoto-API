@@ -13,6 +13,7 @@ use App\Repository\ThemeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
 #[ApiResource(
@@ -24,18 +25,23 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['theme']],
+    denormalizationContext: ['groups' => ['theme']],
 )]
 class Theme
 {
+    #[Groups(['theme','contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['theme','contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['theme','contest'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'themes')]
     private Collection $contests;
 

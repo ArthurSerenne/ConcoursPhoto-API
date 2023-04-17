@@ -1,0 +1,3 @@
+api_platform:
+    eager_loading:
+        force_eager: false

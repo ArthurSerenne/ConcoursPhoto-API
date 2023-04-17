@@ -16,6 +16,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
@@ -27,64 +28,83 @@ use Symfony\Component\Security\Core\User\UserInterface;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['user']],
+    denormalizationContext: ['groups' => ['user']],
 )]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[Groups(['member', 'user'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column]
     private ?bool $status = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(type: 'string')]
     private ?string $gender = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $birthdate = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
     /**
      * @var string The hashed password
      */
+    #[Groups(['member', 'user'])]
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
+    #[Groups(['member', 'user'])]
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
     private Collection $organizations;
 
+    #[Groups(['member', 'user'])]
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist'])]
     private ?Member $member = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Department $zipCode = null;
 
+    #[Groups(['member', 'user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?City $city = null;
 
