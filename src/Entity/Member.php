@@ -55,74 +55,74 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 #[ORM\Table(name: '`member`')]
 class Member
 {
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column]
     private ?bool $status = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $registrationDate = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updateDate = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLoginDate = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(length: 255)]
     private ?string $situation = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(length: 255)]
     private ?string $category = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\Column(length: 255)]
     private ?string $website = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
     private Collection $votes;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
     private Collection $photos;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\OneToOne(inversedBy: 'member', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user = null;
 
-    #[Groups(['member', 'user', 'jury_member'])]
+    #[Groups(['member', 'user', 'jury_member', 'vote', 'photo'])]
     #[ORM\OneToOne(mappedBy: 'member', targetEntity: 'SocialNetwork', cascade: ['persist', 'remove'])]
     private $socialNetwork;
 
