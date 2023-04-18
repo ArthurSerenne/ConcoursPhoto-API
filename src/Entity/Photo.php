@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -15,6 +17,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'status' => 'exact',
+    'name' => 'partial',
+    'submissionDate' => 'exact',
+    'file' => 'partial',
+    'voteCount' => 'exact',
+    'prizeRank' => 'exact',
+    'votes' => 'exact',
+    'member' => 'exact',
+    'contest' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[ApiResource(
     description: 'Photo',

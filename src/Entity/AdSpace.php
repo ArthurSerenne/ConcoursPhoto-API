@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -14,6 +16,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'status' => 'exact',
+    'name' => 'partial',
+    'heightPx' => 'exact',
+    'widthPx' => 'exact',
+    'referencePrize' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: AdSpaceRepository::class)]
 #[ApiResource(
     description: 'Ad space',

@@ -15,7 +15,31 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'status' => 'exact',
+    'name' => 'partial',
+    'type' => 'exact',
+    'description' => 'partial',
+    'logo' => 'partial',
+    'address' => 'partial',
+    'country' => 'partial',
+    'website' => 'partial',
+    'email' => 'partial',
+    'phone' => 'partial',
+    'rents' => 'exact',
+    'sponsors' => 'exact',
+    'users' => 'exact',
+    'contests' => 'exact',
+    'zipCodes' => 'exact',
+    'cities' => 'exact',
+    'siret' => 'partial',
+    'vat' => 'partial',
+    'deletionDate' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: OrganizationRepository::class)]
 #[ApiResource(
     description: 'Organization',

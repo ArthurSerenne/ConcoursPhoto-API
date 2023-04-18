@@ -13,7 +13,17 @@ use App\Repository\JuryMemberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'invitation_date' => 'exact',
+    'acceptance_date' => 'exact',
+    'member' => 'exact',
+    'contest' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: JuryMemberRepository::class)]
 #[ApiResource(
     description: 'Jury member',
@@ -46,11 +56,13 @@ class JuryMember
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $acceptance_date = null;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'member'])]
     #[ORM\ManyToOne(inversedBy: 'juryMembers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'member'])]
     #[ORM\ManyToOne(inversedBy: 'juryMembers')]
     #[ORM\JoinColumn(nullable: false)]

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -15,7 +17,26 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'status' => 'exact',
+    'name' => 'partial',
+    'visual' => 'partial',
+    'description' => 'partial',
+    'rules' => 'partial',
+    'prizes' => 'partial',
+    'creationDate' => 'exact',
+    'publicationDate' => 'exact',
+    'submissionStartDate' => 'exact',
+    'submissionEndDate' => 'exact',
+    'votingStartDate' => 'exact',
+    'votingEndDate' => 'exact',
+    'resultsDate' => 'exact',
+    'juryMember' => 'exact',
+    'organization' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: ContestRepository::class)]
 #[ApiResource(
     description: 'Contest',
@@ -115,43 +136,53 @@ class Contest
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Sponsor::class)]
     private Collection $sponsors;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Photo::class)]
     private Collection $photos;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\ManyToOne(inversedBy: 'contests')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Organization $organization;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\ManyToMany(targetEntity: Region::class, inversedBy: 'contests')]
     private Collection $regions;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'contests')]
     private Collection $departments;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\ManyToMany(targetEntity: City::class, inversedBy: 'contests')]
     private Collection $cities;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
     private Collection $wins;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $themes;
 
+    #[MaxDepth(1)]
     #[Groups(['contest','jury_member', 'organization'])]
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $categories;

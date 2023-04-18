@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -14,7 +16,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
+#[ApiFilter(SearchFilter:: class, properties: [
+    'id' => 'exact',
+    'name' => 'partial',
+    'contests' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource(
     description: 'Category',
@@ -41,6 +49,7 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[MaxDepth(1)]
     #[Groups(['category','contest'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'categories')]
     private Collection $contests;

@@ -15,7 +15,29 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'status' => 'exact',
+    'username' => 'partial',
+    'email' => 'partial',
+    'registrationDate' => 'exact',
+    'deletionDate' => 'exact',
+    'updateDate' => 'exact',
+    'lastLoginDate' => 'exact',
+    'photo' => 'partial',
+    'description' => 'partial',
+    'situation' => 'partial',
+    'category' => 'partial',
+    'website' => 'partial',
+    'votes' => 'exact',
+    'juryMembers' => 'exact',
+    'photos' => 'exact',
+    'user' => 'exact',
+    'socialNetwork' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
 #[ApiResource(
     description: 'Member',
@@ -33,74 +55,74 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`member`')]
 class Member
 {
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column]
     private ?bool $status = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $registrationDate = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updateDate = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLoginDate = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $situation = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $category = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $website = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
     private Collection $votes;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
     private Collection $photos;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\OneToOne(inversedBy: 'member', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['member', 'user', 'jury_member'])]
     #[ORM\OneToOne(mappedBy: 'member', targetEntity: 'SocialNetwork', cascade: ['persist', 'remove'])]
     private $socialNetwork;
 

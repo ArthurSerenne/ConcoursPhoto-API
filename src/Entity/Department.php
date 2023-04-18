@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -15,6 +17,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'regionCode' => 'exact',
+    'code' => 'exact',
+    'name' => 'partial',
+    'slug' => 'partial',
+    'users' => 'exact',
+    'contests' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: DepartmentsRepository::class)]
 #[ApiResource(
     description: 'Department',
