@@ -12,6 +12,8 @@ use ApiPlatform\Metadata\Delete;
 use App\Repository\VoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
 #[ApiResource(
@@ -23,22 +25,28 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['vote']],
+    denormalizationContext: ['groups' => ['vote']],
 )]
 class Vote
 {
+    #[Groups(['vote', 'photo'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['vote', 'photo'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_vote = null;
 
+    #[Groups(['vote', 'photo'])]
     #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
+    #[Groups(['vote', 'photo'])]
     #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Photo $photo = null;
