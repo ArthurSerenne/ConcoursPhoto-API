@@ -3,7 +3,7 @@ monolog:
   handlers:
     main:
       type: stream
-      path: "%kernel.logs_dir%/%kernel.environment%.log"
+      path: "%kernel.project_dir%/var/log/%kernel.environment%.log"
       level: debug
       channels: ["!event"]
     console:
@@ -14,7 +14,7 @@ monolog:
     # Log deprecations
     deprecation:
       type: stream
-      path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
+      path: "%kernel.project_dir%/var/log/%kernel.environment%.deprecations.log"
       level: info
       channels: ["deprecation"]
 
