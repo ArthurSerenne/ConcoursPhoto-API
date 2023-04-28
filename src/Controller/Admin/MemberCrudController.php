@@ -28,6 +28,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MemberCrudController extends AbstractCrudController
 {
@@ -57,6 +58,7 @@ class MemberCrudController extends AbstractCrudController
         $member->setUpdateDate(new Datetime('now'));
         $member->setSocialNetwork($socialNetwork);
         $socialNetwork->setMember($member);
+        $this->handleImageUpload($member);
 
         return $member;
     }
@@ -70,7 +72,18 @@ class MemberCrudController extends AbstractCrudController
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $entityInstance->setUpdateDate(new Datetime('now'));
+        $this->handleImageUpload($entityInstance);
         parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    private function handleImageUpload(Member $member): void
+    {
+        $uploadedFile = $member->getPhoto();
+        if ($uploadedFile instanceof UploadedFile) {
+            $newFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move($this->getParameter('uploads_images_directory'), $newFileName);
+            $member->setPhoto($newFileName);
+        }
     }
 
     public function configureFields(string $pageName): iterable
@@ -112,6 +125,7 @@ class MemberCrudController extends AbstractCrudController
                     return '/uploads/images/'.$member->getPhoto();
                 })
                 ->setBasePath('/uploads/images/')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setUploadDir('public/uploads/images/'),
             TextareaField::new('description', 'Description')
                 ->hideOnIndex(),
