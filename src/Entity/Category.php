@@ -2,22 +2,53 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter:: class, properties: [
+    'id' => 'exact',
+    'name' => 'partial',
+    'contests' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ApiResource(
+    description: 'Category',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['category']],
+    denormalizationContext: ['groups' => ['category']],
+)]
 class Category
 {
+    #[Groups(['category', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['category', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['category'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'categories')]
     private Collection $contests;
 

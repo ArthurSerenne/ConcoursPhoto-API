@@ -2,6 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,64 +18,95 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource(
+    description: 'User',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['user']],
+    denormalizationContext: ['groups' => ['user']],
+)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[Groups(['user'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[Groups(['user'])]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $gender = null;
 
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
 
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
+    #[Groups(['user'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
     /**
      * @var string The hashed password
      */
+    #[Groups(['user'])]
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Groups(['user'])]
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
+    #[Groups(['user'])]
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
     private Collection $organizations;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    #[Groups(['user'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist'])]
     private ?Member $member = null;
 
+    #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Department $zipCode = null;
 
+    #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?City $city = null;
 
@@ -109,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->gender;
     }
 
-    public function setGender(string $gender): self
+    public function setGender(?string $gender): self
     {
         $this->gender = $gender;
 

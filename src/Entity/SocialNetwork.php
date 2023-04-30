@@ -2,41 +2,73 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\SocialNetworkRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SocialNetworkRepository::class)]
+#[ApiResource(
+    description: 'SocialNetwork',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['social_network']],
+    denormalizationContext: ['groups' => ['social_network']],
+)]
+#[ORM\Table(name: 'social_network')]
 class SocialNetwork
 {
+    #[Groups(['social_network'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $facebook = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $twitter = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $linkedin = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $whatsapp = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $youtube = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $instagram = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tiktok = null;
 
+    #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $snapchat = null;
 
+    #[Groups(['social_network'])]
     #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;

@@ -2,49 +2,95 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\PhotoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'status' => 'exact',
+    'name' => 'partial',
+    'submissionDate' => 'exact',
+    'file' => 'partial',
+    'voteCount' => 'exact',
+    'prizeRank' => 'exact',
+    'votes' => 'exact',
+    'member' => 'exact',
+    'contest' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
+#[ApiResource(
+    description: 'Photo',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['photo']],
+    denormalizationContext: ['groups' => ['photo']],
+)]
 #[ORM\Table(name: '`photo`')]
 class Photo
 {
+    #[Groups(['photo', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column]
     private ?bool $status = null;
 
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['photo', 'contest'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_date')]
     private ?\DateTimeInterface $submissionDate = null;
 
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[ORM\Column]
+    #[Groups(['photo', 'contest'])]
+    #[ORM\Column(name: 'vote_count')]
     private ?int $voteCount = null;
 
-    #[ORM\Column]
+    #[Groups(['photo', 'contest'])]
+    #[ORM\Column(name: 'prize_won')]
     private ?bool $prizeWon = null;
 
-    #[ORM\Column]
+    #[Groups(['photo', 'contest'])]
+    #[ORM\Column(name: 'prize_rank')]
     private ?int $prizeRank = null;
 
+    #[Groups(['photo'])]
     #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Vote::class)]
     private Collection $votes;
 
+    #[Groups(['photo'])]
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
+    #[Groups(['photo'])]
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
@@ -199,6 +245,6 @@ class Photo
 
     public function __toString()
     {
-        return $this->file;
+        return $this->member->getUsername();
     }
 }

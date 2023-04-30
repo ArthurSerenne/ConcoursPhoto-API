@@ -4,7 +4,7 @@ namespace App\Enum;
 
 enum CategoryEnum: string
 {
-    case categ1 = 'Catégorie 1';
-    case categ2 = 'Catégorie 2';
-    case categ3 = 'Catégorie 3';
+    case Categ1 = 'categ1';
+    case Categ2 = 'categ2';
+    case Categ3 = 'categ3';
 }

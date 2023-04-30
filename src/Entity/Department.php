@@ -2,37 +2,77 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\DepartmentsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'regionCode' => 'exact',
+    'code' => 'exact',
+    'name' => 'partial',
+    'slug' => 'partial',
+    'users' => 'exact',
+    'contests' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: DepartmentsRepository::class)]
+#[ApiResource(
+    description: 'Department',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['department']],
+    denormalizationContext: ['groups' => ['department']],
+)]
 class Department
 {
+    #[Groups(['department', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[Groups(['department', 'contest'])]
+    #[ORM\Column(name: 'region_code')]
     private ?int $regionCode = null;
 
+    #[Groups(['department', 'contest'])]
     #[ORM\Column]
     private ?int $code = null;
 
+    #[Groups(['department', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['department', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[Groups(['department'])]
     #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: User::class)]
     private Collection $users;
 
+    #[Groups(['department'])]
     #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: Organization::class)]
     private Collection $organizations;
 
+    #[Groups(['department'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'departments')]
     private Collection $contests;
 

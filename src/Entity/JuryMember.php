@@ -2,32 +2,70 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\JuryMemberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'invitation_date' => 'exact',
+    'acceptance_date' => 'exact',
+    'member' => 'exact',
+    'contest' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: JuryMemberRepository::class)]
+#[ApiResource(
+    description: 'Jury member',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['jury_member']],
+    denormalizationContext: ['groups' => ['jury_member']],
+)]
+
+#[ORM\Table(name: 'jury_member')]
 class JuryMember
 {
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $invitation_date = null;
 
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $acceptance_date = null;
 
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\ManyToOne(inversedBy: 'juryMembers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
+    #[Groups(['jury_member'])]
     #[ORM\ManyToOne(inversedBy: 'juryMembers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $fonction = null;
 
@@ -94,5 +132,10 @@ class JuryMember
         $this->fonction = $fonction;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->contest->getName();
     }
 }

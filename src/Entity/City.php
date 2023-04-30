@@ -2,46 +2,94 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\CitiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties:
+    [
+        'id' => 'exact',
+        'departmentCode' => 'exact',
+        'insee_code' => 'exact',
+        'zip_code' => 'exact',
+        'name' => 'partial',
+        'slug' => 'partial',
+        'latitude' => 'exact',
+        'longitude' => 'exact',
+        'users' => 'exact',
+        'contests' => 'exact',
+    ]
+)]
 #[ORM\Entity(repositoryClass: CitiesRepository::class)]
+#[ApiResource(
+    description: 'City',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['city']],
+    denormalizationContext: ['groups' => ['city']],
+)]
 class City
 {
+    #[Groups(['city', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[Groups(['city', 'contest'])]
+    #[ORM\Column(name: 'department_code')]
     private ?int $departmentCode = null;
 
+    #[Groups(['city', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $insee_code = null;
 
+    #[Groups(['city', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $zip_code = null;
 
+    #[Groups(['city', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['city', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[Groups(['city', 'contest'])]
     #[ORM\Column]
     private ?float $gps_lat = null;
 
+    #[Groups(['city', 'contest'])]
     #[ORM\Column]
     private ?float $gps_lng = null;
 
+    #[Groups(['city'])]
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: User::class)]
     private Collection $users;
 
+    #[Groups(['city'])]
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: Organization::class)]
     private Collection $organizations;
 
+    #[Groups(['city'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'cities')]
     private Collection $contests;
 

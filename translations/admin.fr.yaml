@@ -1,0 +1,10 @@
+# GENDER
+gender:
+  male: Homme
+  female: Femme
+  other: Autre
+
+jury_fonction.president: Président
+jury_fonction.member: Membre
+jury_fonction.other: Autre
+

@@ -2,67 +2,127 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\MemberRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'status' => 'exact',
+    'username' => 'partial',
+    'email' => 'partial',
+    'registrationDate' => 'exact',
+    'deletionDate' => 'exact',
+    'updateDate' => 'exact',
+    'lastLoginDate' => 'exact',
+    'photo' => 'partial',
+    'description' => 'partial',
+    'situation' => 'partial',
+    'category' => 'partial',
+    'website' => 'partial',
+    'votes' => 'exact',
+    'juryMembers' => 'exact',
+    'photos' => 'exact',
+    'user' => 'exact',
+    'socialNetwork' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
+#[ApiResource(
+    description: 'Member',
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['member']],
+    denormalizationContext: ['groups' => ['member']],
+)]
 #[ORM\Table(name: '`member`')]
 class Member
 {
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column]
     private ?bool $status = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $registrationDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['member', 'contest', 'jury_member'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updateDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['member', 'contest', 'jury_member'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLoginDate = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $situation = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $category = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\Column(length: 255)]
     private ?string $website = null;
 
+    #[Groups(['member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
     private Collection $votes;
 
+    #[Groups(['member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
+    #[Groups(['member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
     private Collection $photos;
 
-    #[ORM\OneToOne(inversedBy: 'member', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['member'])]
+    #[ORM\OneToOne(inversedBy: 'member', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user = null;
 
+    #[Groups(['member', 'contest', 'jury_member'])]
     #[ORM\OneToOne(mappedBy: 'member', targetEntity: 'SocialNetwork', cascade: ['persist', 'remove'])]
     private $socialNetwork;
 

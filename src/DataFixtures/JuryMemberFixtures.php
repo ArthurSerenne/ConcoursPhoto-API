@@ -2,9 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Contest;
 use App\Entity\JuryMember;
-use App\Entity\Member;
 use App\Enum\FonctionEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -16,13 +14,10 @@ class JuryMemberFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        $members = $manager->getRepository(Member::class)->findAll();
-        $contests = $manager->getRepository(Contest::class)->findAll();
-
         for ($i = 0; $i < 10; ++$i) {
             $jury = new JuryMember();
-            $jury->setMember($manager->getReference(Member::class, rand(1, count($members) - 1)));
-            $jury->setContest($manager->getReference(Contest::class, rand(1, count($contests) - 1)));
+            $jury->setMember($this->getReference('member_'. $faker->numberBetween(0, 9)));
+            $jury->setContest($this->getReference('contest_'. $faker->numberBetween(0, 9)));
             $jury->setFonction(FonctionEnum::cases()[array_rand(FonctionEnum::cases())]->value);
             $jury->setAcceptanceDate($faker->dateTime);
             $jury->setInvitationDate($faker->dateTime);
