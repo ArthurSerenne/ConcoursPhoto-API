@@ -37,60 +37,60 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $gender = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
     /**
      * @var string The hashed password
      */
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(['user'])]
+    #[Groups(['user', 'contest'])]
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
