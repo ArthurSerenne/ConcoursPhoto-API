@@ -12,10 +12,9 @@ use ApiPlatform\Metadata\Delete;
 use App\Repository\JuryMemberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
@@ -42,33 +41,31 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 #[ORM\Table(name: 'jury_member')]
 class JuryMember
 {
-    #[Groups(['contest','jury_member', 'member'])]
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['contest','jury_member', 'member'])]
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $invitation_date = null;
 
-    #[Groups(['contest','jury_member', 'member'])]
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $acceptance_date = null;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'member'])]
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\ManyToOne(inversedBy: 'juryMembers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'member'])]
+    #[Groups(['jury_member'])]
     #[ORM\ManyToOne(inversedBy: 'juryMembers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
-    #[Groups(['contest','jury_member', 'member'])]
+    #[Groups(['jury_member', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $fonction = null;
 

@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
@@ -54,144 +53,134 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 #[ORM\Table(name: '`contest`')]
 class Contest
 {
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column]
     private ?bool $status = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(length: 255)]
     private ?string $visual = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(length: 255)]
     private ?string $rules = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(length: 255)]
     private ?string $prizes = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'creation_date')]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'publication_date')]
     private ?\DateTimeInterface $publicationDate = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_start_date')]
     private ?\DateTimeInterface $submissionStartDate = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_end_date')]
     private ?\DateTimeInterface $submissionEndDate = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'voting_start_date')]
     private ?\DateTimeInterface $votingStartDate = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'voting_end_date')]
     private ?\DateTimeInterface $votingEndDate = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'results_date')]
     private ?\DateTimeInterface $resultsDate = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(name: 'jury_vote_pourcentage')]
     private ?int $juryVotePourcentage = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(name: 'vote_max')]
     private ?int $voteMax = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(name: 'prizes_count')]
     private ?int $prizesCount = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(name: 'age_min')]
     private ?int $ageMin = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(name: 'age_max')]
     private ?int $ageMax = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Sponsor::class)]
     private Collection $sponsors;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['contest'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Photo::class)]
     private Collection $photos;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\ManyToOne(inversedBy: 'contests')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Organization $organization;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\ManyToMany(targetEntity: Region::class, inversedBy: 'contests')]
     private Collection $regions;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\ManyToMany(targetEntity: Department::class, inversedBy: 'contests')]
     private Collection $departments;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\ManyToMany(targetEntity: City::class, inversedBy: 'contests')]
     private Collection $cities;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
     private Collection $wins;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $themes;
 
-    #[MaxDepth(1)]
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $categories;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column]
     private ?bool $trend = null;
 
-    #[Groups(['contest','jury_member', 'organization', 'photo'])]
+    #[Groups(['contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 

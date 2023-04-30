@@ -13,7 +13,6 @@ use App\Repository\VoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
 #[ApiResource(
@@ -31,22 +30,22 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 )]
 class Vote
 {
-    #[Groups(['vote', 'photo'])]
+    #[Groups(['vote'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['vote', 'photo'])]
+    #[Groups(['vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_vote = null;
 
-    #[Groups(['vote', 'photo'])]
+    #[Groups(['vote'])]
     #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
-    #[Groups(['vote', 'photo'])]
+    #[Groups(['vote'])]
     #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Photo $photo = null;

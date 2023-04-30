@@ -31,17 +31,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Theme
 {
-    #[Groups(['theme','contest'])]
+    #[Groups(['theme', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['theme','contest'])]
+    #[Groups(['theme', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['theme','contest'])]
+    #[Groups(['theme'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'themes')]
     private Collection $contests;
 

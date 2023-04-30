@@ -42,37 +42,37 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Department
 {
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department', 'contest'])]
     #[ORM\Column(name: 'region_code')]
     private ?int $regionCode = null;
 
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department', 'contest'])]
     #[ORM\Column]
     private ?int $code = null;
 
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department'])]
     #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: User::class)]
     private Collection $users;
 
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department'])]
     #[ORM\OneToMany(mappedBy: 'zipCode', targetEntity: Organization::class)]
     private Collection $organizations;
 
-    #[Groups(['department', 'user', 'contest'])]
+    #[Groups(['department'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'departments')]
     private Collection $contests;
 

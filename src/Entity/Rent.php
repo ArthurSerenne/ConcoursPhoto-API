@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Delete;
 use App\Repository\RentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RentRepository::class)]
 #[ApiResource (
@@ -23,37 +24,49 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['rent']],
+    denormalizationContext: ['groups' => ['rent']],
 )]
 class Rent
 {
+
+    #[Groups(['rent'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['rent'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $start_date = null;
 
+    #[Groups(['rent'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $end_date = null;
 
+    #[Groups(['rent'])]
     #[ORM\Column]
     private ?int $click_url = null;
 
+    #[Groups(['rent'])]
     #[ORM\Column(length: 255)]
     private ?string $alt_tag = null;
 
+    #[Groups(['rent'])]
     #[ORM\Column]
     private ?int $price_sold = null;
 
+    #[Groups(['rent'])]
     #[ORM\Column]
     private ?int $click_count = null;
 
+    #[Groups(['rent'])]
     #[ORM\ManyToOne(inversedBy: 'rents')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Organization $organization = null;
 
+    #[Groups(['rent'])]
     #[ORM\ManyToOne(inversedBy: 'rents')]
     #[ORM\JoinColumn(nullable: false)]
     private ?AdSpace $adSpace = null;

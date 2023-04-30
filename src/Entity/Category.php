@@ -16,7 +16,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ApiFilter(SearchFilter:: class, properties: [
     'id' => 'exact',
@@ -39,18 +38,17 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 )]
 class Category
 {
-    #[Groups(['category','contest'])]
+    #[Groups(['category', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['category','contest'])]
+    #[Groups(['category', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[MaxDepth(1)]
-    #[Groups(['category','contest'])]
+    #[Groups(['category'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'categories')]
     private Collection $contests;
 

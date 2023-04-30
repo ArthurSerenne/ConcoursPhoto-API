@@ -29,22 +29,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Win
 {
-    #[Groups(['win','contest'])]
+    #[Groups(['win', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['win','contest'])]
+    #[Groups(['win', 'contest'])]
     #[ORM\Column]
     private ?int $price_rank = null;
 
-    #[Groups(['win','contest'])]
+    #[Groups(['win'])]
     #[ORM\ManyToOne(inversedBy: 'wins')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
-    #[Groups(['win','contest'])]
+    #[Groups(['win'])]
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Photo $photo = null;
 

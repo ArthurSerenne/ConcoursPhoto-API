@@ -13,6 +13,7 @@ use App\Repository\RegionsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RegionsRepository::class)]
 #[ApiResource(
@@ -24,24 +25,32 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['region']],
+    denormalizationContext: ['groups' => ['region']],
+
 )]
 class Region
 {
+    #[Groups(['region', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['region', 'contest'])]
     #[ORM\Column]
     private ?int $code = null;
 
+    #[Groups(['region', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['region', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[Groups(['region'])]
     #[ORM\ManyToMany(targetEntity: Contest::class, mappedBy: 'regions')]
     private Collection $contests;
 

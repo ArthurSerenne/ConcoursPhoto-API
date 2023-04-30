@@ -37,76 +37,76 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column]
+    #[Groups(['user'])]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(type: 'string')]
+    #[Groups(['user'])]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $gender = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[Groups(['member', 'user'])]
-    #[ORM\Column(length: 255)]
+    #[Groups(['user'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
     /**
      * @var string The hashed password
      */
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
     private Collection $organizations;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist'])]
     private ?Member $member = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Department $zipCode = null;
 
-    #[Groups(['member', 'user'])]
+    #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?City $city = null;
 

@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Delete;
 use App\Repository\SponsorRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SponsorRepository::class)]
 #[ApiResource(
@@ -23,31 +24,40 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['sponsor']],
+    denormalizationContext: ['groups' => ['sponsor']],
 )]
 class Sponsor
 {
+    #[Groups(['sponsor', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['sponsor', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $start_date = null;
 
+    #[Groups(['sponsor', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $end_date = null;
 
+    #[Groups(['sponsor', 'contest'])]
     #[ORM\Column]
     private ?int $sponsor_rank = null;
 
+    #[Groups(['sponsor', 'contest'])]
     #[ORM\Column]
     private ?int $amount = null;
 
+    #[Groups(['sponsor'])]
     #[ORM\ManyToOne(inversedBy: 'sponsors')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Organization $organization = null;
 
+    #[Groups(['sponsor'])]
     #[ORM\ManyToOne(inversedBy: 'sponsors')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;

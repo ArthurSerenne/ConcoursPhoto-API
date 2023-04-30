@@ -14,9 +14,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
@@ -57,86 +57,86 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 #[ORM\Table(name: '`organization`')]
 class Organization
 {
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column]
     private ?bool $status = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $logo = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $website = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization'])]
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Rent::class)]
     private Collection $rents;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization'])]
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Sponsor::class)]
     private Collection $sponsors;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization'])]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'organizations')]
     private Collection $users;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization'])]
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Contest::class)]
     private Collection $contests;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization'])]
     #[ORM\ManyToOne(inversedBy: 'organizations')]
     #[ORM\JoinColumn(name: 'zip_code_id')]
     private ?Department $zipCode = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization'])]
     #[ORM\ManyToOne(inversedBy: 'organizations')]
     private ?City $city = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $siret = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $vat = null;
 
-    #[Groups(['contest','jury_member', 'organization'])]
+    #[Groups(['organization', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 

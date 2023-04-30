@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
@@ -48,53 +47,50 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 #[ORM\Table(name: '`photo`')]
 class Photo
 {
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column]
     private ?bool $status = null;
 
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_date')]
     private ?\DateTimeInterface $submissionDate = null;
 
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(name: 'vote_count')]
     private ?int $voteCount = null;
 
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(name: 'prize_won')]
     private ?bool $prizeWon = null;
 
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo', 'contest'])]
     #[ORM\Column(name: 'prize_rank')]
     private ?int $prizeRank = null;
 
-    #[MaxDepth(1)]
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo'])]
     #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Vote::class)]
     private Collection $votes;
 
-    #[MaxDepth(1)]
-    #[Groups(['photo', 'contest', 'vote'])]
+    #[Groups(['photo'])]
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
-    #[MaxDepth(1)]
-    #[Groups(['photo', 'vote'])]
+    #[Groups(['photo'])]
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;

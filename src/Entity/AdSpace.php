@@ -15,6 +15,7 @@ use App\Repository\AdSpaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
@@ -34,31 +35,40 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['ad_space']],
+    denormalizationContext: ['groups' => ['ad_space']],
 )]
 #[ORM\Table(name: '`ad_space`')]
 class AdSpace
 {
+    #[Groups(['ad_space'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['ad_space'])]
     #[ORM\Column]
     private ?bool $status = null;
 
+    #[Groups(['ad_space'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['ad_space'])]
     #[ORM\Column]
     private ?int $heightPx = null;
 
+    #[Groups(['ad_space'])]
     #[ORM\Column]
     private ?int $widthPx = null;
 
+    #[Groups(['ad_space'])]
     #[ORM\Column]
     private ?int $referencePrize = null;
 
+    #[Groups(['ad_space'])]
     #[ORM\OneToMany(mappedBy: 'adSpace', targetEntity: Rent::class)]
     private Collection $rents;
 
