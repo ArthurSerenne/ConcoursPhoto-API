@@ -1,3 +1,11 @@
 api_platform:
-    eager_loading:
-        force_eager: false
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+        html: ['text/html']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]

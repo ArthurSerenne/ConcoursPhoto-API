@@ -16,8 +16,8 @@ class JuryMemberFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 10; ++$i) {
             $jury = new JuryMember();
-            $jury->setMember($this->getReference('member_'. $faker->numberBetween(0, 9)));
-            $jury->setContest($this->getReference('contest_'. $faker->numberBetween(0, 9)));
+            $jury->setMember($this->getReference('member_'.$faker->numberBetween(0, 9)));
+            $jury->setContest($this->getReference('contest_'.$faker->numberBetween(0, 9)));
             $jury->setFonction(FonctionEnum::cases()[array_rand(FonctionEnum::cases())]->value);
             $jury->setAcceptanceDate($faker->dateTime);
             $jury->setInvitationDate($faker->dateTime);

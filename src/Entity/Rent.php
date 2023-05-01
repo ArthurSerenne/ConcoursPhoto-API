@@ -3,19 +3,19 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
 use App\Repository\RentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RentRepository::class)]
-#[ApiResource (
+#[ApiResource(
     description: 'Rent',
     operations: [
         new Get(),
@@ -30,7 +30,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Rent
 {
-
     #[Groups(['rent'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]

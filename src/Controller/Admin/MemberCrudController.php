@@ -7,10 +7,7 @@ use App\Entity\Member;
 use App\Entity\SocialNetwork;
 use App\Enum\CategoryEnum;
 use App\Enum\SituationEnum;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
-use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -28,6 +25,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MemberCrudController extends AbstractCrudController
@@ -54,8 +52,8 @@ class MemberCrudController extends AbstractCrudController
     {
         $member = new Member();
         $socialNetwork = new SocialNetwork();
-        $member->setRegistrationDate(new Datetime('now'));
-        $member->setUpdateDate(new Datetime('now'));
+        $member->setRegistrationDate(new \Datetime('now'));
+        $member->setUpdateDate(new \Datetime('now'));
         $member->setSocialNetwork($socialNetwork);
         $socialNetwork->setMember($member);
         $this->handleImageUpload($member);
@@ -65,13 +63,13 @@ class MemberCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setDeletionDate(new Datetime('now'));
+        $entityInstance->setDeletionDate(new \Datetime('now'));
         parent::updateEntity($entityManager, $entityInstance);
     }
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setUpdateDate(new Datetime('now'));
+        $entityInstance->setUpdateDate(new \Datetime('now'));
         $this->handleImageUpload($entityInstance);
         parent::updateEntity($entityManager, $entityInstance);
     }
@@ -80,7 +78,7 @@ class MemberCrudController extends AbstractCrudController
     {
         $uploadedFile = $member->getPhoto();
         if ($uploadedFile instanceof UploadedFile) {
-            $newFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $newFileName = uniqid().'.'.$uploadedFile->getClientOriginalExtension();
             $uploadedFile->move($this->getParameter('uploads_images_directory'), $newFileName);
             $member->setPhoto($newFileName);
         }
@@ -120,7 +118,7 @@ class MemberCrudController extends AbstractCrudController
                 ->hideWhenCreating()
                 ->hideOnIndex(),
             ImageField::new('photo', 'Avatar')
-                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->setRequired(Crud::PAGE_NEW === $pageName)
                 ->formatValue(static function ($value, Member $member) {
                     return '/uploads/images/'.$member->getPhoto();
                 })
@@ -135,7 +133,7 @@ class MemberCrudController extends AbstractCrudController
                     'salary' => 'Salarié',
                     'student' => 'Etudiant',
                     'unemployment' => 'Au chômage',
-                    'other' => 'Autre'
+                    'other' => 'Autre',
                 ])
                 ->hideOnIndex(),
             ChoiceField::new('category', 'Catégorie')
@@ -143,7 +141,7 @@ class MemberCrudController extends AbstractCrudController
                 ->setTranslatableChoices([
                     'categ1' => 'Catégorie 1',
                     'categ2' => 'Catégorie 2',
-                    'categ3' => 'Catégorie 3'
+                    'categ3' => 'Catégorie 3',
                 ])
                 ->hideOnIndex(),
             TextField::new('website', 'Site web'),

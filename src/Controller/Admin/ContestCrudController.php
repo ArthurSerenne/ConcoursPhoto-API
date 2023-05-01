@@ -3,13 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contest;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -21,9 +23,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ContestCrudController extends AbstractCrudController
@@ -50,7 +49,7 @@ class ContestCrudController extends AbstractCrudController
     {
         $contest = new Contest();
         $this->handleImageUpload($contest);
-        $contest->setCreationDate(new Datetime('now'));
+        $contest->setCreationDate(new \Datetime('now'));
 
         return $contest;
     }
@@ -65,7 +64,7 @@ class ContestCrudController extends AbstractCrudController
     {
         $uploadedFile = $contest->getVisual();
         if ($uploadedFile instanceof UploadedFile) {
-            $newFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $newFileName = uniqid().'.'.$uploadedFile->getClientOriginalExtension();
             $uploadedFile->move($this->getParameter('uploads_images_directory'), $newFileName);
             $contest->setVisual($newFileName);
         }
@@ -73,7 +72,7 @@ class ContestCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setDeletionDate(new Datetime('now'));
+        $entityInstance->setDeletionDate(new \Datetime('now'));
         parent::updateEntity($entityManager, $entityInstance);
     }
 
@@ -89,7 +88,7 @@ class ContestCrudController extends AbstractCrudController
             BooleanField::new('trend', 'A la une')
                 ->hideOnIndex(),
             ImageField::new('visual', 'Visuel')
-                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->setRequired(Crud::PAGE_NEW === $pageName)
                 ->formatValue(static function ($value, Contest $contest) {
                     return '/uploads/images/'.$contest->getVisual();
                 })

@@ -4,8 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Enum\GenderEnum;
-use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
@@ -39,7 +37,7 @@ class UserCrudController extends AbstractCrudController
     public function createEntity(string $entityFqcn)
     {
         $user = new User();
-        $user->setCreationDate(new Datetime('now'));
+        $user->setCreationDate(new \Datetime('now'));
 
         return $user;
     }
@@ -63,7 +61,7 @@ class UserCrudController extends AbstractCrudController
                 ->setFormTypeOptions([
                     'mapped' => false,
                 ])
-                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->setRequired(Crud::PAGE_NEW === $pageName)
                 ->hideOnIndex()
                 ->hideOnDetail(),
             AssociationField::new('city')
@@ -124,12 +122,14 @@ class UserCrudController extends AbstractCrudController
     public function createNewFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {
         $formBuilder = parent::createNewFormBuilder($entityDto, $formOptions, $context);
+
         return $this->addPasswordEventListener($formBuilder);
     }
 
     public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {
         $formBuilder = parent::createEditFormBuilder($entityDto, $formOptions, $context);
+
         return $this->addPasswordEventListener($formBuilder);
     }
 
@@ -138,14 +138,15 @@ class UserCrudController extends AbstractCrudController
         return $formBuilder->addEventListener(FormEvents::POST_SUBMIT, $this->hashPassword());
     }
 
-    private function hashPassword() {
-        return function($event) {
+    private function hashPassword()
+    {
+        return function ($event) {
             $form = $event->getForm();
             if (!$form->isValid()) {
                 return;
             }
             $password = $form->get('password')->getData();
-            if ($password === null) {
+            if (null === $password) {
                 return;
             }
 

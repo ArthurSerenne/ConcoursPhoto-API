@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\Organization;
 use App\Enum\OrganizationTypeEnum;
 use App\Repository\OrganizationRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -62,7 +61,7 @@ class OrganizationCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setDeletionDate(new Datetime('now'));
+        $entityInstance->setDeletionDate(new \Datetime('now'));
         parent::updateEntity($entityManager, $entityInstance);
     }
 
@@ -70,7 +69,7 @@ class OrganizationCrudController extends AbstractCrudController
     {
         $uploadedFile = $organization->getLogo();
         if ($uploadedFile instanceof UploadedFile) {
-            $newFileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $newFileName = uniqid().'.'.$uploadedFile->getClientOriginalExtension();
             $uploadedFile->move($this->getParameter('uploads_images_directory'), $newFileName);
             $organization->setLogo($newFileName);
         }
@@ -95,12 +94,12 @@ class OrganizationCrudController extends AbstractCrudController
                     'country' => 'Pays',
                     'private' => 'Entreprise privée',
                     'ong' => 'Association/ONG',
-                    'other' => 'Autre organisme'
+                    'other' => 'Autre organisme',
                 ]),
             TextareaField::new('description', 'Description')
                 ->hideOnIndex(),
             ImageField::new('logo', 'Logo')
-                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->setRequired(Crud::PAGE_NEW === $pageName)
                 ->setBasePath('/uploads/images/')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setUploadDir('public/uploads/images/'),

@@ -33,8 +33,8 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
             $organization->setWebsite($faker->url);
             $organization->setEmail($faker->email);
             $organization->setPhone($faker->phoneNumber);
-            $organization->setSiret($faker->numberBetween(1,110));
-            $organization->setVat($faker->numberBetween(0,100));
+            $organization->setSiret($faker->numberBetween(1, 110));
+            $organization->setVat($faker->numberBetween(0, 100));
             $organization->addUser($this->getReference('user_'.$i));
             $manager->persist($organization);
             $this->addReference('organization_'.$i, $organization);

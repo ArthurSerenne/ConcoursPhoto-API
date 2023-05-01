@@ -16,8 +16,8 @@ class VoteFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 10; ++$i) {
             $vote = new Vote();
             $vote->setDateVote($faker->dateTime);
-            $vote->setMember($this->getReference('member_'. $faker->numberBetween(0, 9)));
-            $vote->setPhoto($this->getReference('photo_'. $faker->numberBetween(0, 9)));
+            $vote->setMember($this->getReference('member_'.$faker->numberBetween(0, 9)));
+            $vote->setPhoto($this->getReference('photo_'.$faker->numberBetween(0, 9)));
             $manager->persist($vote);
         }
 

@@ -22,8 +22,8 @@ class PhotoFixtures extends Fixture implements DependentFixtureInterface
             $photo->setPrizeWon($faker->boolean);
             $photo->setVoteCount($faker->numberBetween(1, 200));
             $photo->setSubmissionDate($faker->dateTime);
-            $photo->setMember($this->getReference('member_'. $faker->numberBetween(0, 9)));
-            $photo->setContest($this->getReference('contest_'. $faker->numberBetween(0, 9)));
+            $photo->setMember($this->getReference('member_'.$faker->numberBetween(0, 9)));
+            $photo->setContest($this->getReference('contest_'.$faker->numberBetween(0, 9)));
             $this->addReference('photo_'.$i, $photo);
             $manager->persist($photo);
         }

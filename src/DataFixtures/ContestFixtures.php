@@ -45,8 +45,8 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
             $contest->addCity($manager->getReference(City::class, rand(1, count($cities) - 1)));
             $contest->addDepartment($manager->getReference(Department::class, rand(1, count($departments) - 1)));
             $contest->addRegion($manager->getReference(Region::class, rand(1, count($regions) - 1)));
-            $contest->addCategory($this->getReference('category_'. $faker->numberBetween(0, 9)));
-            $contest->addTheme($this->getReference('theme_' . $faker->numberBetween(0, 9)));
+            $contest->addCategory($this->getReference('category_'.$faker->numberBetween(0, 9)));
+            $contest->addTheme($this->getReference('theme_'.$faker->numberBetween(0, 9)));
             $contest->setTrend($faker->boolean);
             $this->addReference('contest_'.$i, $contest);
             $manager->persist($contest);

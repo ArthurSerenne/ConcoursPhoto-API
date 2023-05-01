@@ -16,8 +16,8 @@ class WinFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 10; ++$i) {
             $win = new Win();
             $win->setPriceRank($faker->numberBetween(1, 10));
-            $win->setContest($this->getReference('contest_'. $i));
-            $win->setPhoto($this->getReference('photo_'. $i));
+            $win->setContest($this->getReference('contest_'.$i));
+            $win->setPhoto($this->getReference('photo_'.$i));
             $manager->persist($win);
         }
 
