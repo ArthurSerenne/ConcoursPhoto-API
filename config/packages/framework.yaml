@@ -1,5 +1,20 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    nelmio_cors:
+        defaults:
+            origin_regex: true
+            allow_origin: [ '%env(CORS_ALLOW_ORIGIN)%' ]
+            allow_methods: [ 'GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE' ]
+            allow_headers: [ 'Content-Type', 'Authorization' ]
+            expose_headers: [ 'Link' ]
+            max_age: 3600
+        paths:
+            '^/api/':
+                allow_origin: [ '%env(CORS_ALLOW_ORIGIN)%' ]
+                allow_methods: [ 'GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE' ]
+                allow_headers: [ 'Content-Type', 'Authorization' ]
+                expose_headers: [ 'Link' ]
+                max_age: 3600
     serializer: { enable_annotations: true }
     default_locale: fr
     secret: '%env(APP_SECRET)%'
