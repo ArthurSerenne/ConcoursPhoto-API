@@ -66,7 +66,7 @@ class Member
     private ?bool $status = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $username = null;
 
     #[Groups(['member', 'contest'])]
@@ -78,7 +78,7 @@ class Member
     private ?\DateTimeInterface $deletionDate = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updateDate = null;
 
     #[Groups(['member', 'contest'])]
@@ -86,11 +86,11 @@ class Member
     private ?\DateTimeInterface $lastLoginDate = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[Groups(['member', 'contest'])]
@@ -98,11 +98,11 @@ class Member
     private ?string $situation = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $category = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
     #[Groups(['member'])]

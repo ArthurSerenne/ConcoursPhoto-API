@@ -104,10 +104,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\Column(nullable: true)]
     private ?Department $zipCode = null;
 
     #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\Column(nullable: true)]
     private ?City $city = null;
 
     public function __construct()

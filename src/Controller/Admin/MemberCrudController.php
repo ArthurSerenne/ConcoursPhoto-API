@@ -158,11 +158,9 @@ class MemberCrudController extends AbstractCrudController
             $fields[] = TextField::new('socialNetwork.facebook', 'Facebook');
             $fields[] = TextField::new('socialNetwork.twitter', 'Twitter');
             $fields[] = TextField::new('socialNetwork.linkedin', 'LinkedIn');
-            $fields[] = TextField::new('socialNetwork.whatsapp', 'WhatsApp');
             $fields[] = TextField::new('socialNetwork.youtube', 'YouTube');
             $fields[] = TextField::new('socialNetwork.instagram', 'Instagram');
             $fields[] = TextField::new('socialNetwork.tiktok', 'TikTok');
-            $fields[] = TextField::new('socialNetwork.snapchat', 'Snapchat');
         }
 
         $fields[] = CollectionField::new('juryMembers', 'Concours en tant que jury')
