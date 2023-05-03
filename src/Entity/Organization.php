@@ -72,15 +72,15 @@ class Organization
     private ?string $name = null;
 
     #[Groups(['organization', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
 
     #[Groups(['organization', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[Groups(['organization', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
     #[Groups(['organization', 'contest'])]
@@ -92,7 +92,7 @@ class Organization
     private ?string $country = null;
 
     #[Groups(['organization', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
     #[Groups(['organization', 'contest'])]
@@ -139,6 +139,9 @@ class Organization
     #[Groups(['organization', 'contest'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
+
+    #[ORM\OneToOne(mappedBy: 'organization', cascade: ['persist', 'remove'])]
+    private ?SocialNetwork $socialNetwork = null;
 
     public function __construct()
     {
@@ -451,6 +454,23 @@ class Organization
     public function setDeletionDate(?\DateTimeInterface $deletionDate): self
     {
         $this->deletionDate = $deletionDate;
+
+        return $this;
+    }
+
+    public function getSocialNetwork(): ?SocialNetwork
+    {
+        return $this->socialNetwork;
+    }
+
+    public function setSocialNetwork(SocialNetwork $socialNetwork): self
+    {
+        // set the owning side of the relation if necessary
+        if ($socialNetwork->getOrganization() !== $this) {
+            $socialNetwork->setOrganization($this);
+        }
+
+        $this->socialNetwork = $socialNetwork;
 
         return $this;
     }

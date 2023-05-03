@@ -27,16 +27,12 @@ class SocialNetworkCrudController extends AbstractCrudController
                 ->setLabel('Twitter'),
             TextField::new('linkedin')
                 ->setLabel('Linkedin'),
-            TextField::new('whatsapp')
-                ->setLabel('Whatsapp'),
             TextField::new('youtube')
                 ->setLabel('Youtube'),
             TextField::new('instagram')
                 ->setLabel('Instagram'),
             TextField::new('tiktok')
                 ->setLabel('TikTok'),
-            TextField::new('snapchat')
-                ->setLabel('Snapchat'),
         ];
     }
 

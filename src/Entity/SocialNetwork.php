@@ -50,10 +50,6 @@ class SocialNetwork
 
     #[Groups(['social_network'])]
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $whatsapp = null;
-
-    #[Groups(['social_network'])]
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $youtube = null;
 
     #[Groups(['social_network'])]
@@ -65,13 +61,13 @@ class SocialNetwork
     private ?string $tiktok = null;
 
     #[Groups(['social_network'])]
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $snapchat = null;
-
-    #[Groups(['social_network'])]
     #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
+
+    #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Organization $organization = null;
 
     public function getId(): ?int
     {
@@ -114,18 +110,6 @@ class SocialNetwork
         return $this;
     }
 
-    public function getWhatsapp(): ?string
-    {
-        return $this->whatsapp;
-    }
-
-    public function setWhatsapp(?string $whatsapp): self
-    {
-        $this->whatsapp = $whatsapp;
-
-        return $this;
-    }
-
     public function getYoutube(): ?string
     {
         return $this->youtube;
@@ -162,18 +146,6 @@ class SocialNetwork
         return $this;
     }
 
-    public function getSnapchat(): ?string
-    {
-        return $this->snapchat;
-    }
-
-    public function setSnapchat(?string $snapchat): self
-    {
-        $this->snapchat = $snapchat;
-
-        return $this;
-    }
-
     public function getMember(): ?Member
     {
         return $this->member;
@@ -182,6 +154,18 @@ class SocialNetwork
     public function setMember(Member $member): self
     {
         $this->member = $member;
+
+        return $this;
+    }
+
+    public function getOrganization(): ?Organization
+    {
+        return $this->organization;
+    }
+
+    public function setOrganization(Organization $organization): self
+    {
+        $this->organization = $organization;
 
         return $this;
     }

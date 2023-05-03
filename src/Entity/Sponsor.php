@@ -62,6 +62,9 @@ class Sponsor
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +138,18 @@ class Sponsor
     public function setContest(?Contest $contest): self
     {
         $this->contest = $contest;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
 
         return $this;
     }

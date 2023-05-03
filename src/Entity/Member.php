@@ -66,7 +66,7 @@ class Member
     private ?bool $status = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $username = null;
 
     #[Groups(['member', 'contest'])]
@@ -86,11 +86,11 @@ class Member
     private ?\DateTimeInterface $lastLoginDate = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[Groups(['member', 'contest'])]
@@ -98,23 +98,26 @@ class Member
     private ?string $situation = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $category = null;
 
     #[Groups(['member', 'contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
     #[Groups(['member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private Collection $votes;
 
     #[Groups(['member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: JuryMember::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private Collection $juryMembers;
 
     #[Groups(['member'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private Collection $photos;
 
     #[Groups(['member', 'contest'])]
