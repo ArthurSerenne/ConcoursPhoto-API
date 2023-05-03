@@ -121,11 +121,12 @@ class Organization
 
     #[Groups(['organization'])]
     #[ORM\ManyToOne(inversedBy: 'organizations')]
-    #[ORM\JoinColumn(name: 'zip_code_id')]
+    #[ORM\JoinColumn(name: 'zip_code_id', nullable: false)]
     private ?Department $zipCode = null;
 
     #[Groups(['organization'])]
     #[ORM\ManyToOne(inversedBy: 'organizations')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?City $city = null;
 
     #[Groups(['organization', 'contest'])]
@@ -140,8 +141,9 @@ class Organization
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
-    #[ORM\OneToOne(mappedBy: 'organization', cascade: ['persist', 'remove'])]
-    private ?SocialNetwork $socialNetwork = null;
+    #[Groups(['organization', 'contest'])]
+    #[ORM\OneToOne(mappedBy: 'organization', targetEntity: 'SocialNetwork', cascade: ['persist', 'remove'])]
+    private $socialNetwork;
 
     public function __construct()
     {

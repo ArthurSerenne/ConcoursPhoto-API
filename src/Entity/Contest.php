@@ -184,6 +184,7 @@ class Contest
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
+    #[Groups(['contest'])]
     #[ORM\Column(nullable: true)]
     private ?int $view = null;
 

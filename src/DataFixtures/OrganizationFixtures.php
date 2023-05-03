@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\City;
 use App\Entity\Department;
 use App\Entity\Organization;
+use App\Entity\SocialNetwork;
 use App\Enum\OrganizationTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -38,6 +39,15 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
             $organization->addUser($this->getReference('user_'.$i));
             $manager->persist($organization);
             $this->addReference('organization_'.$i, $organization);
+            $socialNetwork = new SocialNetwork();
+            $socialNetwork->setOrganization($organization);
+            $socialNetwork->setFacebook($faker->url());
+            $socialNetwork->setInstagram($faker->url());
+            $socialNetwork->setTiktok($faker->url());
+            $socialNetwork->setTwitter($faker->url());
+            $socialNetwork->setLinkedin($faker->url());
+            $socialNetwork->setYoutube($faker->url());
+            $manager->persist($socialNetwork);
         }
 
         $manager->flush();

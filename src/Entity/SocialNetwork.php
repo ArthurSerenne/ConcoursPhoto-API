@@ -62,11 +62,12 @@ class SocialNetwork
 
     #[Groups(['social_network'])]
     #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Member $member = null;
 
+    #[Groups(['social_network'])]
     #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Organization $organization = null;
 
     public function getId(): ?int
