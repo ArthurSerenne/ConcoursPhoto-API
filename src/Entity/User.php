@@ -54,15 +54,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $gender = null;
 
     #[Groups(['user', 'contest'])]
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
     #[Groups(['user', 'contest'])]
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
     #[Groups(['user', 'contest'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $birthdate = null;
 
     #[Groups(['user', 'contest'])]
@@ -102,10 +102,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Department $zipCode = null;
 
     #[Groups(['user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?City $city = null;
 
     public function __construct()

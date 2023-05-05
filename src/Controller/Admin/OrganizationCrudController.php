@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Organization;
+use App\Entity\SocialNetwork;
 use App\Enum\OrganizationTypeEnum;
 use App\Repository\OrganizationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,6 +49,8 @@ class OrganizationCrudController extends AbstractCrudController
     public function createEntity(string $entityFqcn)
     {
         $organization = new Organization();
+        $socialNetwork = new SocialNetwork();
+        $socialNetwork->setOrganization($organization);
         $this->handleImageUpload($organization);
 
         return $organization;
@@ -77,7 +80,7 @@ class OrganizationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        $fields =  [
             IdField::new('id', 'Identifiant')
                 ->hideOnForm(),
             BooleanField::new('status', 'Etat')
@@ -130,7 +133,23 @@ class OrganizationCrudController extends AbstractCrudController
                 })
                 ->hideWhenUpdating()
                 ->hideWhenCreating(),
+            AssociationField::new('socialNetwork')
+                ->setCrudController(SocialNetworkCrudController::class)
+                ->renderAsEmbeddedForm()
+                ->hideOnDetail()
+                ->hideOnIndex(),
         ];
+
+        if (Crud::PAGE_DETAIL === $pageName) {
+            $fields[] = TextField::new('socialNetwork.facebook', 'Facebook');
+            $fields[] = TextField::new('socialNetwork.twitter', 'Twitter');
+            $fields[] = TextField::new('socialNetwork.linkedin', 'LinkedIn');
+            $fields[] = TextField::new('socialNetwork.youtube', 'YouTube');
+            $fields[] = TextField::new('socialNetwork.instagram', 'Instagram');
+            $fields[] = TextField::new('socialNetwork.tiktok', 'TikTok');
+        }
+
+        return $fields;
     }
 
     public function configureCrud(Crud $crud): Crud

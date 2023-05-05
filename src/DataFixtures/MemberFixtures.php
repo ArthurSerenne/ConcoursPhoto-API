@@ -37,9 +37,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
             $socialNetwork->setTiktok($faker->url());
             $socialNetwork->setTwitter($faker->url());
             $socialNetwork->setLinkedin($faker->url());
-            $socialNetwork->setSnapchat($faker->url());
             $socialNetwork->setYoutube($faker->url());
-            $socialNetwork->setWhatsapp($faker->url());
             $this->addReference('member_'.$i, $member);
             $manager->persist($socialNetwork);
         }

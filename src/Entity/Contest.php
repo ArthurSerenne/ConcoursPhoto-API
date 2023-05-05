@@ -184,6 +184,10 @@ class Contest
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
+    #[Groups(['contest'])]
+    #[ORM\Column(nullable: true)]
+    private ?int $view = null;
+
     public function __construct()
     {
         $this->sponsors = new ArrayCollection();
@@ -707,6 +711,18 @@ class Contest
     public function setDeletionDate(?\DateTimeInterface $deletionDate): self
     {
         $this->deletionDate = $deletionDate;
+
+        return $this;
+    }
+
+    public function getView(): ?int
+    {
+        return $this->view;
+    }
+
+    public function setView(?int $view): self
+    {
+        $this->view = $view;
 
         return $this;
     }

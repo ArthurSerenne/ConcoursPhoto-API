@@ -95,6 +95,10 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
+    #[Groups(['photo'])]
+    #[ORM\Column(nullable: true)]
+    private ?int $view = null;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -246,5 +250,17 @@ class Photo
     public function __toString()
     {
         return $this->member->getUsername();
+    }
+
+    public function getView(): ?int
+    {
+        return $this->view;
+    }
+
+    public function setView(?int $view): self
+    {
+        $this->view = $view;
+
+        return $this;
     }
 }
