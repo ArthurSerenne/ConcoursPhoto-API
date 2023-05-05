@@ -49,7 +49,7 @@ security:
         # - { path: '^/admin', roles: [IS_AUTHENTICATED_FULLY, ROLE_SUPER_ADMIN] }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
