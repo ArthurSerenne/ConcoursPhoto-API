@@ -42,25 +42,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Department
 {
-    #[Groups(['department', 'contest'])]
+    #[Groups(['department', 'contest', 'user'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['department', 'contest'])]
+    #[Groups(['department', 'contest', 'user'])]
     #[ORM\Column(name: 'region_code')]
     private ?int $regionCode = null;
 
-    #[Groups(['department', 'contest'])]
+    #[Groups(['department', 'contest', 'user'])]
     #[ORM\Column]
     private ?int $code = null;
 
-    #[Groups(['department', 'contest'])]
+    #[Groups(['department', 'contest', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['department', 'contest'])]
+    #[Groups(['department', 'contest', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
