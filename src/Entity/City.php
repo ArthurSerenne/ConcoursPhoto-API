@@ -84,7 +84,7 @@ class City
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: User::class)]
     private Collection $users;
 
-    #[Groups(['city'])]
+    #[Groups(['city', 'user', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: Organization::class)]
     private Collection $organizations;
 

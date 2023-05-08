@@ -85,12 +85,12 @@ class Photo
     #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Vote::class)]
     private Collection $votes;
 
-    #[Groups(['photo', 'contest'])]
+    #[Groups(['photo', 'contest', 'member', 'user'])]
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
-    #[Groups(['photo'])]
+    #[Groups(['photo', 'contest', 'member', 'user'])]
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;

@@ -115,7 +115,7 @@ class Member
     #[ORM\JoinColumn(nullable: true)]
     private Collection $juryMembers;
 
-    #[Groups(['member'])]
+    #[Groups(['member', 'user'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Photo::class)]
     #[ORM\JoinColumn(nullable: true)]
     private Collection $photos;

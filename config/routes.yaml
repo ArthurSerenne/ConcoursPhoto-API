@@ -15,3 +15,8 @@ app_register:
 user_data:
   path: /api/user_data
   controller: App\Controller\UserController::getUserData
+
+user_update:
+  path: /api/users/{id}
+  methods: [PUT]
+  controller: App\Controller\UserController::updateUser
