@@ -33,7 +33,9 @@ class RegistrationController extends AbstractController
 
         $member = new Member();
         $member->setUser($user);
+        $member->setStatus(true);
         $member->setRegistrationDate(new \DateTime());
+        $member->setUpdateDate(new \DateTime());
         $member->setLastLoginDate(new \DateTime());
         $member->setSituation($data['situation']);
 
