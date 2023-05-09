@@ -40,11 +40,11 @@ class RegistrationController extends AbstractController
         $socialNetwork = new SocialNetwork();
         $socialNetwork->setMember($member);
 
-        // Save the user to the database
         $entityManager->persist($user);
+        $entityManager->persist($member);
+        $entityManager->persist($socialNetwork);
         $entityManager->flush();
 
-        // Return a JSON response to indicate successful registration
         return new JsonResponse(['message' => 'User successfully registered'], JsonResponse::HTTP_CREATED);
     }
 }
