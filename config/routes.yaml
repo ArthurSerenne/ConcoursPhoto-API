@@ -17,6 +17,6 @@ user_data:
   controller: App\Controller\UserController::getUserData
 
 user_update:
-  path: /api/users/{id}
-  methods: [PUT]
-  controller: App\Controller\UserController::updateUser
+  path: /api/user_update
+  controller: App\Controller\UserController::update
+  methods: PATCH
