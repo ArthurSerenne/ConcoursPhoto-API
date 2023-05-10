@@ -13,7 +13,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EditAccountController extends AbstractController
 {
     #[Route('/admin/edit-account', name: 'admin_edit_account')]
-    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function editAccount(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();

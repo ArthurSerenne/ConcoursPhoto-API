@@ -143,11 +143,11 @@ class Contest
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: JuryMember::class)]
     private Collection $juryMembers;
 
-    #[Groups(['contest'])]
+    #[Groups(['contest', 'user', 'photo', 'member'])]
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Photo::class)]
     private Collection $photos;
 
-    #[Groups(['contest'])]
+    #[Groups(['contest', 'user', 'organization'])]
     #[ORM\ManyToOne(inversedBy: 'contests')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Organization $organization;

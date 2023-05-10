@@ -60,12 +60,12 @@ class SocialNetwork
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tiktok = null;
 
-    #[Groups(['social_network'])]
-    #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
+    #[Groups(['social_network', 'member'])]
+    #[ORM\OneToOne(inversedBy: 'socialNetwork', targetEntity: Member::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?Member $member = null;
 
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'user', 'organization'])]
     #[ORM\OneToOne(inversedBy: 'socialNetwork', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?Organization $organization = null;

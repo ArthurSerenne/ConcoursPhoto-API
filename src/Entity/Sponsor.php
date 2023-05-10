@@ -52,7 +52,7 @@ class Sponsor
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[Groups(['sponsor'])]
+    #[Groups(['sponsor', 'organization', 'user'])]
     #[ORM\ManyToOne(inversedBy: 'sponsors')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Organization $organization = null;
