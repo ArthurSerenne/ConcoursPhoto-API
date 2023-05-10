@@ -111,7 +111,7 @@ class Organization
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Sponsor::class)]
     private Collection $sponsors;
 
-    #[Groups(['organization', 'user'])]
+    #[Groups(['organization'])]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'organizations')]
     private Collection $users;
 
