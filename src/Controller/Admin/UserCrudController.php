@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -54,7 +55,7 @@ class UserCrudController extends AbstractCrudController
                 ->setLabel('Nom'),
             EmailField::new('email')
                 ->setLabel('Email'),
-            TextField::new('phone')
+            TelephoneField::new('phone')
                 ->setLabel('Téléphone')
                 ->hideOnIndex(),
             TextField::new('password')
