@@ -25,6 +25,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -144,7 +145,7 @@ class MemberCrudController extends AbstractCrudController
                     'categ3' => 'Catégorie 3',
                 ])
                 ->hideOnIndex(),
-            TextField::new('website', 'Site web'),
+            UrlField::new('website', 'Site web'),
             AssociationField::new('socialNetwork')
                 ->setCrudController(SocialNetworkCrudController::class)
                 ->renderAsEmbeddedForm()
@@ -153,12 +154,12 @@ class MemberCrudController extends AbstractCrudController
         ];
 
         if (Crud::PAGE_DETAIL === $pageName) {
-            $fields[] = TextField::new('socialNetwork.facebook', 'Facebook');
-            $fields[] = TextField::new('socialNetwork.twitter', 'Twitter');
-            $fields[] = TextField::new('socialNetwork.linkedin', 'LinkedIn');
-            $fields[] = TextField::new('socialNetwork.youtube', 'YouTube');
-            $fields[] = TextField::new('socialNetwork.instagram', 'Instagram');
-            $fields[] = TextField::new('socialNetwork.tiktok', 'TikTok');
+            $fields[] = UrlField::new('socialNetwork.facebook', 'Facebook');
+            $fields[] = UrlField::new('socialNetwork.twitter', 'Twitter');
+            $fields[] = UrlField::new('socialNetwork.linkedin', 'LinkedIn');
+            $fields[] = UrlField::new('socialNetwork.youtube', 'YouTube');
+            $fields[] = UrlField::new('socialNetwork.instagram', 'Instagram');
+            $fields[] = UrlField::new('socialNetwork.tiktok', 'TikTok');
         }
 
         $fields[] = CollectionField::new('juryMembers', 'Concours en tant que jury')

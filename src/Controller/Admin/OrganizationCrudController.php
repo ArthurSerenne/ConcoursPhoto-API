@@ -19,10 +19,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -110,10 +113,10 @@ class OrganizationCrudController extends AbstractCrudController
                 ->hideOnIndex(),
             CountryField::new('country', 'Pays')
                 ->hideOnIndex(),
-            TextField::new('website', 'Site web')
+            UrlField::new('website', 'Site web')
                 ->hideOnIndex(),
-            TextField::new('email', 'Email'),
-            TextField::new('phone', 'Téléphone')
+            EmailField::new('email', 'Email'),
+            TelephoneField::new('phone', 'Téléphone')
                 ->hideOnIndex(),
             TextField::new('siret', 'Numéro de Siret')
                 ->hideOnIndex(),
@@ -141,12 +144,12 @@ class OrganizationCrudController extends AbstractCrudController
         ];
 
         if (Crud::PAGE_DETAIL === $pageName) {
-            $fields[] = TextField::new('socialNetwork.facebook', 'Facebook');
-            $fields[] = TextField::new('socialNetwork.twitter', 'Twitter');
-            $fields[] = TextField::new('socialNetwork.linkedin', 'LinkedIn');
-            $fields[] = TextField::new('socialNetwork.youtube', 'YouTube');
-            $fields[] = TextField::new('socialNetwork.instagram', 'Instagram');
-            $fields[] = TextField::new('socialNetwork.tiktok', 'TikTok');
+            $fields[] = UrlField::new('socialNetwork.facebook', 'Facebook');
+            $fields[] = UrlField::new('socialNetwork.twitter', 'Twitter');
+            $fields[] = UrlField::new('socialNetwork.linkedin', 'LinkedIn');
+            $fields[] = UrlField::new('socialNetwork.youtube', 'YouTube');
+            $fields[] = UrlField::new('socialNetwork.instagram', 'Instagram');
+            $fields[] = UrlField::new('socialNetwork.tiktok', 'TikTok');
         }
 
         return $fields;
