@@ -110,6 +110,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?City $city = null;
 
+    #[Groups(['user'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Preferencies $preferencies = null;
+
     public function __construct()
     {
         $this->organizations = new ArrayCollection();
@@ -125,7 +129,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 
@@ -356,5 +360,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->firstname.' '.$this->lastname;
+    }
+
+    public function getPreferencies(): ?Preferencies
+    {
+        return $this->preferencies;
+    }
+
+    public function setPreferencies(?Preferencies $preferencies): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($preferencies === null && $this->preferencies !== null) {
+            $this->preferencies->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($preferencies !== null && $preferencies->getUser() !== $this) {
+            $preferencies->setUser($this);
+        }
+
+        $this->preferencies = $preferencies;
+
+        return $this;
     }
 }

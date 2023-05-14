@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'id' => 'exact',
         'departmentCode' => 'exact',
         'insee_code' => 'exact',
-        'zip_code' => 'exact',
+        'zip_code' => 'partial',
         'name' => 'partial',
         'slug' => 'partial',
         'latitude' => 'exact',

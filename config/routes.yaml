@@ -20,3 +20,13 @@ user_update:
   path: /api/user_update
   controller: App\Controller\UserController::update
   methods: PATCH
+
+organization_update:
+  path: /api/organization_update
+  controller: App\Controller\OrganizationController::update
+  methods: PATCH
+
+preferencies_update:
+  path: /api/preferencies_update
+  controller: App\Controller\PreferenciesController::update
+  methods: PATCH
