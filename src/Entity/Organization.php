@@ -64,7 +64,7 @@ class Organization
     private ?int $id = null;
 
     #[Groups(['organization', 'contest', 'user'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
     #[Groups(['organization', 'contest', 'user'])]
@@ -88,7 +88,7 @@ class Organization
     private ?string $address = null;
 
     #[Groups(['organization', 'contest', 'user'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
     #[Groups(['organization', 'contest', 'user'])]
@@ -121,7 +121,7 @@ class Organization
 
     #[Groups(['organization', 'contest', 'user'])]
     #[ORM\ManyToOne(inversedBy: 'organizations')]
-    #[ORM\JoinColumn(name: 'zip_code_id', nullable: false)]
+    #[ORM\JoinColumn(name: 'zip_code_id', nullable: true)]
     private ?Department $zipCode = null;
 
     #[Groups(['organization', 'contest', 'user'])]
@@ -211,7 +211,7 @@ class Organization
         return $this->logo;
     }
 
-    public function setLogo(string $logo): self
+    public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Member;
 use App\Entity\SocialNetwork;
 use App\Entity\User;
+use App\Repository\CitiesRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -74,21 +75,34 @@ class UserController extends AbstractController
             $serializer->deserialize(json_encode($entity1Data), User::class, 'json', ['object_to_populate' => $user]);
 
             $member = $user->getMember();
-            $serializer->deserialize(json_encode($entity2Data), Member::class, 'json', ['object_to_populate' => $member]);
 
-            if (isset($entity1Data['photo'])) {
-                $base64Image = $entity1Data['photo'];
-                $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
+            if (!$member) {
+                $member = new Member();
+                $user->setMember($member);
             }
 
-            if (isset($data)) {
-                $uniqueFileName = uniqid() . '.png'; // Vous pouvez choisir une autre extension si vous le souhaitez
-                $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
-                file_put_contents($imagePath, $data);
-                $member->setPhoto($uniqueFileName);
+            $serializer->deserialize(json_encode($entity2Data), Member::class, 'json', ['object_to_populate' => $member]);
+
+            if (array_key_exists('photo', $entity1Data)) {
+                $base64Image = $entity1Data['photo'];
+                if ($base64Image === null) {
+                    $member->setPhoto(null);
+                } elseif ($base64Image !== $member->getPhoto()) {
+                    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
+                    $uniqueFileName = uniqid() . '.png';
+                    $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
+                    file_put_contents($imagePath, $data);
+                    $member->setPhoto($uniqueFileName);
+                }
             }
 
             $socialNetwork = $member->getSocialNetwork();
+
+            if (!$socialNetwork) {
+                $socialNetwork = new SocialNetwork();
+                $socialNetwork->setMember($member);
+            }
+
             $serializer->deserialize(json_encode($entity3Data), SocialNetwork::class, 'json', ['object_to_populate' => $socialNetwork]);
 
         } catch (\Exception $e) {
