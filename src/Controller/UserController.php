@@ -74,6 +74,11 @@ class UserController extends AbstractController
         try {
             $serializer->deserialize(json_encode($entity1Data), User::class, 'json', ['object_to_populate' => $user]);
 
+            if (isset($entity1Data['password'])) {
+                $hashedPassword = password_hash($entity1Data['password'], PASSWORD_DEFAULT);
+                $user->setPassword($hashedPassword);
+            }
+
             $member = $user->getMember();
 
             if (!$member) {
