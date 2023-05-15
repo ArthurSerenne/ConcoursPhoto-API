@@ -49,7 +49,7 @@ class AdSpace
     private ?int $id = null;
 
     #[Groups(['ad_space'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
     #[Groups(['ad_space'])]
@@ -87,7 +87,7 @@ class AdSpace
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 

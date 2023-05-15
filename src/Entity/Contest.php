@@ -60,7 +60,7 @@ class Contest
     private ?int $id = null;
 
     #[Groups(['contest'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
     #[Groups(['contest'])]
@@ -211,7 +211,7 @@ class Contest
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 

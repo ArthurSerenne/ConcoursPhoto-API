@@ -54,7 +54,7 @@ class Photo
     private ?int $id = null;
 
     #[Groups(['photo', 'contest'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
     #[Groups(['photo', 'contest'])]
@@ -114,7 +114,7 @@ class Photo
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 

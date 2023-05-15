@@ -62,7 +62,7 @@ class Member
     private ?int $id = null;
 
     #[Groups(['member', 'contest', 'user'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
     #[Groups(['member', 'contest', 'user'])]
@@ -146,7 +146,7 @@ class Member
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 
