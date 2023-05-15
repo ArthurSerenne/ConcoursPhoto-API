@@ -10,15 +10,39 @@ class ThemeFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $themes = [
+            'Nature',
+            'Urbanisme',
+            'Fleurs',
+            'Sports',
+            'Voitures',
+            'Batiments',
+            'Paysages',
+            'Univers',
+            'Tourisme',
+            'Métiers',
+        ];
 
-        for ($i = 0; $i < 10; ++$i) {
+        foreach ($themes as $index => $themeName) {
             $theme = new Theme();
-            $theme->setName($faker->word);
+            $theme->setName($themeName);
             $manager->persist($theme);
-            $this->addReference('theme_'.$i, $theme);
+            $this->addReference('theme_'.$index, $theme);
         }
 
         $manager->flush();
     }
+    // public function load(ObjectManager $manager): void
+    // {
+    //     $faker = \Faker\Factory::create('fr_FR');
+
+    //     for ($i = 0; $i < 10; ++$i) {
+    //         $theme = new Theme();
+    //         $theme->setName($faker->word);
+    //         $manager->persist($theme);
+    //         $this->addReference('theme_'.$i, $theme);
+    //     }
+
+    //     $manager->flush();
+    // }
 }
