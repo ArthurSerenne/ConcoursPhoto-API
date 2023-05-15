@@ -10,13 +10,24 @@ class CategoryFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $category = [
+            'Ouvert à tous',
+            'Jeunesse',
+            'Adulte',
+            'Evènement',
+            'Famille',
+            'Amitiés',
+            'Couples',
+            'Passions',
+            'Groupes',
+            'Vie',
+        ];
 
-        for ($i = 0; $i < 10; ++$i) {
+        foreach ($category as $index => $categoryName) {
             $category = new Category();
-            $category->setName($faker->word);
+            $category->setName($categoryName);
             $manager->persist($category);
-            $this->addReference('category_'.$i, $category);
+            $this->addReference('category_'.$index, $category);
         }
 
         $manager->flush();

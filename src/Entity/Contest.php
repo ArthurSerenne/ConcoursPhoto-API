@@ -72,7 +72,7 @@ class Contest
     private ?string $visual = null;
 
     #[Groups(['contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 1000)]
     private ?string $description = null;
 
     #[Groups(['contest'])]
