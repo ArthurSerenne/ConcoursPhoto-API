@@ -163,7 +163,7 @@ class Organization
         return $this->status;
     }
 
-    public function setStatus(bool $status): self
+    public function setStatus(?bool $status): self
     {
         $this->status = $status;
 
