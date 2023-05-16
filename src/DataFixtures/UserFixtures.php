@@ -63,7 +63,7 @@ class UserFixtures extends Fixture
         $user->setCountry($faker->countryCode);
         $user->setEmail('test@mailinator.com');
         $user->setPhone($faker->phoneNumber);
-        $password = $this->hasher->hashPassword($user, 'xxx');
+        $password = $this->hasher->hashPassword($user, 'Pa$$w0rd');
         $user->setPassword($password);
         $user->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
