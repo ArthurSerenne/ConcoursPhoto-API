@@ -28,6 +28,7 @@ class RegistrationController extends AbstractController
         $user->setLastname($data['lastname']);
         $user->setGender($data['gender']);
         $user->setBirthdate(new \DateTime($data['birthdate']));
+        $user->setCreationDate(new \DateTime());
 
         $member = new Member();
         $member->setUser($user);
