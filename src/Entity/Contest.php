@@ -76,11 +76,11 @@ class Contest
     private ?string $description = null;
 
     #[Groups(['contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 9000)]
     private ?string $rules = null;
 
     #[Groups(['contest'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 2000)]
     private ?string $prizes = null;
 
     #[Groups(['contest'])]
