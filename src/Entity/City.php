@@ -46,37 +46,37 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class City
 {
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Column(name: 'department_code')]
     private ?int $departmentCode = null;
 
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $insee_code = null;
 
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $zip_code = null;
 
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Column]
     private ?float $gps_lat = null;
 
-    #[Groups(['city', 'contest', 'user'])]
+    #[Groups(['city', 'contest', 'user', 'organization'])]
     #[ORM\Column]
     private ?float $gps_lng = null;
 

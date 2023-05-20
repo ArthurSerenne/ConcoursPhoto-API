@@ -30,33 +30,33 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: 'social_network')]
 class SocialNetwork
 {
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'organization'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $facebook = null;
 
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $twitter = null;
 
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $linkedin = null;
 
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $youtube = null;
 
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $instagram = null;
 
-    #[Groups(['social_network'])]
+    #[Groups(['social_network', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tiktok = null;
 

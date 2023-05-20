@@ -31,21 +31,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Region
 {
-    #[Groups(['region', 'contest'])]
+    #[Groups(['region', 'contest', 'organization'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['region', 'contest'])]
+    #[Groups(['region', 'contest', 'organization'])]
     #[ORM\Column]
     private ?int $code = null;
 
-    #[Groups(['region', 'contest'])]
+    #[Groups(['region', 'contest', 'organization'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['region', 'contest'])]
+    #[Groups(['region', 'contest', 'organization'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
