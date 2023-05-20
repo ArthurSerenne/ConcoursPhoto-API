@@ -31,13 +31,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Theme
 {
-    #[Groups(['theme', 'contest'])]
+    #[Groups(['theme', 'contest', 'organization'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['theme', 'contest'])]
+    #[Groups(['theme', 'contest', 'organization'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

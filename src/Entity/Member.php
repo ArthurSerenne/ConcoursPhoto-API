@@ -55,7 +55,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`member`')]
 class Member
 {
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -65,7 +65,7 @@ class Member
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $username = null;
 
