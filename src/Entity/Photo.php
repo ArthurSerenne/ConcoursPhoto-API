@@ -95,7 +95,7 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
-    #[Groups(['photo'])]
+    #[Groups(['photo', 'contest', 'organization'])]
     #[ORM\Column(nullable: true)]
     private ?int $view = null;
 
