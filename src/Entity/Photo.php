@@ -47,37 +47,37 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`photo`')]
 class Photo
 {
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_date')]
     private ?\DateTimeInterface $submissionDate = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(name: 'vote_count')]
     private ?int $voteCount = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(name: 'prize_won')]
     private ?bool $prizeWon = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(name: 'prize_rank')]
     private ?int $prizeRank = null;
 
@@ -95,7 +95,7 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
-    #[Groups(['photo', 'contest', 'organization'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote'])]
     #[ORM\Column(nullable: true)]
     private ?int $view = null;
 

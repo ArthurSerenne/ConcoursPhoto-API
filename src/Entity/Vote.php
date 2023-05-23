@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -14,6 +16,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'date_vote' => 'exact',
+    'member' => 'exact',
+    'photo' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
 #[ApiResource(
     description: 'Vote',
@@ -28,6 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['vote']],
     denormalizationContext: ['groups' => ['vote']],
 )]
+#[ORM\Table(name: '`vote`')]
 class Vote
 {
     #[Groups(['vote'])]
