@@ -105,7 +105,7 @@ class Member
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
-    #[Groups(['member'])]
+    #[Groups(['member', 'contest', 'user', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
     #[ORM\JoinColumn(nullable: true)]
     private Collection $votes;

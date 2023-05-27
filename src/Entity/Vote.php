@@ -46,7 +46,7 @@ class Vote
     private ?int $id = null;
 
     #[Groups(['vote'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_vote = null;
 
     #[Groups(['vote'])]
@@ -59,6 +59,11 @@ class Vote
     #[ORM\JoinColumn(nullable: false)]
     private ?Photo $photo = null;
 
+    public function __construct()
+    {
+        $this->date_vote = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,7 +74,7 @@ class Vote
         return $this->date_vote;
     }
 
-    public function setDateVote(\DateTimeInterface $date_vote): self
+    public function setDateVote(?\DateTimeInterface $date_vote): self
     {
         $this->date_vote = $date_vote;
 

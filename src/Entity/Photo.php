@@ -81,7 +81,7 @@ class Photo
     #[ORM\Column(name: 'prize_rank')]
     private ?int $prizeRank = null;
 
-    #[Groups(['photo'])]
+    #[Groups(['photo', 'contest', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'photo', targetEntity: Vote::class)]
     private Collection $votes;
 
