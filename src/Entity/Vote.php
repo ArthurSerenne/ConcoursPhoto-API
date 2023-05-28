@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -14,6 +16,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'date_vote' => 'exact',
+    'member' => 'exact',
+    'photo' => 'exact',
+])]
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
 #[ApiResource(
     description: 'Vote',
@@ -28,6 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['vote']],
     denormalizationContext: ['groups' => ['vote']],
 )]
+#[ORM\Table(name: '`vote`')]
 class Vote
 {
     #[Groups(['vote'])]
@@ -37,7 +46,7 @@ class Vote
     private ?int $id = null;
 
     #[Groups(['vote'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_vote = null;
 
     #[Groups(['vote'])]
@@ -50,6 +59,11 @@ class Vote
     #[ORM\JoinColumn(nullable: false)]
     private ?Photo $photo = null;
 
+    public function __construct()
+    {
+        $this->date_vote = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,7 +74,7 @@ class Vote
         return $this->date_vote;
     }
 
-    public function setDateVote(\DateTimeInterface $date_vote): self
+    public function setDateVote(?\DateTimeInterface $date_vote): self
     {
         $this->date_vote = $date_vote;
 

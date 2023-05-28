@@ -55,57 +55,57 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`member`')]
 class Member
 {
-    #[Groups(['member', 'contest', 'user', 'organization'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['member', 'contest', 'user', 'organization'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $username = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $registrationDate = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updateDate = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLoginDate = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(length: 255)]
     private ?string $situation = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $category = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
-    #[Groups(['member'])]
+    #[Groups(['member', 'contest', 'user', 'organization'])]
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Vote::class)]
     #[ORM\JoinColumn(nullable: true)]
     private Collection $votes;
@@ -125,7 +125,7 @@ class Member
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user = null;
 
-    #[Groups(['member', 'contest', 'user'])]
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\OneToOne(mappedBy: 'member', targetEntity: 'SocialNetwork', cascade: ['persist', 'remove'])]
     private $socialNetwork;
 
