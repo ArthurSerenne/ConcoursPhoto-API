@@ -90,6 +90,8 @@ class OrganizationController extends AbstractController
                 $this->entityManager->persist($socialNetwork); // Ajoutez cette ligne aussi
             }
 
+            $organization->setUpdateDate(new \DateTime());
+
             $serializer->deserialize(json_encode($entity2Data), SocialNetwork::class, 'json', ['object_to_populate' => $socialNetwork]);
 
         } catch (\Exception $e) {

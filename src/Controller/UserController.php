@@ -108,6 +108,8 @@ class UserController extends AbstractController
                 $socialNetwork->setMember($member);
             }
 
+            $member->setUpdateDate(new \DateTime());
+
             $serializer->deserialize(json_encode($entity3Data), SocialNetwork::class, 'json', ['object_to_populate' => $socialNetwork]);
 
         } catch (\Exception $e) {
