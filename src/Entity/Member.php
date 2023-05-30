@@ -74,12 +74,12 @@ class Member
     private ?\DateTimeInterface $registrationDate = null;
 
     #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deletionDate = null;
-
-    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updateDate = null;
+
+    #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deletionDate = null;
 
     #[Groups(['member', 'contest', 'user', 'organization', 'vote'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -170,21 +170,9 @@ class Member
         return $this->registrationDate;
     }
 
-    public function setRegistrationDate(\DateTimeInterface $registrationDate): self
+    public function setRegistrationDate(?\DateTimeInterface $registrationDate): self
     {
         $this->registrationDate = $registrationDate;
-
-        return $this;
-    }
-
-    public function getDeletionDate(): ?\DateTimeInterface
-    {
-        return $this->deletionDate;
-    }
-
-    public function setDeletionDate(\DateTimeInterface $deletionDate): self
-    {
-        $this->deletionDate = $deletionDate;
 
         return $this;
     }
@@ -194,9 +182,21 @@ class Member
         return $this->updateDate;
     }
 
-    public function setUpdateDate(\DateTimeInterface $updateDate): self
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    public function getDeletionDate(): ?\DateTimeInterface
+    {
+        return $this->deletionDate;
+    }
+
+    public function setDeletionDate(?\DateTimeInterface $deletionDate): self
+    {
+        $this->deletionDate = $deletionDate;
 
         return $this;
     }
@@ -206,7 +206,7 @@ class Member
         return $this->lastLoginDate;
     }
 
-    public function setLastLoginDate(\DateTimeInterface $lastLoginDate): self
+    public function setLastLoginDate(?\DateTimeInterface $lastLoginDate): self
     {
         $this->lastLoginDate = $lastLoginDate;
 

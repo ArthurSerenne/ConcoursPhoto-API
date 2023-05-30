@@ -139,6 +139,10 @@ class Organization
 
     #[Groups(['organization', 'contest', 'user'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updateDate = null;
+
+    #[Groups(['organization', 'contest', 'user'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
     #[Groups(['organization', 'contest', 'user'])]
@@ -444,6 +448,18 @@ class Organization
     public function setVat(?string $vat): self
     {
         $this->vat = $vat;
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }
