@@ -22,7 +22,7 @@ user_update:
   methods: PATCH
 
 organization_update:
-  path: /api/organization_update
+  path: /api/organization_update/{id}
   controller: App\Controller\OrganizationController::update
   methods: PATCH
 

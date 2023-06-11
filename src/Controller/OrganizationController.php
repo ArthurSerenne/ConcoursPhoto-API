@@ -27,7 +27,7 @@ class OrganizationController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    public function update(Request $request, SerializerInterface $serializer): Response
+    public function update($id, Request $request, SerializerInterface $serializer): Response
     {
         $token = $this->tokenStorage->getToken();
 
@@ -40,9 +40,12 @@ class OrganizationController extends AbstractController
         if (!$user instanceof UserInterface) {
             return new JsonResponse(['error' => 'User not logged in user'], 401);
         }
+        
+        $organization = $this->entityManager->getRepository(Organization::class)->find($id);
 
-        // Assume that the User entity has a getOrganization method.
-        $organization = $user->getOrganizations()[0];
+        if (!$organization || !$user->getOrganizations()->contains($organization)) {
+            return new JsonResponse(['error' => 'Organization not found or access denied'], 404);
+        }
 
         if (!$organization) {
             $organization = new Organization();
@@ -87,7 +90,7 @@ class OrganizationController extends AbstractController
             if (!$socialNetwork) {
                 $socialNetwork = new SocialNetwork();
                 $organization->setSocialNetwork($socialNetwork);
-                $this->entityManager->persist($socialNetwork); // Ajoutez cette ligne aussi
+                $this->entityManager->persist($socialNetwork);
             }
 
             $organization->setUpdateDate(new \DateTime());
