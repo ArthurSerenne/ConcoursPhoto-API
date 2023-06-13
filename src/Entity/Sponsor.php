@@ -62,7 +62,7 @@ class Sponsor
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
-    #[Groups(['sponsor'])]
+    #[Groups(['sponsor', 'contest'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 

@@ -44,7 +44,7 @@ class Win
     #[ORM\JoinColumn(nullable: false)]
     private ?Contest $contest = null;
 
-    #[Groups(['win'])]
+    #[Groups(['win', 'contest'])]
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Photo $photo = null;
 
