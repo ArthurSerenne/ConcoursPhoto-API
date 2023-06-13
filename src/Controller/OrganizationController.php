@@ -27,7 +27,7 @@ class OrganizationController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    public function update(Request $request, SerializerInterface $serializer): Response
+    public function create(Request $request, SerializerInterface $serializer): Response
     {
         $token = $this->tokenStorage->getToken();
 
@@ -41,8 +41,84 @@ class OrganizationController extends AbstractController
             return new JsonResponse(['error' => 'User not logged in user'], 401);
         }
 
-        // Assume that the User entity has a getOrganization method.
-        $organization = $user->getOrganizations()[0];
+        $organization = new Organization();
+
+        $data = json_decode($request->getContent(), true);
+
+        $entity1Data = $data['entity1Data'] ?? null;
+        $entity2Data = $data['entity2Data'] ?? null;
+
+        if (!isset($entity1Data) && !isset($entity2Data)) {
+            return $this->json(['error' => 'Both entity1Data and entity2Data are missing'], 400);
+        } elseif (!isset($entity1Data)) {
+            return $this->json(['error' => 'entity1Data is missing'], 400);
+        } elseif (!isset($entity2Data)) {
+            return $this->json(['error' => 'entity2Data is missing'], 400);
+        }
+
+        try {
+            $serializer->deserialize(json_encode($entity1Data), Organization::class, 'json', ['object_to_populate' => $organization]);
+
+            if (array_key_exists('logo', $entity1Data)) {
+                $base64Image = $entity1Data['logo'];
+                if ($base64Image === null) {
+                    $organization->setLogo(null);
+                } else {
+                    $base64Image = preg_replace('#^data:image/\w+;base64,#i', '', $base64Image);
+                    $data = base64_decode($base64Image);
+                    $uniqueFileName = uniqid() . '.png';
+                    $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
+                    file_put_contents($imagePath, $data);
+                    $organization->setLogo($uniqueFileName);
+                }
+            }
+
+            $socialNetwork = $organization->getSocialNetwork();
+
+            if (!$socialNetwork) {
+                $socialNetwork = new SocialNetwork();
+                $organization->setSocialNetwork($socialNetwork);
+                $this->entityManager->persist($socialNetwork);
+            }
+
+            $organization->setUpdateDate(new \DateTime());
+
+            $serializer->deserialize(json_encode($entity2Data), SocialNetwork::class, 'json', ['object_to_populate' => $socialNetwork]);
+
+        } catch (\Exception $e) {
+            return $this->json([
+                'error' => 'Invalid data provided',
+                'exceptionMessage' => $e->getMessage(),
+                'exceptionTrace' => $e->getTraceAsString(),
+            ], 400);
+        }
+
+        $user->addOrganization($organization);
+
+        $this->entityManager->flush();
+
+        return $this->json($user);
+    }
+
+    public function update($id, Request $request, SerializerInterface $serializer): Response
+    {
+        $token = $this->tokenStorage->getToken();
+
+        if (!$token) {
+            return new JsonResponse(['error' => 'User not logged in token'], 401);
+        }
+
+        $user = $token->getUser();
+
+        if (!$user instanceof UserInterface) {
+            return new JsonResponse(['error' => 'User not logged in user'], 401);
+        }
+        
+        $organization = $this->entityManager->getRepository(Organization::class)->find($id);
+
+        if (!$organization || !$user->getOrganizations()->contains($organization)) {
+            return new JsonResponse(['error' => 'Organization not found or access denied'], 404);
+        }
 
         if (!$organization) {
             $organization = new Organization();
@@ -71,14 +147,12 @@ class OrganizationController extends AbstractController
                 if ($base64Image === null) {
                     $organization->setLogo(null);
                 } else {
-                    $base64Image = str_replace('data:image/jpeg;base64,', '', $base64Image);
-                    if ($base64Image !== $organization->getLogo()) {
-                        $data = base64_decode($base64Image);
-                        $uniqueFileName = uniqid() . '.png';
-                        $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
-                        file_put_contents($imagePath, $data);
-                        $organization->setLogo($uniqueFileName);
-                    }
+                    $base64Image = preg_replace('#^data:image/\w+;base64,#i', '', $base64Image);
+                    $data = base64_decode($base64Image);
+                    $uniqueFileName = uniqid() . '.png';
+                    $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
+                    file_put_contents($imagePath, $data);
+                    $organization->setLogo($uniqueFileName);
                 }
             }
 
@@ -87,7 +161,7 @@ class OrganizationController extends AbstractController
             if (!$socialNetwork) {
                 $socialNetwork = new SocialNetwork();
                 $organization->setSocialNetwork($socialNetwork);
-                $this->entityManager->persist($socialNetwork); // Ajoutez cette ligne aussi
+                $this->entityManager->persist($socialNetwork);
             }
 
             $organization->setUpdateDate(new \DateTime());

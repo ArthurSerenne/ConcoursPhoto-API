@@ -42,29 +42,29 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`ad_space`')]
 class AdSpace
 {
-    #[Groups(['ad_space'])]
+    #[Groups(['ad_space', 'rent'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['ad_space'])]
+    #[Groups(['ad_space', 'rent'])]
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['ad_space'])]
+    #[Groups(['ad_space', 'rent'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['ad_space'])]
+    #[Groups(['ad_space', 'rent'])]
     #[ORM\Column]
     private ?int $heightPx = null;
 
-    #[Groups(['ad_space'])]
+    #[Groups(['ad_space', 'rent'])]
     #[ORM\Column]
     private ?int $widthPx = null;
 
-    #[Groups(['ad_space'])]
+    #[Groups(['ad_space', 'rent'])]
     #[ORM\Column]
     private ?int $referencePrize = null;
 
