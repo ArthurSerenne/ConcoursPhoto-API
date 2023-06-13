@@ -21,8 +21,13 @@ user_update:
   controller: App\Controller\UserController::update
   methods: PATCH
 
+organization_new:
+  path: /api/organization_new
+  controller: App\Controller\OrganizationController::create
+  methods: POST
+
 organization_update:
-  path: /api/organization_update
+  path: /api/organization_update/{id}
   controller: App\Controller\OrganizationController::update
   methods: PATCH
 
