@@ -57,57 +57,57 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`organization`')]
 class Organization
 {
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[Groups(['organization', 'user'])]
+    #[Groups(['organization', 'user', 'rent'])]
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Rent::class)]
     private Collection $rents;
 
-    #[Groups(['organization', 'user'])]
+    #[Groups(['organization', 'user', 'rent'])]
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Sponsor::class)]
     private Collection $sponsors;
 
@@ -129,19 +129,19 @@ class Organization
     #[ORM\JoinColumn(nullable: false)]
     private ?City $city = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $siret = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $vat = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updateDate = null;
 
-    #[Groups(['organization', 'contest', 'user'])]
+    #[Groups(['organization', 'contest', 'user', 'rent'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
