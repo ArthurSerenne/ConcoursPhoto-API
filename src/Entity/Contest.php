@@ -53,85 +53,85 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`contest`')]
 class Contest
 {
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(length: 255)]
     private ?string $visual = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(length: 1000)]
     private ?string $description = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(length: 9000)]
     private ?string $rules = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(length: 2000)]
     private ?string $prizes = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'creation_date')]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'publication_date')]
     private ?\DateTimeInterface $publicationDate = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_start_date')]
     private ?\DateTimeInterface $submissionStartDate = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'submission_end_date')]
     private ?\DateTimeInterface $submissionEndDate = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'voting_start_date')]
     private ?\DateTimeInterface $votingStartDate = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'voting_end_date')]
     private ?\DateTimeInterface $votingEndDate = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, name: 'results_date')]
     private ?\DateTimeInterface $resultsDate = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(name: 'jury_vote_pourcentage')]
     private ?int $juryVotePourcentage = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(name: 'vote_max')]
     private ?int $voteMax = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(name: 'prizes_count')]
     private ?int $prizesCount = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(name: 'age_min')]
     private ?int $ageMin = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(name: 'age_max')]
     private ?int $ageMax = null;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user', 'photo', 'member'])]
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
@@ -176,15 +176,15 @@ class Contest
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $categories;
 
-    #[Groups(['contest'])]
+    #[Groups(['contest', 'user', 'photo', 'member'])]
     #[ORM\Column]
     private ?bool $trend = null;
 
-    #[Groups(['contest'])]
+    #[Groups(['contest', 'user', 'photo', 'member'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletionDate = null;
 
-    #[Groups(['contest'])]
+    #[Groups(['contest', 'user', 'photo', 'member'])]
     #[ORM\Column(nullable: true)]
     private ?int $view = null;
 
