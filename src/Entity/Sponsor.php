@@ -66,6 +66,10 @@ class Sponsor
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
+    #[Groups(['sponsor', 'contest'])]
+    #[ORM\Column(length: 255)]
+    private ?string $url = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +155,18 @@ class Sponsor
     public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }
