@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
   uploads_images_directory: "%kernel.project_dir%/public/uploads/images"
+  uploads_directory: '%kernel.project_dir%/public/uploads'
   locale: "fr"
 
 services:
@@ -21,6 +22,13 @@ services:
       - "../src/DependencyInjection/"
       - "../src/Entity/"
       - "../src/Kernel.php"
+
+  App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+  App\Controller\UploadController:
+        public: true
 
   # ...
   acme_api.event.authentication_success_listener:

@@ -51,7 +51,7 @@ class JuryMember
     private ?\DateTimeInterface $invitation_date = null;
 
     #[Groups(['jury_member', 'contest'])]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $acceptance_date = null;
 
     #[Groups(['jury_member', 'contest'])]
@@ -67,6 +67,10 @@ class JuryMember
     #[Groups(['jury_member', 'contest'])]
     #[ORM\Column(length: 255)]
     private ?string $fonction = null;
+
+    #[Groups(['jury_member', 'contest'])]
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
 
     public function getId(): ?int
     {
@@ -136,5 +140,17 @@ class JuryMember
     public function __toString(): string
     {
         return $this->contest->getName();
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }

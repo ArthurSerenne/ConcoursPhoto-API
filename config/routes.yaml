@@ -35,3 +35,8 @@ preferencies_update:
   path: /api/preferencies_update
   controller: App\Controller\PreferenciesController::update
   methods: PATCH
+
+upload_image:
+    path:     /uploads/images/
+    methods:  [POST]
+    controller: App\Controller\UploadController::uploadImage
