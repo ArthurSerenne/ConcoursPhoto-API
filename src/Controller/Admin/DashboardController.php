@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Contest;
 use App\Entity\Member;
 use App\Entity\Organization;
+use App\Entity\Sponsor;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -49,6 +50,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Membres', 'fas fa-user-tie', Member::class);
         yield MenuItem::linkToCrud('Organisations', 'fas fa-sitemap', Organization::class);
         yield MenuItem::linkToCrud('Concours', 'fas fa-trophy', Contest::class);
+        yield MenuItem::linkToCrud('Sponsors', 'fa fa-bullhorn', Sponsor::class);
     }
 
     /**
