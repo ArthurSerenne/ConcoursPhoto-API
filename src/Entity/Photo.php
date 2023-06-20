@@ -47,17 +47,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name: '`photo`')]
 class Photo
 {
-    #[Groups(['photo', 'contest', 'organization', 'vote', 'win'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote', 'win', 'user'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['photo', 'contest', 'organization', 'vote', 'win'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote', 'win', 'user'])]
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
-    #[Groups(['photo', 'contest', 'organization', 'vote', 'win'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote', 'win', 'user'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -69,7 +69,7 @@ class Photo
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[Groups(['photo', 'contest', 'organization', 'vote', 'win'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote', 'win', 'user'])]
     #[ORM\Column(name: 'vote_count')]
     private ?int $voteCount = null;
 
