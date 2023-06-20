@@ -168,7 +168,7 @@ class Contest
     #[ORM\OneToMany(mappedBy: 'contest', targetEntity: Win::class)]
     private Collection $wins;
 
-    #[Groups(['contest', 'organization', 'win'])]
+    #[Groups(['contest', 'organization', 'win', 'user'])]
     #[ORM\ManyToMany(targetEntity: Theme::class, inversedBy: 'contests', cascade: ['persist', 'remove'])]
     private Collection $themes;
 

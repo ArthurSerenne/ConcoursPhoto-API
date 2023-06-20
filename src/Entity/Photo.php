@@ -69,7 +69,7 @@ class Photo
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[Groups(['photo', 'contest', 'organization', 'vote', 'win'])]
+    #[Groups(['photo', 'contest', 'organization', 'vote', 'win', 'user'])]
     #[ORM\Column(name: 'vote_count')]
     private ?int $voteCount = null;
 
