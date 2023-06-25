@@ -64,7 +64,7 @@ class RegistrationController extends AbstractController
                     Age : ' . $user->getBirthdate()->diff(new \DateTime())->y . ' <br>
                     Ville : ' . $user->getCity() . ' <br>
 
-                    <a href="http://localhost:8000/admin?crudAction=detail&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController&entityId=' . $user->getId() . '">Accéder à la fiche</a>'); // Replace with your website and the correct path to the user profile
+                    <a href="http://localhost:8000/admin?crudAction=detail&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController&entityId=' . $user->getId() . '">Accéder à la fiche</a>');
 
                     try {
                         $mailer->send($adminEmail);

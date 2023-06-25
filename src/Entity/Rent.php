@@ -70,6 +70,10 @@ class Rent
     #[ORM\JoinColumn(nullable: false)]
     private ?AdSpace $adSpace = null;
 
+    #[Groups(['rent'])]
+    #[ORM\Column(length: 255)]
+    private ?string $file = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +171,18 @@ class Rent
     public function setAdSpace(?AdSpace $adSpace): self
     {
         $this->adSpace = $adSpace;
+
+        return $this;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }
