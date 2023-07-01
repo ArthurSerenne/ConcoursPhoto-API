@@ -70,6 +70,9 @@ class Rent
     #[ORM\JoinColumn(nullable: false)]
     private ?AdSpace $adSpace = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $visuel = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +170,18 @@ class Rent
     public function setAdSpace(?AdSpace $adSpace): self
     {
         $this->adSpace = $adSpace;
+
+        return $this;
+    }
+
+    public function getVisuel(): ?string
+    {
+        return $this->visuel;
+    }
+
+    public function setVisuel(string $visuel): self
+    {
+        $this->visuel = $visuel;
 
         return $this;
     }

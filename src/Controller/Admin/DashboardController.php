@@ -7,6 +7,8 @@ use App\Entity\Member;
 use App\Entity\Organization;
 use App\Entity\Sponsor;
 use App\Entity\User;
+use App\Entity\AdSpace;
+use App\Entity\Rent;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -51,6 +53,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Organisations', 'fas fa-sitemap', Organization::class);
         yield MenuItem::linkToCrud('Concours', 'fas fa-trophy', Contest::class);
         yield MenuItem::linkToCrud('Sponsors', 'fa fa-bullhorn', Sponsor::class);
+        yield MenuItem::linkToCrud('Publicité', 'fa fa-tv', Rent::class);
     }
 
     /**
