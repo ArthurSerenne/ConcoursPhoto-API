@@ -46,7 +46,7 @@ class Rent
 
     #[Groups(['rent'])]
     #[ORM\Column]
-    private ?int $click_url = null;
+    private ?string $click_url = null;
 
     #[Groups(['rent'])]
     #[ORM\Column(length: 255)]
@@ -69,6 +69,10 @@ class Rent
     #[ORM\ManyToOne(inversedBy: 'rents')]
     #[ORM\JoinColumn(nullable: false)]
     private ?AdSpace $adSpace = null;
+
+    #[Groups(['rent'])]
+    #[ORM\Column(length: 255)]
+    private ?string $file = null;
 
     public function getId(): ?int
     {
@@ -99,12 +103,12 @@ class Rent
         return $this;
     }
 
-    public function getClickUrl(): ?int
+    public function getClickUrl(): ?string
     {
         return $this->click_url;
     }
 
-    public function setClickUrl(int $click_url): self
+    public function setClickUrl(string $click_url): self
     {
         $this->click_url = $click_url;
 
@@ -167,6 +171,18 @@ class Rent
     public function setAdSpace(?AdSpace $adSpace): self
     {
         $this->adSpace = $adSpace;
+
+        return $this;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }
