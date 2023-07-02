@@ -37,6 +37,11 @@ preferencies_update:
   methods: PATCH
 
 upload_image:
-    path:     /uploads/images/
-    methods:  [POST]
+    path: /uploads/images/
     controller: App\Controller\UploadController::uploadImage
+    methods: POST
+
+delete_image:
+    path: /uploads/images/
+    controller: App\Controller\UploadController::deleteImage
+    methods: DELETE
