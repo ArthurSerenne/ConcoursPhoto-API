@@ -40,3 +40,13 @@ upload_image:
     path:     /uploads/images/
     methods:  [POST]
     controller: App\Controller\UploadController::uploadImage
+
+rent_new:
+  path: /api/rent_request
+  controller: App\Controller\RentController::create
+  methods: POST
+
+update_rent:
+  path: /api/rent_update/{id}
+  controller: App\Controller\RentController::update
+  methods: PATCH
