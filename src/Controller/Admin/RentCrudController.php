@@ -37,38 +37,30 @@ class RentCrudController extends AbstractCrudController
         return [
             IdField::new('id', 'Identifiant')
                 ->hideOnForm(),
-            // AssociationField::new('organization_id', 'Organisateur')
-            //     ->hideOnIndex(),
+            AssociationField::new('organization', 'Organisateur')
+                ->hideOnIndex()
+                ->hideOnDetail(),
             AssociationField::new('adSpace', 'AdSpace')
                 ->hideOnDetail()
-                ->hideWhenUpdating()
-                ->hideWhenCreating(),
-            ChoiceField::new('adSpace', 'Publicité')
-                ->hideOnIndex()
-                ->hideOnDetail()
-                ->setChoices(function () {
-                    $adSpaces = $this->entityManager->getRepository(AdSpace::class)->findAll();
-                    $choices = [];
-
-                    foreach ($adSpaces as $adSpace) {
-                        $choices[$adSpace->getName()] = $adSpace->getName();
-                    }
-
-                    return $choices;
-                }),
-            // ChoiceField::new('adSpace', "Nom de l'espace")
-            //     ->setChoices($this->getAdspacesChoices()),
-            // AssociationField::new('adSpace', 'Publicités')
-            //     ->hideOnIndex(),
+                ->hideonIndex(),
             // ChoiceField::new('adSpace', 'Publicité')
-            //     ->setChoices(AdSpace::class)
+            //     ->hideOnIndex()
             //     ->hideOnDetail()
-            //     ->hideOnIndex(), 
+            //     ->setChoices(function () {
+            //         $adSpaces = $this->entityManager->getRepository(AdSpace::class)->findAll();
+            //         $choices = [];
+
+            //         foreach ($adSpaces as $adSpace) {
+            //             $choices[$adSpace->getName()] = $adSpace->getName();
+            //         }
+
+            //         return $choices;
+            //     }),
             DateField::new('start_date', 'Date de publication')
                 ->hideOnIndex(),
             DateField::new('end_date', 'Date de fin')
                 ->hideOnIndex(),
-            NumberField::new('click_url', 'Url')
+            TextField::new('click_url', 'Url')
                 ->hideOnDetail(),
             TextField::new('alt_tag', 'Tag')
                 ->hideOnDetail(),

@@ -142,6 +142,11 @@ class AdSpace
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * @return Collection<int, Rent>
      */
