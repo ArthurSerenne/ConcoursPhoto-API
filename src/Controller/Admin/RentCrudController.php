@@ -76,7 +76,7 @@ class RentCrudController extends AbstractCrudController
                 ->hideOnDetail(),
             NumberField::new('click_count', 'Clic')
                 ->hideOnDetail(),
-            ImageField::new('visuel', 'image de pub')
+            ImageField::new('file', 'image de pub')
                 ->setBasePath('/uploads/images/')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setUploadDir('public/uploads/images/'),
