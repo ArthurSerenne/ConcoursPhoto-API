@@ -3,22 +3,34 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Rent;
+use App\Entity\AdSpace;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RentCrudController extends AbstractCrudController
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Rent::class;
     }
+    
 
     public function configureFields(string $pageName): iterable
     {
@@ -27,8 +39,31 @@ class RentCrudController extends AbstractCrudController
                 ->hideOnForm(),
             // AssociationField::new('organization_id', 'Organisateur')
             //     ->hideOnIndex(),
-            // AssociationField::new('ad_space_id', 'AdSpace')
+            AssociationField::new('adSpace', 'AdSpace')
+                ->hideOnDetail()
+                ->hideWhenUpdating()
+                ->hideWhenCreating(),
+            ChoiceField::new('adSpace', 'Publicité')
+                ->hideOnIndex()
+                ->hideOnDetail()
+                ->setChoices(function () {
+                    $adSpaces = $this->entityManager->getRepository(AdSpace::class)->findAll();
+                    $choices = [];
+
+                    foreach ($adSpaces as $adSpace) {
+                        $choices[$adSpace->getName()] = $adSpace->getName();
+                    }
+
+                    return $choices;
+                }),
+            // ChoiceField::new('adSpace', "Nom de l'espace")
+            //     ->setChoices($this->getAdspacesChoices()),
+            // AssociationField::new('adSpace', 'Publicités')
             //     ->hideOnIndex(),
+            // ChoiceField::new('adSpace', 'Publicité')
+            //     ->setChoices(AdSpace::class)
+            //     ->hideOnDetail()
+            //     ->hideOnIndex(), 
             DateField::new('start_date', 'Date de publication')
                 ->hideOnIndex(),
             DateField::new('end_date', 'Date de fin')
