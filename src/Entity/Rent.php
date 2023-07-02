@@ -46,7 +46,7 @@ class Rent
 
     #[Groups(['rent'])]
     #[ORM\Column]
-    private ?int $click_url = null;
+    private ?string $click_url = null;
 
     #[Groups(['rent'])]
     #[ORM\Column(length: 255)]
@@ -103,12 +103,12 @@ class Rent
         return $this;
     }
 
-    public function getClickUrl(): ?int
+    public function getClickUrl(): ?string
     {
         return $this->click_url;
     }
 
-    public function setClickUrl(int $click_url): self
+    public function setClickUrl(string $click_url): self
     {
         $this->click_url = $click_url;
 

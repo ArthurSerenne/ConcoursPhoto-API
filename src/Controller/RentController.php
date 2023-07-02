@@ -57,18 +57,21 @@ class RentController extends AbstractController
         }
 
         foreach ($superAdmins as $admin) {
+            $adSpaceName = $entityManager->getRepository(AdSpace::class)->find(id: $entity1Data['name']['value'])->getName();
+            $imageUrl = $entity1Data['file'];
             $adminEmail = (new Email())
                 ->from('noreply@concoursphoto.com')
                 ->to($admin->getEmail())
-                ->subject(' nouveau compte membre créé')
-                ->html('Un nouveau compte membre a été créé : <br>
-
-                    Espace de publicité : '. $entityManager->getRepository(AdSpace::class)->find(id: 1)->getName() .' <br>
-                    Date de début : '. $entity1Data['start_date'] .' <br>
-                    Date de fin : '. $entity1Data['end_date'] .' <br>
-                    Visuel : '. $entity1Data['file'] .' <br>
-                    Url : '. $entity1Data['click_url'] .' <br>
-                    Remarques : '. $entity1Data['start_date'] .' <br>');
+                ->subject('Demande de location d\'un espace publicitaire')
+                ->html(
+                    '<p>Demande réalisé par '. $entity1Data['organization'] .' :</p>' .
+                    '<p>Espace de publicité : ' . $adSpaceName . '</p>' .
+                    '<p>Date de début : ' . $entity1Data['start'] . '</p>' .
+                    '<p>Date de fin : ' . $entity1Data['end'] . '</p>' .
+                    '<p>Visuel : <img src="' . $imageUrl . '"/></p>' .
+                    '<p>Url : ' . $entity1Data['click_url'] . '</p>' .
+                    '<p>Remarques : ' . $entity1Data['suggest'] . '</p>'
+                );
 
             try {
                 $mailer->send($adminEmail);
@@ -110,7 +113,10 @@ class RentController extends AbstractController
         }
 
         try {
-            $serializer->deserialize(json_encode($entity1Data), Rent::class, 'json', ['object_to_populate' => $rent]);
+            $rent->setAdSpace($this->entityManager->getRepository(AdSpace::class)->find($entity1Data['name']['value']));
+            $rent->setClickUrl($entity1Data['click_url']);
+            $rent->setStartDate(\DateTime::createFromFormat('Y-m-d', $entity1Data['start']));
+            $rent->setEndDate(\DateTime::createFromFormat('Y-m-d', $entity1Data['end']));
 
             if (array_key_exists('file', $entity1Data)) {
                 $base64Image = $entity1Data['file'];
