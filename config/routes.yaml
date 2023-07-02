@@ -37,6 +37,26 @@ preferencies_update:
   methods: PATCH
 
 upload_image:
-    path:     /uploads/images/
-    methods:  [POST]
+    path: /uploads/images/
     controller: App\Controller\UploadController::uploadImage
+    methods: POST
+
+delete_image:
+    path: /uploads/images/
+    controller: App\Controller\UploadController::deleteImage
+    methods: DELETE
+
+rent_new:
+  path: /api/rent_request
+  controller: App\Controller\RentController::create
+  methods: POST
+
+update_rent:
+  path: /api/rent_update/{id}
+  controller: App\Controller\RentController::update
+  methods: PATCH
+
+contest_new:
+  path: /api/contest_request
+  controller: App\Controller\ContestController::create
+  methods: POST
