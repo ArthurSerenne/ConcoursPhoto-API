@@ -5,10 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Contest;
 use App\Entity\Member;
 use App\Entity\Organization;
+use App\Entity\Rent;
 use App\Entity\Sponsor;
 use App\Entity\User;
-use App\Entity\AdSpace;
-use App\Entity\Rent;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -20,7 +19,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -31,7 +29,6 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-
         $url = $this->adminUrlGenerator
             ->setController(UserCrudController::class)
             ->generateUrl();

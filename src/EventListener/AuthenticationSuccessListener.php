@@ -3,8 +3,8 @@
 namespace App\EventListener;
 
 // src/App/EventListener/AuthenticationSuccessListener.php
-use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthenticationSuccessListener
@@ -16,9 +16,6 @@ class AuthenticationSuccessListener
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @param AuthenticationSuccessEvent $event
-     */
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
         $data = $event->getData();

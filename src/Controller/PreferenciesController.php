@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controller;
 
 use App\Entity\Preferencies;
@@ -58,7 +57,6 @@ class PreferenciesController extends AbstractController
 
         try {
             $serializer->deserialize(json_encode($entity1Data), Preferencies::class, 'json', ['object_to_populate' => $preferencies]);
-
         } catch (\Exception $e) {
             return $this->json([
                 'error' => 'Invalid data provided',

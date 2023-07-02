@@ -64,19 +64,20 @@ class RentController extends AbstractController
                 ->to($admin->getEmail())
                 ->subject('Demande de location d\'un espace publicitaire')
                 ->html(
-                    '<p>Demande réalisé par '. $entity1Data['organization'] .' :</p>' .
-                    '<p>Espace de publicité : ' . $adSpaceName . '</p>' .
-                    '<p>Date de début : ' . $entity1Data['start'] . '</p>' .
-                    '<p>Date de fin : ' . $entity1Data['end'] . '</p>' .
-                    '<p>Visuel : <img src="' . $imageUrl . '"/></p>' .
-                    '<p>Url : ' . $entity1Data['click_url'] . '</p>' .
-                    '<p>Remarques : ' . $entity1Data['suggest'] . '</p>'
+                    '<p>Demande réalisé par '.$entity1Data['organization'].' :</p>'.
+                    '<p>Espace de publicité : '.$adSpaceName.'</p>'.
+                    '<p>Date de début : '.$entity1Data['start'].'</p>'.
+                    '<p>Date de fin : '.$entity1Data['end'].'</p>'.
+                    '<p>Visuel : <img src="'.$imageUrl.'"/></p>'.
+                    '<p>Url : '.$entity1Data['click_url'].'</p>'.
+                    '<p>Remarques : '.$entity1Data['suggest'].'</p>'
                 );
 
             try {
                 $mailer->send($adminEmail);
             } catch (\Exception $e) {
                 error_log($e->getMessage());
+
                 return new JsonResponse(['error' => 'Mail could not be sent'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
@@ -120,13 +121,13 @@ class RentController extends AbstractController
 
             if (array_key_exists('file', $entity1Data)) {
                 $base64Image = $entity1Data['file'];
-                if ($base64Image === null) {
+                if (null === $base64Image) {
                     $rent->setFile(null);
                 } else {
                     $base64Image = preg_replace('#^data:image/\w+;base64,#i', '', $base64Image);
                     $data = base64_decode($base64Image);
-                    $uniqueFileName = uniqid() . '.png';
-                    $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
+                    $uniqueFileName = uniqid().'.png';
+                    $imagePath = $this->getParameter('uploads_images_directory').'/'.$uniqueFileName;
                     file_put_contents($imagePath, $data);
                     $rent->setFile($uniqueFileName);
                 }

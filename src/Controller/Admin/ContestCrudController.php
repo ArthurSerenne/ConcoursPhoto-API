@@ -49,7 +49,7 @@ class ContestCrudController extends AbstractCrudController
     {
         $contest = new Contest();
         $this->handleImageUpload($contest);
-        $contest->setCreationDate(new \Datetime('now'));
+        $contest->setCreationDate(new \DateTime('now'));
 
         return $contest;
     }
@@ -72,7 +72,7 @@ class ContestCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setDeletionDate(new \Datetime('now'));
+        $entityInstance->setDeletionDate(new \DateTime('now'));
         parent::updateEntity($entityManager, $entityInstance);
     }
 

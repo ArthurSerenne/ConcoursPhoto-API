@@ -58,18 +58,19 @@ class ContestController extends AbstractController
                 ->to($admin->getEmail())
                 ->subject('Demande de création d\'un concours')
                 ->html(
-                    '<p>Demande réalisé par '. $entity1Data['organization'] .' :</p>' .
-                    '<p>Quelle est l’étendue/zone de visibilité du concours ? : ' . $entity1Data['zone'] . '</p>' .
-                    '<p>Nombre de prix à gagner : ' . $entity1Data['prices'] . '</p>' .
-                    '<p>Nombre de sponsors : ' . $entity1Data['sponsors'] . '</p>' .
-                    '<p>Valeur total dotation/prix à gagner : ' . $entity1Data['total'] . '</p>' .
-                    '<p>Thème(s) et nature du concours : ' . $entity1Data['theme'] . '</p>'
+                    '<p>Demande réalisé par '.$entity1Data['organization'].' :</p>'.
+                    '<p>Quelle est l’étendue/zone de visibilité du concours ? : '.$entity1Data['zone'].'</p>'.
+                    '<p>Nombre de prix à gagner : '.$entity1Data['prices'].'</p>'.
+                    '<p>Nombre de sponsors : '.$entity1Data['sponsors'].'</p>'.
+                    '<p>Valeur total dotation/prix à gagner : '.$entity1Data['total'].'</p>'.
+                    '<p>Thème(s) et nature du concours : '.$entity1Data['theme'].'</p>'
                 );
 
             try {
                 $mailer->send($adminEmail);
             } catch (\Exception $e) {
                 error_log($e->getMessage());
+
                 return new JsonResponse(['error' => 'Mail could not be sent'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
             }
         }

@@ -38,7 +38,7 @@ class UserCrudController extends AbstractCrudController
     public function createEntity(string $entityFqcn)
     {
         $user = new User();
-        $user->setCreationDate(new \Datetime('now'));
+        $user->setCreationDate(new \DateTime('now'));
 
         return $user;
     }

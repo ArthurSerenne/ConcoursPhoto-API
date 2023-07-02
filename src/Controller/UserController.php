@@ -10,9 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AbstractController
@@ -88,12 +88,12 @@ class UserController extends AbstractController
 
             if (array_key_exists('photo', $entity1Data)) {
                 $base64Image = $entity1Data['photo'];
-                if ($base64Image === null) {
+                if (null === $base64Image) {
                     $member->setPhoto(null);
                 } elseif ($base64Image !== $member->getPhoto()) {
                     $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
-                    $uniqueFileName = uniqid() . '.png';
-                    $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
+                    $uniqueFileName = uniqid().'.png';
+                    $imagePath = $this->getParameter('uploads_images_directory').'/'.$uniqueFileName;
                     file_put_contents($imagePath, $data);
                     $member->setPhoto($uniqueFileName);
                 }
@@ -109,7 +109,6 @@ class UserController extends AbstractController
             $member->setUpdateDate(new \DateTime());
 
             $serializer->deserialize(json_encode($entity3Data), SocialNetwork::class, 'json', ['object_to_populate' => $socialNetwork]);
-
         } catch (\Exception $e) {
             return $this->json([
                 'error' => 'Invalid data provided',

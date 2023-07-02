@@ -4,23 +4,19 @@ namespace App\Controller\Admin;
 
 use App\Entity\Sponsor;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SponsorCrudController extends AbstractCrudController
 {
-
     public static function getEntityFqcn(): string
     {
         return Sponsor::class;
     }
-
 
     // public function createEntity(string $entityFqcn)
     // {
@@ -29,7 +25,7 @@ class SponsorCrudController extends AbstractCrudController
 
     // public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     // {
-        
+
     // }
 
     public function configureFields(string $pageName): iterable
@@ -54,7 +50,7 @@ class SponsorCrudController extends AbstractCrudController
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setUploadDir('public/uploads/images/'),
             TextField::new('url', 'Url')
-                ->hideOnDetail(),  
-        ];  
+                ->hideOnDetail(),
+        ];
     }
 }

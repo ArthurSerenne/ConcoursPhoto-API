@@ -67,7 +67,7 @@ class OrganizationCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setDeletionDate(new \Datetime('now'));
+        $entityInstance->setDeletionDate(new \DateTime('now'));
         parent::updateEntity($entityManager, $entityInstance);
     }
 
@@ -83,7 +83,7 @@ class OrganizationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $fields =  [
+        $fields = [
             IdField::new('id', 'Identifiant')
                 ->hideOnForm(),
             BooleanField::new('status', 'Etat')

@@ -53,8 +53,8 @@ class MemberCrudController extends AbstractCrudController
     {
         $member = new Member();
         $socialNetwork = new SocialNetwork();
-        $member->setRegistrationDate(new \Datetime('now'));
-        $member->setUpdateDate(new \Datetime('now'));
+        $member->setRegistrationDate(new \DateTime('now'));
+        $member->setUpdateDate(new \DateTime('now'));
         $member->setSocialNetwork($socialNetwork);
         $socialNetwork->setMember($member);
         $this->handleImageUpload($member);
@@ -64,13 +64,13 @@ class MemberCrudController extends AbstractCrudController
 
     public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setDeletionDate(new \Datetime('now'));
+        $entityInstance->setDeletionDate(new \DateTime('now'));
         parent::updateEntity($entityManager, $entityInstance);
     }
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $entityInstance->setUpdateDate(new \Datetime('now'));
+        $entityInstance->setUpdateDate(new \DateTime('now'));
         $this->handleImageUpload($entityInstance);
         parent::updateEntity($entityManager, $entityInstance);
     }

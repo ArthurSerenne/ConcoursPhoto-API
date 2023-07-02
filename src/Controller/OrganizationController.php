@@ -61,13 +61,13 @@ class OrganizationController extends AbstractController
 
             if (array_key_exists('logo', $entity1Data)) {
                 $base64Image = $entity1Data['logo'];
-                if ($base64Image === null) {
+                if (null === $base64Image) {
                     $organization->setLogo(null);
                 } else {
                     $base64Image = preg_replace('#^data:image/\w+;base64,#i', '', $base64Image);
                     $data = base64_decode($base64Image);
-                    $uniqueFileName = uniqid() . '.png';
-                    $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
+                    $uniqueFileName = uniqid().'.png';
+                    $imagePath = $this->getParameter('uploads_images_directory').'/'.$uniqueFileName;
                     file_put_contents($imagePath, $data);
                     $organization->setLogo($uniqueFileName);
                 }
@@ -84,7 +84,6 @@ class OrganizationController extends AbstractController
             $organization->setUpdateDate(new \DateTime());
 
             $serializer->deserialize(json_encode($entity2Data), SocialNetwork::class, 'json', ['object_to_populate' => $socialNetwork]);
-
         } catch (\Exception $e) {
             return $this->json([
                 'error' => 'Invalid data provided',
@@ -113,7 +112,7 @@ class OrganizationController extends AbstractController
         if (!$user instanceof UserInterface) {
             return new JsonResponse(['error' => 'User not logged in user'], 401);
         }
-        
+
         $organization = $this->entityManager->getRepository(Organization::class)->find($id);
 
         if (!$organization || !$user->getOrganizations()->contains($organization)) {
@@ -144,13 +143,13 @@ class OrganizationController extends AbstractController
 
             if (array_key_exists('logo', $entity1Data)) {
                 $base64Image = $entity1Data['logo'];
-                if ($base64Image === null) {
+                if (null === $base64Image) {
                     $organization->setLogo(null);
                 } else {
                     $base64Image = preg_replace('#^data:image/\w+;base64,#i', '', $base64Image);
                     $data = base64_decode($base64Image);
-                    $uniqueFileName = uniqid() . '.png';
-                    $imagePath = $this->getParameter('uploads_images_directory') . '/' . $uniqueFileName;
+                    $uniqueFileName = uniqid().'.png';
+                    $imagePath = $this->getParameter('uploads_images_directory').'/'.$uniqueFileName;
                     file_put_contents($imagePath, $data);
                     $organization->setLogo($uniqueFileName);
                 }
@@ -167,7 +166,6 @@ class OrganizationController extends AbstractController
             $organization->setUpdateDate(new \DateTime());
 
             $serializer->deserialize(json_encode($entity2Data), SocialNetwork::class, 'json', ['object_to_populate' => $socialNetwork]);
-
         } catch (\Exception $e) {
             return $this->json([
                 'error' => 'Invalid data provided',

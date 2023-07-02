@@ -5,14 +5,14 @@ namespace App\Controller;
 use App\Entity\Member;
 use App\Entity\SocialNetwork;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
 
         $member = new Member();
         $member->setUser($user);
-        $member->setUsername(strtolower($user->getFirstname()) . '.' . strtolower($user->getLastname()));
+        $member->setUsername(strtolower($user->getFirstname()).'.'.strtolower($user->getLastname()));
         $member->setStatus(true);
         $member->setRegistrationDate(new \DateTime());
         $member->setUpdateDate(new \DateTime());
@@ -54,25 +54,24 @@ class RegistrationController extends AbstractController
             $adminEmail = (new Email())
                 ->from('noreply@concoursphoto.com')
                 ->to($admin->getEmail())
-                ->subject($member->getUsername() . ' : nouveau compte membre créé')
+                ->subject($member->getUsername().' : nouveau compte membre créé')
                 ->html('Un nouveau compte membre a été créé : <br>
 
-                    Pseudo : ' . $member->getUsername() . ' <br>
-                    Genre : ' . $user->getGender() . ' <br>
-                    Prénom : ' . $user->getFirstname() . ' <br>
-                    Nom : ' . $user->getLastname() . ' <br>
-                    Age : ' . $user->getBirthdate()->diff(new \DateTime())->y . ' <br>
-                    Ville : ' . $user->getCity() . ' <br>
+                    Pseudo : '.$member->getUsername().' <br>
+                    Genre : '.$user->getGender().' <br>
+                    Prénom : '.$user->getFirstname().' <br>
+                    Nom : '.$user->getLastname().' <br>
+                    Age : '.$user->getBirthdate()->diff(new \DateTime())->y.' <br>
+                    Ville : '.$user->getCity().' <br>
 
-                    <a href="http://localhost:8000/admin?crudAction=detail&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController&entityId=' . $user->getId() . '">Accéder à la fiche</a>');
+                    <a href="http://localhost:8000/admin?crudAction=detail&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController&entityId='.$user->getId().'">Accéder à la fiche</a>');
 
-                    try {
-                        $mailer->send($adminEmail);
-                    } catch (\Exception $e) {
-                        echo $e->getMessage();
-                    }
+            try {
+                $mailer->send($adminEmail);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
         }
-
 
         return new JsonResponse(['message' => 'User successfully registered'], JsonResponse::HTTP_CREATED);
     }
